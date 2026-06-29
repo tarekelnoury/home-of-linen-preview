@@ -125,6 +125,20 @@ window.HOL_PRODUCTS = {
       variants: [{ label: "90 × 160 cm", price: 680 }]
     },
     {
+      id: "large-pool-towel",
+      category: "Towels",
+      name: "Large Pool Towel",
+      includes: "Striped Pool Towel",
+      description: "A generous striped pool towel made for sunny days by the pool, beach weekends and relaxed summer lounging. Soft, absorbent and bold enough to bring a fresh resort feel to the outdoor setup.",
+      image: "assets/pool-towels/large-pool-towel-yellow.jpg",
+      colorBased: true,
+      colors: [
+        { name: "Yellow", value: "#E8A900", image: "assets/pool-towels/large-pool-towel-yellow.jpg" },
+        { name: "Blue", value: "#1F5F97", image: "assets/pool-towels/large-pool-towel-blue.jpg" }
+      ],
+      variants: [{ label: "100 × 190 cm", price: 650 }]
+    },
+    {
       id: "pillows",
       category: "Pillows",
       name: "Premium Bed Pillow",

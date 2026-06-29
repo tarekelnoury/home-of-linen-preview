@@ -69,7 +69,9 @@ function imageFor(product, fabric = "percale", optionName = "", colorName = "") 
     if (images[product.id]) return images[product.id];
   }
   if (product.colorBased) {
-    const color = towelColors.find(item => item.name === colorName) || towelColors[0];
+    const colors = product.colors || towelColors;
+    const color = colors.find(item => item.name === colorName) || colors[0];
+    if (color?.image) return color.image;
     if (color?.name === "White") return product.image;
     return color?.swatch || product.image;
   }
@@ -222,7 +224,7 @@ function activateCard(product) {
   const selections = {
     fabric: "percale",
     optionName: fabrics.percale.options[0].name,
-    colorName: towelColors[0]?.name || "",
+    colorName: (product.colors || towelColors)[0]?.name || "",
     sizeIndex: 0,
     variantIndex: 0,
     matrixSize: product.matrix ? Object.keys(product.matrix.variants[0].prices)[0] : "",
@@ -292,11 +294,12 @@ function activateCard(product) {
         update();
       });
     } else if (product.colorBased) {
+      const colors = product.colors || towelColors;
       controls.innerHTML = `
         <div class="swatches" aria-label="${product.name} colours">
-          ${towelColors.map((opt, i) => `
+          ${colors.map((opt, i) => `
             <button type="button" class="swatch-choice ${opt.name === selections.colorName ? "active" : ""}" data-towel-option="${i}" aria-label="${opt.name}" title="${opt.name}">
-              <span class="swatch towel-swatch" style="background-image:url('${opt.swatch}')"></span>
+              <span class="swatch towel-swatch" style="${opt.swatch ? `background-image:url('${opt.swatch}')` : `background:${opt.value}`}"></span>
               <span class="swatch-label">${opt.name}</span>
             </button>
           `).join("")}
@@ -311,7 +314,7 @@ function activateCard(product) {
       `;
       mobileControls.innerHTML = controls.innerHTML;
       controls.querySelectorAll("[data-towel-option]").forEach(button => button.addEventListener("click", () => {
-        selections.colorName = towelColors[Number(button.dataset.towelOption)].name;
+        selections.colorName = colors[Number(button.dataset.towelOption)].name;
         renderControls();
         update();
       }));
@@ -320,7 +323,7 @@ function activateCard(product) {
         update();
       });
       mobileControls.querySelectorAll("[data-towel-option]").forEach(button => button.addEventListener("click", () => {
-        selections.colorName = towelColors[Number(button.dataset.towelOption)].name;
+        selections.colorName = colors[Number(button.dataset.towelOption)].name;
         renderControls();
         update();
       }));
