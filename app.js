@@ -194,7 +194,6 @@ function cardTemplate(product) {
           <h3>${product.name}</h3>
         </div>
         <p class="spec" data-spec>${product.includes}</p>
-        ${product.description ? `<p class="description" data-description>${product.description}</p>` : ""}
         <div data-controls></div>
         <div class="buy-row">
           <div>
@@ -207,6 +206,7 @@ function cardTemplate(product) {
           </div>
           <button class="add-button" type="button" data-add>Add to Basket</button>
         </div>
+        ${product.description ? `<p class="description" data-description>${product.description}</p>` : ""}
       </div>
     </article>
   `;

@@ -139,6 +139,21 @@ window.HOL_PRODUCTS = {
       variants: [{ label: "100 × 190 cm", price: 650 }]
     },
     {
+      id: "kitchen-towel",
+      category: "Towels",
+      name: "Kitchen Towels",
+      includes: "Cotton Kitchen Towel",
+      description: "A practical cotton kitchen towel with a clean checked pattern, made for everyday drying, styling and warm kitchen details. Soft, useful and easy to pair with a calm Home Of Linen kitchen look.",
+      image: "assets/kitchen-towels/kitchen-towel-red.jpg",
+      colorBased: true,
+      colors: [
+        { name: "Red", value: "#B84A4B", image: "assets/kitchen-towels/kitchen-towel-red.jpg" },
+        { name: "Blue", value: "#2F6EA5", image: "assets/kitchen-towels/kitchen-towel-blue.jpg" },
+        { name: "Grey", value: "#8A8A84", image: "assets/kitchen-towels/kitchen-towel-grey.jpg" }
+      ],
+      variants: [{ label: "40 × 60 cm", price: 100 }]
+    },
+    {
       id: "pillows",
       category: "Pillows",
       name: "Premium Bed Pillow",
