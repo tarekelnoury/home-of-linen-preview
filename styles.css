@@ -11,6 +11,11 @@
 
 * { box-sizing: border-box; }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 128px;
+}
+
 body {
   margin: 0;
   background: var(--ivory);
@@ -141,6 +146,7 @@ h1 { font-size: clamp(4.2rem, 10vw, 9.5rem); max-width: 940px; letter-spacing: -
 
 .category {
   padding: 34px clamp(18px, 4vw, 54px) 58px;
+  scroll-margin-top: 128px;
 }
 
 .category-head {
@@ -524,6 +530,7 @@ select {
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
 @media (max-width: 760px) {
+  html { scroll-padding-top: 150px; }
   .site-header {
     grid-template-columns: minmax(0, 1fr) auto;
     gap: 10px;
@@ -554,6 +561,7 @@ select {
   .category-head { display: block; }
   .category {
     padding: 28px 14px 42px;
+    scroll-margin-top: 150px;
   }
   .category-head img {
     margin-top: 18px;
