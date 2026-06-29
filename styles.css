@@ -527,12 +527,21 @@ select {
   .site-header {
     grid-template-columns: minmax(0, 1fr) auto;
     gap: 10px;
-    padding: 12px 14px;
+    padding: 10px 14px 8px;
   }
-  .brand img { width: min(156px, 46vw); }
-  .basket-button { padding: 9px 12px; }
+  .brand img { width: min(210px, 58vw); }
+  .basket-button {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+    align-self: center;
+    padding: 9px 12px;
+    font-size: .78rem;
+    white-space: nowrap;
+  }
   .nav {
     grid-column: 1 / -1;
+    grid-row: 2;
     justify-content: flex-start;
     overflow-x: auto;
     flex-wrap: nowrap;
@@ -553,18 +562,29 @@ select {
     height: auto;
   }
   .hero {
-    min-height: 500px;
+    min-height: 520px;
     padding: 72px 18px 56px;
     background-image:
       linear-gradient(0deg, rgba(251,247,239,.18), rgba(251,247,239,.04)),
       url("assets/images/hero-bedding.jpg");
-    background-position: center;
+    background-size: auto 100%;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-color: #d8cab8;
   }
   h1 { font-size: clamp(3.2rem, 18vw, 5rem); }
   .hero h2 { font-size: clamp(1.9rem, 10vw, 3rem); }
   .card { display: flex; flex-direction: column; }
   .image-wrap { min-height: 0; aspect-ratio: 4 / 5; }
   .card-body { padding: 20px; }
+  .description {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.5;
+  }
+  .spec { min-height: 0; }
   .swatches { max-height: 172px; }
   .buy-row { grid-template-columns: 1fr; }
   .add-button { width: 100%; }
