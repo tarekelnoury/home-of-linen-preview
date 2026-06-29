@@ -1,0 +1,522 @@
+const { products, fabrics, towelColors = [] } = window.HOL_PRODUCTS;
+const money = new Intl.NumberFormat("en-EG", { style: "currency", currency: "EGP", maximumFractionDigits: 0 });
+const state = { basket: JSON.parse(localStorage.getItem("holBasket") || "[]") };
+
+const catalog = document.querySelector("#catalog");
+const basketDrawer = document.querySelector("#basketDrawer");
+const basketItems = document.querySelector("#basketItems");
+const basketCount = document.querySelector("#basketCount");
+const subtotal = document.querySelector("#subtotal");
+const toast = document.querySelector("#toast");
+const customerName = document.querySelector("#customerName");
+const customerPhone = document.querySelector("#customerPhone");
+const customerAddress = document.querySelector("#customerAddress");
+const WHATSAPP_PHONE = "";
+
+const savedCustomer = JSON.parse(localStorage.getItem("holCustomer") || "{}");
+customerName.value = savedCustomer.name || "";
+customerPhone.value = savedCustomer.phone || "";
+customerAddress.value = savedCustomer.address || "";
+
+const categoryCopy = {
+  "Fitted Sheets": "Tailored Percale Fitted Sheet Sets Designed To Sit Smoothly On The Mattress And Keep The Bed Looking Fresh.",
+  "Duvet Covers": "Calm Percale Duvet Cover Sets For A Soft, Breathable And Beautifully Layered Bed.",
+  Pillowcases: "Crisp Percale Pillowcase Sets With A Clean Tailored Finish For Everyday Comfort.",
+  "Flat Sheets": "Elegant Percale Flat Sheet Sets For A Boutique-Hotel Fold And A Light Breathable Layer.",
+  Towels: "Plush 600 Gsm Egyptian Cotton Essentials For A Spa-Like Daily Ritual.",
+  Pillows: "Soft, Medium And Firm Bed Pillows With A Clean Blended-Cotton Shell.",
+  "Mattress Toppers": "Comfort Layers Designed To Refresh The Mattress And Elevate The Whole Bed.",
+  Comforters: "White Comforters For Airy Layering, Warmth And A Soft Finished Bed."
+};
+
+const categoryHeroImages = {
+  "Fitted Sheets": "assets/images/fitted-sheets-hero.jpg",
+  "Duvet Covers": "assets/images/duvet-covers-hero.jpg",
+  Pillowcases: "assets/images/pillowcases-hero.jpg",
+  "Flat Sheets": "assets/images/flat-sheets-hero.jpg",
+  Towels: "assets/images/towels-hero.jpg",
+  Pillows: "assets/images/pillows-hero.jpg",
+  "Mattress Toppers": "assets/images/mattress-toppers-hero.jpg",
+  Comforters: "assets/images/comforters-hero.jpg"
+};
+
+const categoryOrder = [
+  "Pillowcases",
+  "Fitted Sheets",
+  "Flat Sheets",
+  "Duvet Covers",
+  "Towels",
+  "Pillows",
+  "Comforters",
+  "Mattress Toppers"
+];
+
+function sectionId(label) {
+  return label.toLowerCase().replaceAll(" ", "-");
+}
+
+function imageFor(product, fabric = "percale", optionName = "", colorName = "") {
+  if (product.fabricBased && fabric === "percale") {
+    const option = fabrics.percale.options.find(item => item.name === optionName);
+    const slug = option?.sourceSlug || optionName.toLowerCase().replaceAll(" ", "-");
+    const images = {
+      "fitted-sheet-set": option?.image,
+      "duvet-cover-set": `assets/lifestyle/duvet-colors/duvet-cover-set-${slug}.png`,
+      "pillowcase-set": `assets/lifestyle/pillowcase-colors/pillowcase-set-${slug}.png`,
+      "flat-sheet-set": `assets/lifestyle/flat-colors/flat-sheet-set-${slug}.png`
+    };
+    if (images[product.id]) return images[product.id];
+  }
+  if (product.colorBased) {
+    const color = towelColors.find(item => item.name === colorName) || towelColors[0];
+    if (color?.name === "White") return product.image;
+    return color?.swatch || product.image;
+  }
+  if (product.fabricBased) return `assets/lifestyle/${product.heroBase}-${fabrics[fabric].imageSuffix}.png`;
+  return product.image;
+}
+
+function formatPrice(value) {
+  return money.format(value).replace("EGP", "EGP ");
+}
+
+function plainPrice(value) {
+  return `${value.toLocaleString("en-EG")} EGP`;
+}
+
+function fallbackArt(label) {
+  return `<div class="fallback-art"><div><p class="eyebrow">Image Pending</p><strong>${label}</strong><p>Run Generate_Images.py To Create The Final Lifestyle Render.</p></div></div>`;
+}
+
+function setImage(container, src, alt) {
+  container.innerHTML = `<img src="${src}" alt="${alt}" loading="lazy">`;
+  const img = container.querySelector("img");
+  img.addEventListener("error", () => {
+    container.innerHTML = fallbackArt(alt);
+  }, { once: true });
+}
+
+function productPrice(product, selections) {
+  if (product.fabricBased) {
+    return product.sizes[selections.sizeIndex][selections.fabric];
+  }
+  if (product.matrix) {
+    const variant = product.matrix.variants[selections.variantIndex];
+    return variant.prices[selections.matrixSize];
+  }
+  return product.variants[selections.variantIndex].price;
+}
+
+function productDescriptor(product, selections) {
+  if (product.fabricBased) {
+    const size = product.sizes[selections.sizeIndex].label;
+    return {
+      fabric: fabrics[selections.fabric].label,
+      option: selections.optionName,
+      size,
+      variant: `${fabrics[selections.fabric].label} · ${size}`
+    };
+  }
+  if (product.matrix) {
+    return {
+      fabric: "",
+      option: "",
+      size: selections.matrixSize,
+      variant: `${product.matrix.variants[selections.variantIndex].label} · ${selections.matrixSize}`
+    };
+  }
+  if (product.colorBased) {
+    return {
+      fabric: "",
+      option: selections.colorName,
+      size: product.variants[selections.variantIndex].label,
+      variant: product.variants[selections.variantIndex].label
+    };
+  }
+  return {
+    fabric: "",
+    option: "",
+    size: product.variants[selections.variantIndex].label,
+    variant: product.variants[selections.variantIndex].label
+  };
+}
+
+function fabricDetailHtml() {
+  return "";
+}
+
+function currentDescription(product, selections) {
+  if (product.matrix) {
+    return product.matrix.variants[selections.variantIndex]?.description || product.description || "";
+  }
+  if (product.variants) {
+    return product.variants[selections.variantIndex]?.description || product.description || "";
+  }
+  return product.description || "";
+}
+
+function renderCatalog() {
+  const groups = [...new Set(products.map(p => p.category))]
+    .sort((a, b) => categoryOrder.indexOf(a) - categoryOrder.indexOf(b));
+  catalog.innerHTML = groups.map(group => `
+    <section class="category" id="${sectionId(group)}">
+      <div class="category-head">
+        <div>
+          <p class="eyebrow">Home Of Linen</p>
+          <h2>${group}</h2>
+          <p>${categoryCopy[group] || ""}</p>
+        </div>
+        <img src="${categoryHeroImages[group]}" alt="${group} Lifestyle Image" loading="lazy">
+      </div>
+      <div class="grid">
+        ${products.filter(p => p.category === group).map(cardTemplate).join("")}
+      </div>
+    </section>
+  `).join("");
+  products.forEach(activateCard);
+}
+
+function cardTemplate(product) {
+  return `
+    <article class="card" data-product="${product.id}">
+      <div class="image-wrap" data-image></div>
+      <div class="card-body">
+        <div>
+          <p class="eyebrow">${product.category}</p>
+          <h3>${product.name}</h3>
+        </div>
+        <p class="spec" data-spec>${product.includes}</p>
+        ${product.description ? `<p class="description" data-description>${product.description}</p>` : ""}
+        <div data-controls></div>
+        <div class="buy-row">
+          <div>
+            <div class="price" data-price></div>
+            <div class="qty" aria-label="Quantity selector">
+              <button type="button" data-qty-down aria-label="Decrease quantity">−</button>
+              <span data-qty>1</span>
+              <button type="button" data-qty-up aria-label="Increase quantity">+</button>
+            </div>
+          </div>
+          <button class="add-button" type="button" data-add>Add to Basket</button>
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+function activateCard(product) {
+  const card = document.querySelector(`[data-product="${product.id}"]`);
+  const image = card.querySelector("[data-image]");
+  const controls = card.querySelector("[data-controls]");
+  const spec = card.querySelector("[data-spec]");
+  const descriptionEl = card.querySelector("[data-description]");
+  const priceEl = card.querySelector("[data-price]");
+  const qtyEl = card.querySelector("[data-qty]");
+  const selections = {
+    fabric: "percale",
+    optionName: fabrics.percale.options[0].name,
+    colorName: towelColors[0]?.name || "",
+    sizeIndex: 0,
+    variantIndex: 0,
+    matrixSize: product.matrix ? Object.keys(product.matrix.variants[0].prices)[0] : "",
+    qty: 1
+  };
+
+  function renderControls() {
+    if (product.fabricBased) {
+      const availableFabrics = Object.entries(fabrics).filter(([, f]) => f.enabled !== false);
+      if (!availableFabrics.some(([key]) => key === selections.fabric)) {
+        selections.fabric = availableFabrics[0][0];
+        selections.optionName = fabrics[selections.fabric].options[0].name;
+      }
+      const fabric = fabrics[selections.fabric];
+      controls.innerHTML = `
+        ${availableFabrics.length > 1 ? `
+          <div class="toggle" role="tablist" aria-label="Fabric">
+            ${availableFabrics.map(([key, f]) => `<button type="button" class="${key === selections.fabric ? "active" : ""}" data-fabric="${key}">${f.label}</button>`).join("")}
+          </div>
+        ` : ``}
+        <div class="swatches" aria-label="${fabric.label} colours and patterns">
+          ${fabric.options.map((opt, i) => `
+            <button type="button" class="swatch-choice ${opt.name === selections.optionName ? "active" : ""}" data-option="${i}" aria-label="${opt.name}" title="${opt.name}">
+              <span class="swatch" style="background:${opt.value}"></span>
+              <span class="swatch-label">${opt.name}</span>
+            </button>
+          `).join("")}
+        </div>
+        ${fabricDetailHtml(selections.fabric, selections.optionName)}
+        <div class="selectors">
+          <label>Size
+            <select data-size>
+              ${product.sizes.map((s, i) => `<option value="${i}" ${i === selections.sizeIndex ? "selected" : ""}>${s.label}</option>`).join("")}
+            </select>
+          </label>
+        </div>
+      `;
+      controls.querySelectorAll("[data-fabric]").forEach(button => button.addEventListener("click", () => {
+        selections.fabric = button.dataset.fabric;
+        selections.optionName = fabrics[selections.fabric].options[0].name;
+        renderControls();
+        update();
+      }));
+      controls.querySelectorAll("[data-option]").forEach(button => button.addEventListener("click", () => {
+        selections.optionName = fabrics[selections.fabric].options[Number(button.dataset.option)].name;
+        renderControls();
+        update();
+      }));
+      controls.querySelector("[data-size]").addEventListener("change", e => {
+        selections.sizeIndex = Number(e.target.value);
+        update();
+      });
+    } else if (product.colorBased) {
+      controls.innerHTML = `
+        <div class="swatches" aria-label="${product.name} colours">
+          ${towelColors.map((opt, i) => `
+            <button type="button" class="swatch-choice ${opt.name === selections.colorName ? "active" : ""}" data-towel-option="${i}" aria-label="${opt.name}" title="${opt.name}">
+              <span class="swatch towel-swatch" style="background-image:url('${opt.swatch}')"></span>
+              <span class="swatch-label">${opt.name}</span>
+            </button>
+          `).join("")}
+        </div>
+        <div class="selectors">
+          <label>Size
+            <select data-variant>
+              ${product.variants.map((v, i) => `<option value="${i}" ${i === selections.variantIndex ? "selected" : ""}>${v.label}</option>`).join("")}
+            </select>
+          </label>
+        </div>
+      `;
+      controls.querySelectorAll("[data-towel-option]").forEach(button => button.addEventListener("click", () => {
+        selections.colorName = towelColors[Number(button.dataset.towelOption)].name;
+        renderControls();
+        update();
+      }));
+      controls.querySelector("[data-variant]").addEventListener("change", e => {
+        selections.variantIndex = Number(e.target.value);
+        update();
+      });
+    } else if (product.matrix) {
+      const currentVariant = product.matrix.variants[selections.variantIndex];
+      controls.innerHTML = `
+        <div class="selectors">
+          <label>${product.matrix.variantLabel}
+            <select data-variant>
+              ${product.matrix.variants.map((v, i) => `<option value="${i}" ${i === selections.variantIndex ? "selected" : ""}>${v.label}</option>`).join("")}
+            </select>
+          </label>
+          <label>${product.matrix.sizeLabel}
+            <select data-matrix-size>
+              ${Object.keys(currentVariant.prices).map(s => `<option value="${s}" ${s === selections.matrixSize ? "selected" : ""}>${s}</option>`).join("")}
+            </select>
+          </label>
+        </div>
+      `;
+      controls.querySelector("[data-variant]").addEventListener("change", e => {
+        selections.variantIndex = Number(e.target.value);
+        const prices = product.matrix.variants[selections.variantIndex].prices;
+        if (!prices[selections.matrixSize]) selections.matrixSize = Object.keys(prices)[0];
+        renderControls();
+        update();
+      });
+      controls.querySelector("[data-matrix-size]").addEventListener("change", e => {
+        selections.matrixSize = e.target.value;
+        update();
+      });
+    } else {
+      controls.innerHTML = `
+        <div class="selectors">
+          <label>Variant
+            <select data-variant>
+              ${product.variants.map((v, i) => `<option value="${i}" ${i === selections.variantIndex ? "selected" : ""}>${v.label}</option>`).join("")}
+            </select>
+          </label>
+        </div>
+      `;
+      controls.querySelector("[data-variant]").addEventListener("change", e => {
+        selections.variantIndex = Number(e.target.value);
+        update();
+      });
+    }
+  }
+
+  function update() {
+    const img = imageFor(product, selections.fabric, selections.optionName, selections.colorName);
+    setImage(image, img, `${product.name} ${product.fabricBased ? fabrics[selections.fabric].label : selections.colorName}`);
+    spec.textContent = product.fabricBased ? `${product.includes} · ${fabrics[selections.fabric].spec}` : product.colorBased ? `${product.includes} · ${selections.colorName}` : product.includes;
+    if (descriptionEl) descriptionEl.textContent = currentDescription(product, selections);
+    priceEl.textContent = formatPrice(productPrice(product, selections));
+    qtyEl.textContent = selections.qty;
+  }
+
+  card.querySelector("[data-qty-down]").addEventListener("click", () => {
+    selections.qty = Math.max(1, selections.qty - 1);
+    update();
+  });
+  card.querySelector("[data-qty-up]").addEventListener("click", () => {
+    selections.qty += 1;
+    update();
+  });
+  card.querySelector("[data-add]").addEventListener("click", () => {
+    const descriptor = productDescriptor(product, selections);
+    const item = {
+      key: `${product.id}|${descriptor.variant}|${descriptor.option}`,
+      productId: product.id,
+      name: product.name,
+      image: imageFor(product, selections.fabric, selections.optionName, selections.colorName),
+      price: productPrice(product, selections),
+      qty: selections.qty,
+      ...descriptor
+    };
+    const existing = state.basket.find(i => i.key === item.key);
+    if (existing) existing.qty += item.qty;
+    else state.basket.push(item);
+    saveBasket();
+    showToast(`${product.name} added to basket`);
+  });
+
+  renderControls();
+  update();
+}
+
+function saveBasket() {
+  localStorage.setItem("holBasket", JSON.stringify(state.basket));
+  renderBasket();
+}
+
+function renderBasket() {
+  const count = state.basket.reduce((sum, item) => sum + item.qty, 0);
+  basketCount.textContent = count;
+  if (!state.basket.length) {
+    basketItems.innerHTML = `<p class="spec">Your Basket Is Empty.</p>`;
+    subtotal.textContent = formatPrice(0);
+    return;
+  }
+  basketItems.innerHTML = state.basket.map((item, index) => `
+    <div class="basket-line">
+      <img src="${item.image}" alt="" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'basket-thumb-fallback'}))">
+      <div>
+        <h4>${item.name}</h4>
+        <p>${[item.fabric, item.option, item.variant].filter(Boolean).join(" · ")}</p>
+        <div class="line-actions">
+          <div class="qty">
+            <button type="button" data-line-down="${index}" aria-label="Decrease ${item.name}">−</button>
+            <span>${item.qty}</span>
+            <button type="button" data-line-up="${index}" aria-label="Increase ${item.name}">+</button>
+          </div>
+          <strong>${formatPrice(item.price * item.qty)}</strong>
+        </div>
+        <button class="remove" type="button" data-remove="${index}">Remove</button>
+      </div>
+    </div>
+  `).join("");
+  subtotal.textContent = formatPrice(state.basket.reduce((sum, item) => sum + item.price * item.qty, 0));
+  basketItems.querySelectorAll("[data-line-down]").forEach(button => button.addEventListener("click", () => {
+    const item = state.basket[Number(button.dataset.lineDown)];
+    item.qty = Math.max(1, item.qty - 1);
+    saveBasket();
+  }));
+  basketItems.querySelectorAll("[data-line-up]").forEach(button => button.addEventListener("click", () => {
+    state.basket[Number(button.dataset.lineUp)].qty += 1;
+    saveBasket();
+  }));
+  basketItems.querySelectorAll("[data-remove]").forEach(button => button.addEventListener("click", () => {
+    state.basket.splice(Number(button.dataset.remove), 1);
+    saveBasket();
+  }));
+}
+
+function customerDetails() {
+  return {
+    name: customerName.value.trim(),
+    phone: customerPhone.value.trim(),
+    address: customerAddress.value.trim()
+  };
+}
+
+function saveCustomerDetails() {
+  localStorage.setItem("holCustomer", JSON.stringify(customerDetails()));
+}
+
+function orderLine(item, index) {
+  const details = [
+    item.fabric && `Fabric: ${item.fabric}`,
+    item.option && `Color/Option: ${item.option}`,
+    item.size && `Size: ${item.size}`,
+    item.variant && item.variant !== item.size && `Variant: ${item.variant}`
+  ].filter(Boolean);
+  return [
+    `${index + 1}. ${item.name}`,
+    ...details.map(detail => `   ${detail}`),
+    `   Quantity: ${item.qty}`,
+    `   Unit Price: ${plainPrice(item.price)}`,
+    `   Line Total: ${plainPrice(item.price * item.qty)}`
+  ].join("\n");
+}
+
+function buildWhatsAppMessage() {
+  const customer = customerDetails();
+  const total = state.basket.reduce((sum, item) => sum + item.price * item.qty, 0);
+  return [
+    "Hello Home of Linen, I would like to place this order:",
+    "",
+    "Customer Details:",
+    `Name: ${customer.name}`,
+    `Phone: ${customer.phone}`,
+    `Address: ${customer.address}`,
+    "",
+    "Order Items:",
+    state.basket.map(orderLine).join("\n\n"),
+    "",
+    `Total: ${plainPrice(total)}`,
+    "",
+    "Please confirm availability and delivery details."
+  ].join("\n");
+}
+
+function openWhatsAppOrder() {
+  const customer = customerDetails();
+  if (!state.basket.length) {
+    showToast("Please add at least one item to the basket.");
+    return;
+  }
+  if (!customer.name || !customer.phone || !customer.address) {
+    showToast("Please add your name, phone, and address.");
+    return;
+  }
+  saveCustomerDetails();
+  const message = encodeURIComponent(buildWhatsAppMessage());
+  const whatsappUrl = WHATSAPP_PHONE
+    ? `https://wa.me/${WHATSAPP_PHONE}?text=${message}`
+    : `https://wa.me/?text=${message}`;
+  window.open(whatsappUrl, "_blank", "noopener");
+}
+
+function showToast(message) {
+  toast.textContent = message;
+  toast.classList.add("show");
+  setTimeout(() => toast.classList.remove("show"), 1800);
+}
+
+document.querySelector("#openBasket").addEventListener("click", () => {
+  basketDrawer.classList.add("open");
+  basketDrawer.setAttribute("aria-hidden", "false");
+});
+document.querySelector("#closeBasket").addEventListener("click", closeDrawer);
+basketDrawer.addEventListener("click", e => {
+  if (e.target === basketDrawer) closeDrawer();
+});
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") closeDrawer();
+});
+document.querySelector("#checkout").addEventListener("click", openWhatsAppOrder);
+[customerName, customerPhone, customerAddress].forEach(field => {
+  field.addEventListener("input", saveCustomerDetails);
+});
+
+function closeDrawer() {
+  basketDrawer.classList.remove("open");
+  basketDrawer.setAttribute("aria-hidden", "true");
+}
+
+renderCatalog();
+renderBasket();

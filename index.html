@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Home of Linen · Shoppable Dashboard</title>
+    <link rel="icon" href="assets/brand/home-of-linen-logo.png" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Home of Linen home">
+        <img src="assets/brand/home-of-linen-logo.png" alt="Home of Linen" />
+      </a>
+      <nav class="nav" aria-label="Product categories">
+        <a href="#pillowcases">Pillowcases</a>
+        <a href="#fitted-sheets">Fitted Sheets</a>
+        <a href="#flat-sheets">Flat Sheets</a>
+        <a href="#duvet-covers">Duvet Covers</a>
+        <a href="#towels">Towels</a>
+        <a href="#pillows">Pillows</a>
+        <a href="#comforters">Comforters</a>
+        <a href="#mattress-toppers">Mattress Toppers</a>
+      </nav>
+      <button class="basket-button" id="openBasket" aria-label="Open basket">
+        Basket <span id="basketCount">0</span>
+      </button>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">100% Egyptian Cotton · Prices In EGP · Valid From 7 July 2026.</p>
+          <h1>Beautiful bedding.</h1>
+          <h2>For the way you live.</h2>
+          <a class="hero-cta" href="#fitted-sheets">Shop Bedding</a>
+        </div>
+      </section>
+      <div id="catalog"></div>
+    </main>
+
+    <aside class="drawer" id="basketDrawer" aria-hidden="true">
+      <div class="drawer-panel" role="dialog" aria-modal="true" aria-labelledby="basketTitle">
+        <div class="drawer-header">
+          <div>
+            <p class="eyebrow">Your Selection</p>
+            <h2 id="basketTitle">Basket</h2>
+          </div>
+          <button id="closeBasket" class="icon-button" aria-label="Close basket">×</button>
+        </div>
+        <div id="basketItems" class="basket-items"></div>
+        <div class="drawer-footer">
+          <div class="customer-fields" aria-label="Customer details">
+            <label>Name
+              <input id="customerName" type="text" autocomplete="name" placeholder="Your name" />
+            </label>
+            <label>Phone
+              <input id="customerPhone" type="tel" autocomplete="tel" placeholder="Your phone number" />
+            </label>
+            <label>Address
+              <textarea id="customerAddress" rows="3" autocomplete="street-address" placeholder="Delivery address"></textarea>
+            </label>
+          </div>
+          <div class="subtotal"><span>Subtotal</span><strong id="subtotal">EGP 0</strong></div>
+          <button id="checkout" class="checkout">Order on WhatsApp</button>
+          <p class="checkout-note">Private Preview Order Flow. Your Basket Will Open In WhatsApp For Confirmation.</p>
+        </div>
+      </div>
+    </aside>
+
+    <footer class="site-footer">Home of Linen • Preview v0.1</footer>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="products.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

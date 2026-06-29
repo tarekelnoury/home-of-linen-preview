@@ -1,0 +1,173 @@
+window.HOL_PRODUCTS = {
+  fabrics: {
+    percale: {
+      label: "Percale",
+      spec: "TC300 · 100% Egyptian Cotton · Crisp, Matte, Solid Colours",
+      imageSuffix: "percale",
+      options: [
+        { name: "White", value: "#FFFFFF", image: "assets/lifestyle/fitted-colors/fitted-sheet-set-white.png", sourceSlug: "white" },
+        { name: "Off-White", value: "#F1E8D6", image: "assets/lifestyle/fitted-colors/fitted-sheet-set-off-white.png", sourceSlug: "off-white" },
+        { name: "Beige", value: "#D7C2A7", image: "assets/lifestyle/fitted-colors/fitted-sheet-set-beige.png", sourceSlug: "beige" },
+        { name: "Cream", value: "#F5E7C8", image: "assets/lifestyle/fitted-colors/fitted-sheet-set-cream.png", sourceSlug: "cream" },
+        { name: "Peach", value: "#E8B299", image: "assets/lifestyle/fitted-colors/fitted-sheet-set-peach.png", sourceSlug: "peach" },
+        { name: "Purple", value: "#74528B", image: "assets/lifestyle/fitted-colors/fitted-sheet-set-purple.png", sourceSlug: "purple" },
+        { name: "Canary", value: "#F0D76B", image: "assets/lifestyle/fitted-colors/fitted-sheet-set-canary.png", sourceSlug: "canary" },
+        { name: "Olive", value: "#C5D7A4", image: "assets/lifestyle/fitted-colors/fitted-sheet-set-pistachio.png", sourceSlug: "pistachio" },
+        { name: "Pistachio", value: "#B9D8C6", image: "assets/lifestyle/fitted-colors/fitted-sheet-set-pastel.png", sourceSlug: "pastel" },
+        { name: "Orange", value: "#D65F6F", image: "assets/lifestyle/fitted-colors/fitted-sheet-set-watermelon.png", sourceSlug: "watermelon" }
+      ]
+    }
+  },
+  towelColors: [
+    { name: "White", swatch: "assets/towel-colors/white.jpg", sourceSlug: "white" },
+    { name: "Offwhite", swatch: "assets/towel-colors/offwhite.jpg", sourceSlug: "offwhite" },
+    { name: "Light Beige", swatch: "assets/towel-colors/light-beige.jpg", sourceSlug: "light-beige" },
+    { name: "Beige", swatch: "assets/towel-colors/beige.jpg", sourceSlug: "beige" },
+    { name: "Silver", swatch: "assets/towel-colors/silver.jpg", sourceSlug: "silver" },
+    { name: "Grey", swatch: "assets/towel-colors/grey.jpg", sourceSlug: "grey" },
+    { name: "Black", swatch: "assets/towel-colors/black.jpg", sourceSlug: "black" },
+    { name: "Baby Blue", swatch: "assets/towel-colors/baby-blue.jpg", sourceSlug: "baby-blue" },
+    { name: "Dark Blue", swatch: "assets/towel-colors/dark-blue.jpg", sourceSlug: "dark-blue" },
+    { name: "Mint", swatch: "assets/towel-colors/mint.jpg", sourceSlug: "mint" },
+    { name: "Rose", swatch: "assets/towel-colors/rose.jpg", sourceSlug: "rose" }
+  ],
+  products: [
+    {
+      id: "pillowcase-set",
+      category: "Pillowcases",
+      name: "Pillowcase Set",
+      includes: "2 Pillowcases",
+      description: "A Pair Of 50 × 70 Cm Pillowcases In Crisp Percale TC300 Egyptian Cotton, Made To Bring A Fresh, Coordinated Finish To The Bed. Smooth, Breathable And Elegant For Everyday Sleeping, With A Clean Tailored Look That Reflects Home Of Linen’s Quiet Luxury Style.",
+      fabricBased: true,
+      heroBase: "pillowcases",
+      sizes: [{ label: "50 × 70 cm", percale: 420 }]
+    },
+    {
+      id: "duvet-cover-set",
+      category: "Duvet Covers",
+      name: "Duvet Cover Set",
+      includes: "Duvet Cover + 2 Pillowcases",
+      description: "A Complete Percale TC300 Duvet Cover Set With Two Matching Pillowcases, Designed To Create A Soft, Breathable And Beautifully Layered Bed. The Look Is Calm And Hotel-Inspired, With The Natural Freshness Of Egyptian Cotton For Everyday Comfort.",
+      fabricBased: true,
+      heroBase: "duvet",
+      sizes: [
+        { label: "185 × 255 cm", percale: 1970 },
+        { label: "245 × 255 cm", percale: 2675 }
+      ]
+    },
+    {
+      id: "fitted-sheet-set",
+      category: "Fitted Sheets",
+      name: "Fitted Sheet Set",
+      includes: "Fitted Sheet + 2 Pillowcases",
+      description: "A Smooth Percale TC300 Fitted Sheet Set With Two Matching Pillowcases, Tailored To Sit Securely Around The Mattress And Keep The Bed Looking Fresh. Crisp, Matte And Breathable, It Gives The Room A Clean Egyptian Cotton Finish Without Feeling Overstyled.",
+      fabricBased: true,
+      heroBase: "fitted",
+      sizes: [
+        { label: "100 × 200 cm", percale: 1300 },
+        { label: "120 × 200 cm", percale: 1400 },
+        { label: "160 × 200 cm", percale: 1580 },
+        { label: "180 × 200 cm", percale: 1750 },
+        { label: "200 × 200 cm", percale: 1900 }
+      ]
+    },
+    {
+      id: "flat-sheet-set",
+      category: "Flat Sheets",
+      name: "Flat Sheet Set",
+      includes: "Flat Sheet + 2 Pillowcases",
+      description: "A Refined Percale TC300 Flat Sheet Set With Two Matching Pillowcases, Perfect As A Light Top-Sheet Layer For A Neatly Folded Boutique-Hotel Bed. It Adds Breathability, Polish And An Elegant Finish Between The Sleeper And The Duvet.",
+      fabricBased: true,
+      heroBase: "flat",
+      sizes: [
+        { label: "180 × 260 cm", percale: 1350 },
+        { label: "260 × 260 cm", percale: 1850 }
+      ]
+    },
+    {
+      id: "face-towel",
+      category: "Towels",
+      name: "Face Towel",
+      includes: "600 Gsm Egyptian Cotton Towel",
+      description: "A Small Everyday Essential In Dense 600 Gsm Egyptian Cotton Terry, Soft Enough For The Face And Practical Enough For Daily Use. Plush, Absorbent And Calmly Finished For A Spa-Like Bathroom Detail.",
+      image: "assets/towels/face-towel.png",
+      colorBased: true,
+      variants: [{ label: "33 × 33 cm", price: 50 }]
+    },
+    {
+      id: "hand-towel",
+      category: "Towels",
+      name: "Hand Towel",
+      includes: "600 Gsm Egyptian Cotton Towel",
+      description: "A Generously Sized 600 Gsm Egyptian Cotton Hand Towel With A Plush Terry Feel And Excellent Absorbency. Designed For The Bathroom, Guest Washroom Or Vanity Area With The Soft, Understated Finish Of Home Of Linen.",
+      image: "assets/towels/hand-towel.png",
+      colorBased: true,
+      variants: [{ label: "50 × 100 cm", price: 265 }]
+    },
+    {
+      id: "bath-towel",
+      category: "Towels",
+      name: "Bath Towel",
+      includes: "600 Gsm Egyptian Cotton Towel",
+      description: "A Plush 600 Gsm Egyptian Cotton Bath Towel Made To Feel Soft, Substantial And Absorbent After Every Shower. It Brings A Clean Spa-Like Touch To Daily Bathing While Staying Elegant And Simple.",
+      image: "assets/towels/bath-towel.png",
+      colorBased: true,
+      variants: [{ label: "70 × 140 cm", price: 555 }]
+    },
+    {
+      id: "xl-bath-towel",
+      category: "Towels",
+      name: "Extra-Large Bath Towel",
+      includes: "600 Gsm Egyptian Cotton Towel",
+      description: "An Extra-Large 600 Gsm Egyptian Cotton Bath Towel For A More Enveloping, Hotel-Like Feel. Soft, Dense And Highly Absorbent, It Is Made For Customers Who Prefer A Larger Towel With A More Luxurious Drape.",
+      image: "assets/towels/xl-bath-towel.png",
+      colorBased: true,
+      variants: [{ label: "90 × 160 cm", price: 680 }]
+    },
+    {
+      id: "pillows",
+      category: "Pillows",
+      name: "Premium Bed Pillow",
+      includes: "Blended Cotton Shell · Polydown Alternative",
+      description: "White Bed Pillows With A Smooth Blended-Cotton Shell And Polydown Alternative Fill, Available In Three Comfort Levels. Choose Soft For A Gentle Sink-In Feel, Medium For Balanced Everyday Support, Or Firm For A Higher, More Structured Pillow.",
+      image: "assets/products/pillows.png",
+      variants: [
+        { label: "Firm · 1200 g", price: 600, description: "Firm · 1200 G Is The Most Supportive Pillow Option, Made For Customers Who Prefer Extra Height, Structure And A Fuller Feel Through The Night. It Keeps The Bed Looking Plump While Offering A More Stable Resting Surface." },
+        { label: "Medium · 1000 g", price: 480, description: "Medium · 1000 G Is The Balanced Everyday Choice, Combining Softness And Support In A Comfortable Middle Feel. It Is A Good Fit For Customers Who Want A Pillow That Feels Plush Without Being Too High Or Too Soft." },
+        { label: "Soft · 850 g", price: 400, description: "Soft · 850 G Has The Gentlest Feel, Designed For Customers Who Prefer A Lower, More Relaxed Pillow With An Easy Sink-In Comfort. It Brings A Light And Airy Finish To The Bed." }
+      ]
+    },
+    {
+      id: "mattress-topper",
+      category: "Mattress Toppers",
+      name: "Mattress Topper",
+      includes: "Blended Cotton Shell",
+      description: "A Quilted White Mattress Topper Designed To Add A Clean, Cushioned Comfort Layer To The Bed. Choose The Loftier 9 Cm Polydown Alternative For A Softer Cloud-Like Feel, Or The 7 Cm Microfiber For A Slightly Lower, Practical Comfort Upgrade.",
+      image: "assets/products/mattress-topper.png",
+      matrix: {
+        variantLabel: "Fill",
+        sizeLabel: "Size",
+        variants: [
+          { label: "9 cm Polydown Alternative", description: "9 Cm Polydown Alternative Is The Plusher Topper Choice, Made To Add Noticeable Height, Softness And A More Cushioned Hotel-Bed Feeling. It Is Ideal When The Customer Wants A Softer Sleep Surface And A More Luxurious Layered Bed Look.", prices: { "100 × 200 cm": 1250, "120 × 200 cm": 1500, "160 × 200 cm": 2000, "180 × 200 cm": 2250, "200 × 200 cm": 2500 } },
+          { label: "7 cm Microfiber", description: "7 Cm Microfiber Is A Slightly Lower And More Practical Comfort Layer, Designed To Refresh The Mattress With Softness Without Adding As Much Height. It Is A Clean Everyday Upgrade For A Smoother, More Inviting Bed.", prices: { "100 × 200 cm": 1100, "120 × 200 cm": 1320, "160 × 200 cm": 1750, "180 × 200 cm": 1980, "200 × 200 cm": 2200 } }
+        ]
+      }
+    },
+    {
+      id: "comforter",
+      category: "Comforters",
+      name: "Comforter",
+      includes: "Blended Cotton Shell",
+      description: "A White Comforter With A Smooth Blended-Cotton Shell And An Airy, Premium Fill. Choose All-Season For Comfortable Year-Round Layering, Or Winter For A Warmer, Fuller Feel During Cooler Nights.",
+      image: "assets/products/comforter.png",
+      matrix: {
+        variantLabel: "Type",
+        sizeLabel: "Size",
+        variants: [
+          { label: "All-Season", description: "All-Season Is The Versatile Comforter Option, Designed For A Light Yet Cozy Layer That Works Across Most Of The Year. It Keeps The Bed Looking Soft And Full Without Feeling Too Heavy.", prices: { "180 × 240 cm": 1450, "240 × 250 cm": 1650 } },
+          { label: "Winter", description: "Winter Is The Warmer Comforter Option, Made With A Fuller Feel For Cooler Nights And Customers Who Prefer Extra Coziness. It Creates A Plush, Inviting Bed With A More Substantial Layer.", prices: { "180 × 240 cm": 1650, "240 × 250 cm": 1850 } }
+        ]
+      }
+    }
+  ]
+};
