@@ -11,6 +11,7 @@ const toast = document.querySelector("#toast");
 const customerName = document.querySelector("#customerName");
 const customerPhone = document.querySelector("#customerPhone");
 const customerAddress = document.querySelector("#customerAddress");
+const customerFields = document.querySelector("#customerFields");
 const WHATSAPP_PHONE = "201004333340";
 
 const savedCustomer = JSON.parse(localStorage.getItem("holCustomer") || "{}");
@@ -61,9 +62,9 @@ function imageFor(product, fabric = "percale", optionName = "", colorName = "") 
     const slug = option?.sourceSlug || optionName.toLowerCase().replaceAll(" ", "-");
     const images = {
       "fitted-sheet-set": option?.image,
-      "duvet-cover-set": `assets/lifestyle/duvet-colors/duvet-cover-set-.jpg`,
-      "pillowcase-set": `assets/lifestyle/pillowcase-colors/pillowcase-set-.jpg`,
-      "flat-sheet-set": `assets/lifestyle/flat-colors/flat-sheet-set-.jpg`
+      "duvet-cover-set": `assets/lifestyle/duvet-colors/duvet-cover-set-${slug}.jpg`,
+      "pillowcase-set": `assets/lifestyle/pillowcase-colors/pillowcase-set-${slug}.jpg`,
+      "flat-sheet-set": `assets/lifestyle/flat-colors/flat-sheet-set-${slug}.jpg`
     };
     if (images[product.id]) return images[product.id];
   }
@@ -483,7 +484,14 @@ function openWhatsAppOrder() {
     showToast("Please add at least one item to the basket.");
     return;
   }
+  if (customerFields.classList.contains("hidden")) {
+    customerFields.classList.remove("hidden");
+    customerName.focus();
+    showToast("Please add your delivery details.");
+    return;
+  }
   if (!customer.name || !customer.phone || !customer.address) {
+    customerFields.classList.remove("hidden");
     showToast("Please add your name, phone, and address.");
     return;
   }
