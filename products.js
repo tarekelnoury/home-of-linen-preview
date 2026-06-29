@@ -5,16 +5,16 @@ window.HOL_PRODUCTS = {
       spec: "TC300 · 100% Egyptian Cotton · Crisp, Matte, Solid Colours",
       imageSuffix: "percale",
       options: [
-        { name: "White", value: "#FFFFFF", image: "assets/lifestyle/fitted-colors/fitted-sheet-set-white.png", sourceSlug: "white" },
-        { name: "Off-White", value: "#F1E8D6", image: "assets/lifestyle/fitted-colors/fitted-sheet-set-off-white.png", sourceSlug: "off-white" },
-        { name: "Beige", value: "#D7C2A7", image: "assets/lifestyle/fitted-colors/fitted-sheet-set-beige.png", sourceSlug: "beige" },
-        { name: "Cream", value: "#F5E7C8", image: "assets/lifestyle/fitted-colors/fitted-sheet-set-cream.png", sourceSlug: "cream" },
-        { name: "Peach", value: "#E8B299", image: "assets/lifestyle/fitted-colors/fitted-sheet-set-peach.png", sourceSlug: "peach" },
-        { name: "Purple", value: "#74528B", image: "assets/lifestyle/fitted-colors/fitted-sheet-set-purple.png", sourceSlug: "purple" },
-        { name: "Canary", value: "#F0D76B", image: "assets/lifestyle/fitted-colors/fitted-sheet-set-canary.png", sourceSlug: "canary" },
-        { name: "Olive", value: "#C5D7A4", image: "assets/lifestyle/fitted-colors/fitted-sheet-set-pistachio.png", sourceSlug: "pistachio" },
-        { name: "Pistachio", value: "#B9D8C6", image: "assets/lifestyle/fitted-colors/fitted-sheet-set-pastel.png", sourceSlug: "pastel" },
-        { name: "Orange", value: "#D65F6F", image: "assets/lifestyle/fitted-colors/fitted-sheet-set-watermelon.png", sourceSlug: "watermelon" }
+        { name: "White", value: "#FFFFFF", image: "assets/lifestyle/fitted-colors/fitted-sheet-set-white.jpg", sourceSlug: "white" },
+        { name: "Off-White", value: "#F1E8D6", image: "assets/lifestyle/fitted-colors/fitted-sheet-set-off-white.jpg", sourceSlug: "off-white" },
+        { name: "Beige", value: "#D7C2A7", image: "assets/lifestyle/fitted-colors/fitted-sheet-set-beige.jpg", sourceSlug: "beige" },
+        { name: "Cream", value: "#F5E7C8", image: "assets/lifestyle/fitted-colors/fitted-sheet-set-cream.jpg", sourceSlug: "cream" },
+        { name: "Peach", value: "#E8B299", image: "assets/lifestyle/fitted-colors/fitted-sheet-set-peach.jpg", sourceSlug: "peach" },
+        { name: "Purple", value: "#74528B", image: "assets/lifestyle/fitted-colors/fitted-sheet-set-purple.jpg", sourceSlug: "purple" },
+        { name: "Canary", value: "#F0D76B", image: "assets/lifestyle/fitted-colors/fitted-sheet-set-canary.jpg", sourceSlug: "canary" },
+        { name: "Olive", value: "#C5D7A4", image: "assets/lifestyle/fitted-colors/fitted-sheet-set-pistachio.jpg", sourceSlug: "pistachio" },
+        { name: "Pistachio", value: "#B9D8C6", image: "assets/lifestyle/fitted-colors/fitted-sheet-set-pastel.jpg", sourceSlug: "pastel" },
+        { name: "Orange", value: "#D65F6F", image: "assets/lifestyle/fitted-colors/fitted-sheet-set-watermelon.jpg", sourceSlug: "watermelon" }
       ]
     }
   },
@@ -90,7 +90,7 @@ window.HOL_PRODUCTS = {
       name: "Face Towel",
       includes: "600 Gsm Egyptian Cotton Towel",
       description: "A Small Everyday Essential In Dense 600 Gsm Egyptian Cotton Terry, Soft Enough For The Face And Practical Enough For Daily Use. Plush, Absorbent And Calmly Finished For A Spa-Like Bathroom Detail.",
-      image: "assets/towels/face-towel.png",
+      image: "assets/towels/face-towel.jpg",
       colorBased: true,
       variants: [{ label: "33 × 33 cm", price: 50 }]
     },
@@ -100,7 +100,7 @@ window.HOL_PRODUCTS = {
       name: "Hand Towel",
       includes: "600 Gsm Egyptian Cotton Towel",
       description: "A Generously Sized 600 Gsm Egyptian Cotton Hand Towel With A Plush Terry Feel And Excellent Absorbency. Designed For The Bathroom, Guest Washroom Or Vanity Area With The Soft, Understated Finish Of Home Of Linen.",
-      image: "assets/towels/hand-towel.png",
+      image: "assets/towels/hand-towel.jpg",
       colorBased: true,
       variants: [{ label: "50 × 100 cm", price: 265 }]
     },
@@ -110,7 +110,7 @@ window.HOL_PRODUCTS = {
       name: "Bath Towel",
       includes: "600 Gsm Egyptian Cotton Towel",
       description: "A Plush 600 Gsm Egyptian Cotton Bath Towel Made To Feel Soft, Substantial And Absorbent After Every Shower. It Brings A Clean Spa-Like Touch To Daily Bathing While Staying Elegant And Simple.",
-      image: "assets/towels/bath-towel.png",
+      image: "assets/towels/bath-towel.jpg",
       colorBased: true,
       variants: [{ label: "70 × 140 cm", price: 555 }]
     },
@@ -120,7 +120,7 @@ window.HOL_PRODUCTS = {
       name: "Extra-Large Bath Towel",
       includes: "600 Gsm Egyptian Cotton Towel",
       description: "An Extra-Large 600 Gsm Egyptian Cotton Bath Towel For A More Enveloping, Hotel-Like Feel. Soft, Dense And Highly Absorbent, It Is Made For Customers Who Prefer A Larger Towel With A More Luxurious Drape.",
-      image: "assets/towels/xl-bath-towel.png",
+      image: "assets/towels/xl-bath-towel.jpg",
       colorBased: true,
       variants: [{ label: "90 × 160 cm", price: 680 }]
     },
@@ -130,7 +130,7 @@ window.HOL_PRODUCTS = {
       name: "Premium Bed Pillow",
       includes: "Blended Cotton Shell · Polydown Alternative",
       description: "White Bed Pillows With A Smooth Blended-Cotton Shell And Polydown Alternative Fill, Available In Three Comfort Levels. Choose Soft For A Gentle Sink-In Feel, Medium For Balanced Everyday Support, Or Firm For A Higher, More Structured Pillow.",
-      image: "assets/products/pillows.png",
+      image: "assets/products/pillows.jpg",
       variants: [
         { label: "Firm · 1200 g", price: 600, description: "Firm · 1200 G Is The Most Supportive Pillow Option, Made For Customers Who Prefer Extra Height, Structure And A Fuller Feel Through The Night. It Keeps The Bed Looking Plump While Offering A More Stable Resting Surface." },
         { label: "Medium · 1000 g", price: 480, description: "Medium · 1000 G Is The Balanced Everyday Choice, Combining Softness And Support In A Comfortable Middle Feel. It Is A Good Fit For Customers Who Want A Pillow That Feels Plush Without Being Too High Or Too Soft." },
@@ -143,7 +143,7 @@ window.HOL_PRODUCTS = {
       name: "Mattress Topper",
       includes: "Blended Cotton Shell",
       description: "A Quilted White Mattress Topper Designed To Add A Clean, Cushioned Comfort Layer To The Bed. Choose The Loftier 9 Cm Polydown Alternative For A Softer Cloud-Like Feel, Or The 7 Cm Microfiber For A Slightly Lower, Practical Comfort Upgrade.",
-      image: "assets/products/mattress-topper.png",
+      image: "assets/products/mattress-topper.jpg",
       matrix: {
         variantLabel: "Fill",
         sizeLabel: "Size",
@@ -159,7 +159,7 @@ window.HOL_PRODUCTS = {
       name: "Comforter",
       includes: "Blended Cotton Shell",
       description: "A White Comforter With A Smooth Blended-Cotton Shell And An Airy, Premium Fill. Choose All-Season For Comfortable Year-Round Layering, Or Winter For A Warmer, Fuller Feel During Cooler Nights.",
-      image: "assets/products/comforter.png",
+      image: "assets/products/comforter.jpg",
       matrix: {
         variantLabel: "Type",
         sizeLabel: "Size",

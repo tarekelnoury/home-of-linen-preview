@@ -11,7 +11,7 @@ const toast = document.querySelector("#toast");
 const customerName = document.querySelector("#customerName");
 const customerPhone = document.querySelector("#customerPhone");
 const customerAddress = document.querySelector("#customerAddress");
-const WHATSAPP_PHONE = "";
+const WHATSAPP_PHONE = "201004333340";
 
 const savedCustomer = JSON.parse(localStorage.getItem("holCustomer") || "{}");
 customerName.value = savedCustomer.name || "";
@@ -61,9 +61,9 @@ function imageFor(product, fabric = "percale", optionName = "", colorName = "") 
     const slug = option?.sourceSlug || optionName.toLowerCase().replaceAll(" ", "-");
     const images = {
       "fitted-sheet-set": option?.image,
-      "duvet-cover-set": `assets/lifestyle/duvet-colors/duvet-cover-set-${slug}.png`,
-      "pillowcase-set": `assets/lifestyle/pillowcase-colors/pillowcase-set-${slug}.png`,
-      "flat-sheet-set": `assets/lifestyle/flat-colors/flat-sheet-set-${slug}.png`
+      "duvet-cover-set": `assets/lifestyle/duvet-colors/duvet-cover-set-.jpg`,
+      "pillowcase-set": `assets/lifestyle/pillowcase-colors/pillowcase-set-.jpg`,
+      "flat-sheet-set": `assets/lifestyle/flat-colors/flat-sheet-set-.jpg`
     };
     if (images[product.id]) return images[product.id];
   }
@@ -72,7 +72,7 @@ function imageFor(product, fabric = "percale", optionName = "", colorName = "") 
     if (color?.name === "White") return product.image;
     return color?.swatch || product.image;
   }
-  if (product.fabricBased) return `assets/lifestyle/${product.heroBase}-${fabrics[fabric].imageSuffix}.png`;
+  if (product.fabricBased) return imageFor(product, "percale", fabrics.percale.options[0].name);
   return product.image;
 }
 
@@ -85,7 +85,7 @@ function plainPrice(value) {
 }
 
 function fallbackArt(label) {
-  return `<div class="fallback-art"><div><p class="eyebrow">Image Pending</p><strong>${label}</strong><p>Run Generate_Images.py To Create The Final Lifestyle Render.</p></div></div>`;
+  return `<div class="fallback-art"><div><p class="eyebrow">Home Of Linen</p><strong>${label}</strong><p>Product Image Unavailable For This Preview.</p></div></div>`;
 }
 
 function setImage(container, src, alt) {
@@ -113,6 +113,7 @@ function productDescriptor(product, selections) {
     return {
       fabric: fabrics[selections.fabric].label,
       option: selections.optionName,
+      color: selections.optionName,
       size,
       variant: `${fabrics[selections.fabric].label} · ${size}`
     };
@@ -121,6 +122,7 @@ function productDescriptor(product, selections) {
     return {
       fabric: "",
       option: "",
+      color: "White",
       size: selections.matrixSize,
       variant: `${product.matrix.variants[selections.variantIndex].label} · ${selections.matrixSize}`
     };
@@ -129,6 +131,7 @@ function productDescriptor(product, selections) {
     return {
       fabric: "",
       option: selections.colorName,
+      color: selections.colorName,
       size: product.variants[selections.variantIndex].label,
       variant: product.variants[selections.variantIndex].label
     };
@@ -136,6 +139,7 @@ function productDescriptor(product, selections) {
   return {
     fabric: "",
     option: "",
+    color: "White",
     size: product.variants[selections.variantIndex].label,
     variant: product.variants[selections.variantIndex].label
   };
@@ -362,6 +366,7 @@ function activateCard(product) {
       key: `${product.id}|${descriptor.variant}|${descriptor.option}`,
       productId: product.id,
       name: product.name,
+      category: product.category,
       image: imageFor(product, selections.fabric, selections.optionName, selections.colorName),
       price: productPrice(product, selections),
       qty: selections.qty,
@@ -438,18 +443,17 @@ function saveCustomerDetails() {
 }
 
 function orderLine(item, index) {
-  const details = [
-    item.fabric && `Fabric: ${item.fabric}`,
-    item.option && `Color/Option: ${item.option}`,
-    item.size && `Size: ${item.size}`,
-    item.variant && item.variant !== item.size && `Variant: ${item.variant}`
-  ].filter(Boolean);
+  const product = products.find(candidate => candidate.id === item.productId);
+  const category = item.category || product?.category || "";
+  const color = item.color || item.option || "White";
   return [
     `${index + 1}. ${item.name}`,
-    ...details.map(detail => `   ${detail}`),
-    `   Quantity: ${item.qty}`,
-    `   Unit Price: ${plainPrice(item.price)}`,
-    `   Line Total: ${plainPrice(item.price * item.qty)}`
+    `Category: ${category}`,
+    `Color: ${color}`,
+    `Size: ${item.size || item.variant}`,
+    `Quantity: ${item.qty}`,
+    `Unit Price: ${plainPrice(item.price)}`,
+    `Line Total: ${plainPrice(item.price * item.qty)}`
   ].join("\n");
 }
 
@@ -457,19 +461,19 @@ function buildWhatsAppMessage() {
   const customer = customerDetails();
   const total = state.basket.reduce((sum, item) => sum + item.price * item.qty, 0);
   return [
-    "Hello Home of Linen, I would like to place this order:",
+    "🛒 Home of Linen - New Order",
     "",
-    "Customer Details:",
+    "Customer Information",
+    "",
     `Name: ${customer.name}`,
     `Phone: ${customer.phone}`,
     `Address: ${customer.address}`,
     "",
-    "Order Items:",
+    "Order Details",
+    "",
     state.basket.map(orderLine).join("\n\n"),
     "",
-    `Total: ${plainPrice(total)}`,
-    "",
-    "Please confirm availability and delivery details."
+    `Grand Total: ${plainPrice(total)}`
   ].join("\n");
 }
 
@@ -485,9 +489,7 @@ function openWhatsAppOrder() {
   }
   saveCustomerDetails();
   const message = encodeURIComponent(buildWhatsAppMessage());
-  const whatsappUrl = WHATSAPP_PHONE
-    ? `https://wa.me/${WHATSAPP_PHONE}?text=${message}`
-    : `https://wa.me/?text=${message}`;
+  const whatsappUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${message}`;
   window.open(whatsappUrl, "_blank", "noopener");
 }
 

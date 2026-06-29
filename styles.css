@@ -89,7 +89,7 @@ button, select, input, textarea { font: inherit; }
   background-image:
     linear-gradient(90deg, rgba(251,247,239,.24), rgba(251,247,239,.08) 42%, rgba(251,247,239,0)),
     linear-gradient(0deg, rgba(251,247,239,.02), rgba(251,247,239,.02)),
-    url("assets/images/hero-bedding.png");
+    url("assets/images/hero-bedding.jpg");
   background-size: cover;
   background-position: center;
   border-bottom: 1px solid var(--line);
@@ -549,7 +549,7 @@ select {
     padding: 72px 18px 56px;
     background-image:
       linear-gradient(0deg, rgba(251,247,239,.18), rgba(251,247,239,.04)),
-      url("assets/images/hero-bedding.png");
+      url("assets/images/hero-bedding.jpg");
     background-position: center;
   }
   h1 { font-size: clamp(3.2rem, 18vw, 5rem); }
