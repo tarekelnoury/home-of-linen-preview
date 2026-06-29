@@ -185,6 +185,7 @@ function cardTemplate(product) {
   return `
     <article class="card" data-product="${product.id}">
       <div class="image-wrap" data-image></div>
+      <div class="mobile-controls" data-mobile-controls></div>
       <div class="card-body">
         <div>
           <p class="eyebrow">${product.category}</p>
@@ -213,6 +214,7 @@ function activateCard(product) {
   const card = document.querySelector(`[data-product="${product.id}"]`);
   const image = card.querySelector("[data-image]");
   const controls = card.querySelector("[data-controls]");
+  const mobileControls = card.querySelector("[data-mobile-controls]");
   const spec = card.querySelector("[data-spec]");
   const descriptionEl = card.querySelector("[data-description]");
   const priceEl = card.querySelector("[data-price]");
@@ -258,6 +260,7 @@ function activateCard(product) {
           </label>
         </div>
       `;
+      mobileControls.innerHTML = controls.innerHTML;
       controls.querySelectorAll("[data-fabric]").forEach(button => button.addEventListener("click", () => {
         selections.fabric = button.dataset.fabric;
         selections.optionName = fabrics[selections.fabric].options[0].name;
@@ -270,6 +273,21 @@ function activateCard(product) {
         update();
       }));
       controls.querySelector("[data-size]").addEventListener("change", e => {
+        selections.sizeIndex = Number(e.target.value);
+        update();
+      });
+      mobileControls.querySelectorAll("[data-fabric]").forEach(button => button.addEventListener("click", () => {
+        selections.fabric = button.dataset.fabric;
+        selections.optionName = fabrics[selections.fabric].options[0].name;
+        renderControls();
+        update();
+      }));
+      mobileControls.querySelectorAll("[data-option]").forEach(button => button.addEventListener("click", () => {
+        selections.optionName = fabrics[selections.fabric].options[Number(button.dataset.option)].name;
+        renderControls();
+        update();
+      }));
+      mobileControls.querySelector("[data-size]").addEventListener("change", e => {
         selections.sizeIndex = Number(e.target.value);
         update();
       });
@@ -291,12 +309,22 @@ function activateCard(product) {
           </label>
         </div>
       `;
+      mobileControls.innerHTML = controls.innerHTML;
       controls.querySelectorAll("[data-towel-option]").forEach(button => button.addEventListener("click", () => {
         selections.colorName = towelColors[Number(button.dataset.towelOption)].name;
         renderControls();
         update();
       }));
       controls.querySelector("[data-variant]").addEventListener("change", e => {
+        selections.variantIndex = Number(e.target.value);
+        update();
+      });
+      mobileControls.querySelectorAll("[data-towel-option]").forEach(button => button.addEventListener("click", () => {
+        selections.colorName = towelColors[Number(button.dataset.towelOption)].name;
+        renderControls();
+        update();
+      }));
+      mobileControls.querySelector("[data-variant]").addEventListener("change", e => {
         selections.variantIndex = Number(e.target.value);
         update();
       });
@@ -316,6 +344,7 @@ function activateCard(product) {
           </label>
         </div>
       `;
+      mobileControls.innerHTML = controls.innerHTML;
       controls.querySelector("[data-variant]").addEventListener("change", e => {
         selections.variantIndex = Number(e.target.value);
         const prices = product.matrix.variants[selections.variantIndex].prices;
@@ -324,6 +353,17 @@ function activateCard(product) {
         update();
       });
       controls.querySelector("[data-matrix-size]").addEventListener("change", e => {
+        selections.matrixSize = e.target.value;
+        update();
+      });
+      mobileControls.querySelector("[data-variant]").addEventListener("change", e => {
+        selections.variantIndex = Number(e.target.value);
+        const prices = product.matrix.variants[selections.variantIndex].prices;
+        if (!prices[selections.matrixSize]) selections.matrixSize = Object.keys(prices)[0];
+        renderControls();
+        update();
+      });
+      mobileControls.querySelector("[data-matrix-size]").addEventListener("change", e => {
         selections.matrixSize = e.target.value;
         update();
       });
@@ -337,7 +377,12 @@ function activateCard(product) {
           </label>
         </div>
       `;
+      mobileControls.innerHTML = controls.innerHTML;
       controls.querySelector("[data-variant]").addEventListener("change", e => {
+        selections.variantIndex = Number(e.target.value);
+        update();
+      });
+      mobileControls.querySelector("[data-variant]").addEventListener("change", e => {
         selections.variantIndex = Number(e.target.value);
         update();
       });
@@ -510,6 +555,17 @@ function showToast(message) {
 document.querySelector("#openBasket").addEventListener("click", () => {
   basketDrawer.classList.add("open");
   basketDrawer.setAttribute("aria-hidden", "false");
+});
+document.querySelectorAll(".nav a, .hero-cta").forEach(link => {
+  link.addEventListener("click", event => {
+    const targetId = link.getAttribute("href")?.slice(1);
+    const target = targetId ? document.getElementById(targetId) : null;
+    if (!target) return;
+    event.preventDefault();
+    const headerHeight = document.querySelector(".site-header").getBoundingClientRect().height;
+    const top = target.getBoundingClientRect().top + window.scrollY - headerHeight - 10;
+    window.scrollTo({ top, behavior: "smooth" });
+  });
 });
 document.querySelector("#closeBasket").addEventListener("click", closeDrawer);
 basketDrawer.addEventListener("click", e => {
