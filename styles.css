@@ -225,6 +225,61 @@ button, select, input, textarea { font: inherit; }
   font-size: 1.2rem;
 }
 
+.review-recommendations {
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.review-recommendations > div {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 12px;
+}
+
+.review-recommendations article {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(250, 246, 239, .55);
+}
+
+.review-recommendations img {
+  width: 72px;
+  height: 92px;
+  object-fit: cover;
+  border-radius: 14px;
+}
+
+.review-recommendations h4 {
+  margin: 0 0 4px;
+  font-size: .98rem;
+}
+
+.review-recommendations p {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: .86rem;
+  line-height: 1.35;
+}
+
+.review-recommendations strong {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.review-recommendations button {
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 8px 11px;
+  cursor: pointer;
+}
+
 .order-details-card {
   display: grid;
   gap: 14px;
@@ -632,29 +687,6 @@ select {
   color: var(--gold);
 }
 
-.cart-recommendations {
-  margin-top: 14px;
-  padding: 14px;
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  background: rgba(250, 246, 239, .72);
-}
-
-.cart-recommendations > div {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.cart-recommendations button {
-  border: 1px solid var(--line);
-  background: var(--paper);
-  color: var(--ink);
-  border-radius: 999px;
-  padding: 9px 12px;
-  cursor: pointer;
-}
-
 .basket-line img, .basket-thumb-fallback {
   width: 72px;
   height: 90px;
@@ -686,6 +718,18 @@ select {
 .subtotal { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; font-size: 1.2rem; }
 .checkout { width: 100%; border-radius: 16px; }
 .checkout-note { color: var(--muted); font-size: .85rem; line-height: 1.5; }
+
+.add-button:disabled {
+  cursor: default;
+  opacity: .72;
+  background: transparent;
+  color: var(--muted);
+}
+
+.add-button:disabled:hover {
+  transform: none;
+  background: transparent;
+}
 
 .customer-fields {
   display: grid;

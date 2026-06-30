@@ -189,9 +189,9 @@ window.HOL_PRODUCTS = {
       description: "White Bed Pillows With A Smooth Blended-Cotton Shell And Polydown Alternative Fill, Available In Three Comfort Levels. Choose Soft For A Gentle Sink-In Feel, Medium For Balanced Everyday Support, Or Firm For A Higher, More Structured Pillow.",
       image: "assets/products/pillows.jpg",
       variants: [
-        { label: "Firm · 1200 g", price: 600, description: "Firm · 1200 G Is The Most Supportive Pillow Option, Made For Customers Who Prefer Extra Height, Structure And A Fuller Feel Through The Night. It Keeps The Bed Looking Plump While Offering A More Stable Resting Surface." },
-        { label: "Medium · 1000 g", price: 480, description: "Medium · 1000 G Is The Balanced Everyday Choice, Combining Softness And Support In A Comfortable Middle Feel. It Is A Good Fit For Customers Who Want A Pillow That Feels Plush Without Being Too High Or Too Soft." },
-        { label: "Soft · 850 g", price: 400, description: "Soft · 850 G Has The Gentlest Feel, Designed For Customers Who Prefer A Lower, More Relaxed Pillow With An Easy Sink-In Comfort. It Brings A Light And Airy Finish To The Bed." }
+        { label: "Firm · 1200 g", price: 800, description: "Firm · 1200 G Is The Most Supportive Pillow Option, Made For Customers Who Prefer Extra Height, Structure And A Fuller Feel Through The Night. It Keeps The Bed Looking Plump While Offering A More Stable Resting Surface." },
+        { label: "Medium · 1000 g", price: 680, description: "Medium · 1000 G Is The Balanced Everyday Choice, Combining Softness And Support In A Comfortable Middle Feel. It Is A Good Fit For Customers Who Want A Pillow That Feels Plush Without Being Too High Or Too Soft." },
+        { label: "Soft · 850 g", price: 600, description: "Soft · 850 G Has The Gentlest Feel, Designed For Customers Who Prefer A Lower, More Relaxed Pillow With An Easy Sink-In Comfort. It Brings A Light And Airy Finish To The Bed." }
       ]
     },
     {

@@ -18,6 +18,7 @@ const customerAddress = document.querySelector("#customerAddress");
 const customerFields = document.querySelector("#customerFields");
 const WHATSAPP_PHONE = "201004333340";
 let pendingConfirmationNumber = "";
+let currentReviewRecommendations = [];
 
 const savedCustomer = JSON.parse(localStorage.getItem("holCustomer") || "{}");
 customerName.value = savedCustomer.name || "";
@@ -34,7 +35,7 @@ const categoryCopy = {
   Pillows: "Soft, Medium And Firm Bed Pillows With A Clean Blended-Cotton Shell.",
   "Mattress Toppers": "Comfort Layers Designed To Refresh The Mattress And Elevate The Whole Bed.",
   Comforters: "White Comforters For Airy Layering, Warmth And A Soft Finished Bed.",
-  "Home Fragrance": "Beautiful bedding deserves a beautiful scent. Discover warm, calm scents for every room."
+  "Home Fragrance": "Coming Soon."
 };
 
 const categoryHeroImages = {
@@ -234,7 +235,7 @@ function cardTemplate(product) {
               <button type="button" data-qty-up aria-label="Increase quantity">+</button>
             </div>
           </div>
-          <button class="add-button" type="button" data-add>${product.noPrice ? "Ask On WhatsApp" : "Add to Basket"}</button>
+          <button class="add-button" type="button" data-add ${product.noPrice ? "disabled" : ""}>${product.noPrice ? "Coming Soon" : "Add to Basket"}</button>
         </div>
         ${product.description ? `<p class="description" data-description>${product.description}</p>` : ""}
       </div>
@@ -488,7 +489,7 @@ function activateCard(product) {
   });
   card.querySelector("[data-add]").addEventListener("click", () => {
     if (product.noPrice) {
-      openProductInquiry(product, selections);
+      showToast("Home Fragrance is coming soon.");
       return;
     }
     const descriptor = productDescriptor(product, selections);
@@ -524,19 +525,6 @@ function basketTotal() {
   return state.basket.reduce((sum, item) => sum + item.price * item.qty, 0);
 }
 
-function recommendationsHtml() {
-  return `
-    <div class="cart-recommendations">
-      <p class="eyebrow">You May Also Love</p>
-      <div>
-        <button type="button" data-inquiry-product="linen-pillow-mist">Linen Mist</button>
-        <button type="button" data-inquiry-product="scented-candle">Candle</button>
-        <button type="button" data-inquiry-product="reed-diffuser">Diffuser</button>
-      </div>
-    </div>
-  `;
-}
-
 function renderBasket() {
   const count = state.basket.reduce((sum, item) => sum + item.qty, 0);
   basketCount.textContent = count;
@@ -570,7 +558,7 @@ function renderBasket() {
         </div>
       `).join("")}
     </section>
-  `).join("") + recommendationsHtml();
+  `).join("");
   subtotal.textContent = formatPrice(total);
   renderOrderReview();
   basketItems.querySelectorAll("[data-line-down]").forEach(button => button.addEventListener("click", () => {
@@ -585,10 +573,6 @@ function renderBasket() {
   basketItems.querySelectorAll("[data-remove]").forEach(button => button.addEventListener("click", () => {
     state.basket.splice(Number(button.dataset.remove), 1);
     saveBasket();
-  }));
-  basketItems.querySelectorAll("[data-inquiry-product]").forEach(button => button.addEventListener("click", () => {
-    const product = products.find(item => item.id === button.dataset.inquiryProduct);
-    if (product) openProductInquiry(product, { scentIndex: 0 });
   }));
 }
 
@@ -609,6 +593,107 @@ function reviewLineHtml(item) {
   `;
 }
 
+function defaultRecommendationSelections(product, colorName = "") {
+  const selections = {
+    fabric: "percale",
+    optionName: fabrics.percale.options[0].name,
+    colorName: (product.colors || towelColors)[0]?.name || "",
+    scentIndex: 0,
+    bundleType: product.setToggle ? "set" : "",
+    sizeIndex: 0,
+    variantIndex: product.id === "pillows" ? 1 : 0,
+    matrixSize: product.matrix ? Object.keys(product.matrix.variants[0].prices)[0] : "",
+    qty: 1
+  };
+  if (product.fabricBased && colorName) {
+    const matchingColor = fabrics.percale.options.find(option => option.name === colorName);
+    if (matchingColor) selections.optionName = matchingColor.name;
+  }
+  return selections;
+}
+
+function recommendationItem(productId, colorName = "") {
+  const product = products.find(item => item.id === productId);
+  if (!product || product.noPrice) return null;
+  const selections = defaultRecommendationSelections(product, colorName);
+  const descriptor = productDescriptor(product, selections);
+  const price = productPrice(product, selections);
+  return {
+    key: `${product.id}|${descriptor.variant}|${descriptor.option}|${descriptor.bundle || ""}`,
+    productId: product.id,
+    name: product.name,
+    category: product.category,
+    image: imageFor(product, selections.fabric, selections.optionName, selections.colorName),
+    price,
+    qty: 1,
+    ...descriptor
+  };
+}
+
+function reviewRecommendations() {
+  const recommendations = [];
+  const seen = new Set(state.basket.map(item => item.key));
+  const addRecommendation = item => {
+    if (!item || seen.has(item.key)) return;
+    seen.add(item.key);
+    recommendations.push(item);
+  };
+  const comfortProducts = ["pillows", "mattress-topper", "comforter"];
+  if (state.basket.some(item => comfortProducts.includes(item.productId))) {
+    const inBasket = new Set(state.basket.map(item => item.productId));
+    comfortProducts
+      .filter(productId => !inBasket.has(productId))
+      .slice(0, 2)
+      .forEach(productId => addRecommendation(recommendationItem(productId)));
+  }
+  const beddingProducts = ["pillowcase-set", "fitted-sheet-set", "flat-sheet-set", "duvet-cover-set"];
+  state.basket
+    .filter(item => beddingProducts.includes(item.productId))
+    .forEach(item => {
+      beddingProducts
+        .filter(productId => productId !== item.productId)
+        .forEach(productId => addRecommendation(recommendationItem(productId, item.color || item.option)));
+    });
+  return recommendations.slice(0, 8);
+}
+
+function reviewRecommendationsHtml() {
+  currentReviewRecommendations = reviewRecommendations();
+  if (!currentReviewRecommendations.length) return "";
+  return `
+    <section class="review-recommendations">
+      <p class="eyebrow">You May Also Love</p>
+      <div>
+        ${currentReviewRecommendations.map((item, index) => `
+          <article>
+            <img src="${item.image}" alt="" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'basket-thumb-fallback'}))">
+            <div>
+              <h4>${item.name}</h4>
+              <p>${[item.color || item.option, item.size || item.variant].filter(Boolean).join(" · ")}</p>
+              <strong>${formatPrice(item.price)}</strong>
+              <button type="button" data-review-recommendation="${index}">Add To Basket</button>
+            </div>
+          </article>
+        `).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function activateReviewRecommendations() {
+  reviewItems.querySelectorAll("[data-review-recommendation]").forEach(button => {
+    button.addEventListener("click", () => {
+      const item = currentReviewRecommendations[Number(button.dataset.reviewRecommendation)];
+      if (!item) return;
+      const existing = state.basket.find(candidate => candidate.key === item.key);
+      if (existing) existing.qty += 1;
+      else state.basket.push({ ...item });
+      saveBasket();
+      showToast(`${item.name} added to basket`);
+    });
+  });
+}
+
 function renderOrderReview() {
   if (!reviewItems || !reviewSubtotal) return;
   if (!state.basket.length) {
@@ -623,8 +708,9 @@ function renderOrderReview() {
       <h4>${group}</h4>
       ${state.basket.filter(item => (item.category || "Products") === group).map(reviewLineHtml).join("")}
     </section>
-  `).join("");
+  `).join("") + reviewRecommendationsHtml();
   reviewSubtotal.textContent = formatPrice(basketTotal());
+  activateReviewRecommendations();
 }
 
 function customerDetails() {
