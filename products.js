@@ -237,7 +237,7 @@ window.HOL_PRODUCTS = {
       name: "Reed Diffuser",
       includes: "100 ml Diffuser Bottle + Fibre Reeds + Premium Carton",
       description: "A continuous home fragrance piece for bedrooms, bathrooms, entrances and living rooms. The diffuser scents the room effortlessly while adding a warm, minimal decorative object to modern interiors.",
-      image: "assets/fragrance/home-fragrance-collection.jpg",
+      image: "assets/fragrance/reed-diffuser.jpg",
       fragranceBased: true,
       noPrice: true,
       variants: []

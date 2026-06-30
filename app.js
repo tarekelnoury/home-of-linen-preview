@@ -34,16 +34,16 @@ const categoryCopy = {
 };
 
 const categoryHeroImages = {
-  "Fitted Sheets": "assets/images/fitted-sheets-hero.jpg",
-  "Duvet Covers": "assets/images/duvet-covers-hero.jpg",
-  Pillowcases: "assets/images/pillowcases-hero.jpg",
-  "Flat Sheets": "assets/images/flat-sheets-hero.jpg",
-  Towels: "assets/images/towels-hero.jpg",
-  "Summer Essentials": "assets/pool-towels/large-pool-towel-yellow.jpg",
-  Pillows: "assets/images/pillows-hero.jpg",
-  "Mattress Toppers": "assets/images/mattress-toppers-hero.jpg",
-  Comforters: "assets/images/comforters-hero.jpg",
-  "Home Fragrance": "assets/fragrance/home-fragrance-collection.jpg"
+  "Fitted Sheets": "assets/images/editorial/fitted-sheets.jpg",
+  "Duvet Covers": "assets/images/editorial/duvet-covers.jpg",
+  Pillowcases: "assets/images/editorial/pillowcases.jpg",
+  "Flat Sheets": "assets/images/editorial/flat-sheets.jpg",
+  Towels: "assets/images/editorial/towels.jpg",
+  "Summer Essentials": "assets/images/editorial/summer-essentials.jpg",
+  Pillows: "assets/images/editorial/pillows.jpg",
+  "Mattress Toppers": "assets/images/editorial/mattress-toppers.jpg",
+  Comforters: "assets/images/editorial/comforters.jpg",
+  "Home Fragrance": "assets/images/editorial/home-fragrance.jpg"
 };
 
 const categoryOrder = [
@@ -204,7 +204,6 @@ function renderCatalog() {
     </section>
   `).join("");
   products.forEach(activateCard);
-  renderFabricGuide();
 }
 
 function cardTemplate(product) {
@@ -489,32 +488,6 @@ function activateCard(product) {
   update();
 }
 
-function renderFabricGuide() {
-  const existing = document.querySelector("#fabric-guide");
-  if (existing) return;
-  catalog.insertAdjacentHTML("beforebegin", `
-    <section class="fabric-guide" id="fabric-guide">
-      <div>
-        <p class="eyebrow">Fabric Guide</p>
-        <h2>Percale or Sateen?</h2>
-        <p>Two beautiful Egyptian cotton weaves, each with its own mood. Percale feels crisp, cool and matte. Sateen feels smoother, silkier and slightly more luminous.</p>
-      </div>
-      <div class="weave-grid">
-        <article>
-          <span>01</span>
-          <h3>Percale</h3>
-          <p>Crisp, breathable and hotel-fresh with a clean matte finish. Best for customers who love a cool, airy bed.</p>
-        </article>
-        <article>
-          <span>02</span>
-          <h3>Sateen</h3>
-          <p>Smooth, softly draped and elegant with a subtle sheen. Best for customers who prefer a silkier, warmer touch.</p>
-        </article>
-      </div>
-    </section>
-  `);
-}
-
 function saveBasket() {
   localStorage.setItem("holBasket", JSON.stringify(state.basket));
   renderBasket();
@@ -754,7 +727,7 @@ document.querySelector("#openBasket").addEventListener("click", () => {
   basketDrawer.classList.add("open");
   basketDrawer.setAttribute("aria-hidden", "false");
 });
-document.querySelectorAll(".nav a, .hero-cta, .seo-links a").forEach(link => {
+document.querySelectorAll(".nav a, .hero-hotspot").forEach(link => {
   link.addEventListener("click", event => {
     const targetId = link.getAttribute("href")?.slice(1);
     const target = targetId ? document.getElementById(targetId) : null;
