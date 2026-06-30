@@ -126,17 +126,17 @@ button, select, input, textarea { font: inherit; }
 
 .category h2 {
   font-family: var(--brand-serif);
-  font-size: clamp(2.8rem, 5.4vw, 5.4rem);
+  font-size: clamp(3.05rem, 6vw, 5.9rem);
   font-weight: 500;
   letter-spacing: -.045em;
-  line-height: .96;
+  line-height: .86;
 }
 .category-head p {
   color: var(--muted);
   max-width: 540px;
-  line-height: 1.62;
+  line-height: 1.5;
   font-size: clamp(1rem, 1.25vw, 1.18rem);
-  margin: 14px 0 0;
+  margin: 4px 0 0;
 }
 .category-head img {
   width: 100%;
