@@ -265,7 +265,7 @@ window.HOL_PRODUCTS = {
       name: "Room Spray",
       includes: "150 ml Room Spray",
       description: "An immediate room refresh for bedrooms, living rooms, bathrooms and entrances. The elegant bottle delivers a clean fragrance moment throughout the home and is intended for the air and room atmosphere.",
-      image: "assets/fragrance/home-fragrance-collection.jpg",
+      image: "assets/fragrance/room-spray.jpg",
       fragranceBased: true,
       noPrice: true,
       variants: []
