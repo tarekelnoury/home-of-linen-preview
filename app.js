@@ -196,7 +196,7 @@ function renderCatalog() {
   const groups = [...new Set(products.map(p => p.category))]
     .sort((a, b) => categoryOrder.indexOf(a) - categoryOrder.indexOf(b));
   catalog.innerHTML = groups.map(group => `
-    <section class="category" id="${sectionId(group)}">
+    <section class="category category-${sectionId(group)}" id="${sectionId(group)}">
       <div class="category-head">
         <div>
           <p class="eyebrow">Home Of Linen</p>
