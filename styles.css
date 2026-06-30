@@ -332,11 +332,11 @@ button, select, input, textarea { font: inherit; }
 
 .category h2 {
   font-family: var(--brand-serif);
-  font-size: clamp(2.2rem, 3.85vw, 3.65rem);
+  font-size: clamp(2rem, 3.35vw, 3.15rem);
   font-weight: 400;
   letter-spacing: -.04em;
-  line-height: .96;
-  margin: 0 0 8px;
+  line-height: 1;
+  margin: 0 0 7px;
 }
 
 .category-head .eyebrow {
@@ -827,7 +827,14 @@ select {
   .nav::-webkit-scrollbar { display: none; }
   .nav a { white-space: nowrap; font-size: .68rem; }
   .category h2 {
-    font-size: clamp(2.15rem, 9.5vw, 3.1rem);
+    font-size: clamp(1.85rem, 7.2vw, 2.35rem);
+    line-height: 1.02;
+    letter-spacing: -.035em;
+    margin-bottom: 6px;
+  }
+  .category-head p:not(.eyebrow) {
+    font-size: 1rem;
+    line-height: 1.38;
   }
   .category-head { display: block; }
   .category {
