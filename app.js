@@ -8,12 +8,16 @@ const basketItems = document.querySelector("#basketItems");
 const basketCount = document.querySelector("#basketCount");
 const subtotal = document.querySelector("#subtotal");
 const toast = document.querySelector("#toast");
+const orderReview = document.querySelector("#order-review");
+const reviewItems = document.querySelector("#reviewItems");
+const reviewSubtotal = document.querySelector("#reviewSubtotal");
+const orderConfirmation = document.querySelector("#orderConfirmation");
 const customerName = document.querySelector("#customerName");
 const customerPhone = document.querySelector("#customerPhone");
 const customerAddress = document.querySelector("#customerAddress");
 const customerFields = document.querySelector("#customerFields");
 const WHATSAPP_PHONE = "201004333340";
-const giftOptions = ["Linen & Pillow Mist", "Reed Diffuser", "Scented Candle", "Room Spray"];
+let pendingConfirmationNumber = "";
 
 const savedCustomer = JSON.parse(localStorage.getItem("holCustomer") || "{}");
 customerName.value = savedCustomer.name || "";
@@ -520,39 +524,6 @@ function basketTotal() {
   return state.basket.reduce((sum, item) => sum + item.price * item.qty, 0);
 }
 
-function eligibleGiftCount(total = basketTotal()) {
-  if (total >= 20000) return 2;
-  if (total >= 10000) return 1;
-  return 0;
-}
-
-function selectedGifts() {
-  return Array.from(document.querySelectorAll("[data-gift-select]"))
-    .map(select => select.value)
-    .filter(Boolean);
-}
-
-function giftPanelHtml(total) {
-  const count = eligibleGiftCount(total);
-  if (!count) {
-    return `<div class="gift-panel muted-gift">Orders above EGP 10,000 include one Home Fragrance gift. Orders above EGP 20,000 include two gifts.</div>`;
-  }
-  return `
-    <div class="gift-panel">
-      <p class="eyebrow">Gift Eligible</p>
-      <h4>${count === 1 ? "Choose Your Complimentary Gift" : "Choose Your Two Complimentary Gifts"}</h4>
-      ${Array.from({ length: count }).map((_, i) => `
-        <label>Gift ${i + 1}
-          <select data-gift-select>
-            <option value="">Select a gift</option>
-            ${giftOptions.map(gift => `<option value="${gift}">${gift}</option>`).join("")}
-          </select>
-        </label>
-      `).join("")}
-    </div>
-  `;
-}
-
 function recommendationsHtml() {
   return `
     <div class="cart-recommendations">
@@ -572,6 +543,7 @@ function renderBasket() {
   if (!state.basket.length) {
     basketItems.innerHTML = `<p class="spec">Your Basket Is Empty.</p>`;
     subtotal.textContent = formatPrice(0);
+    renderOrderReview();
     return;
   }
   const total = basketTotal();
@@ -598,8 +570,9 @@ function renderBasket() {
         </div>
       `).join("")}
     </section>
-  `).join("") + giftPanelHtml(total) + recommendationsHtml();
+  `).join("") + recommendationsHtml();
   subtotal.textContent = formatPrice(total);
+  renderOrderReview();
   basketItems.querySelectorAll("[data-line-down]").forEach(button => button.addEventListener("click", () => {
     const item = state.basket[Number(button.dataset.lineDown)];
     item.qty = Math.max(1, item.qty - 1);
@@ -617,6 +590,41 @@ function renderBasket() {
     const product = products.find(item => item.id === button.dataset.inquiryProduct);
     if (product) openProductInquiry(product, { scentIndex: 0 });
   }));
+}
+
+function reviewLineHtml(item) {
+  return `
+    <div class="review-line">
+      <img src="${item.image}" alt="" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'basket-thumb-fallback'}))">
+      <div>
+        <h4>${item.name}</h4>
+        <p>${[item.category, item.color || item.option, item.size || item.variant].filter(Boolean).join(" · ")}</p>
+        <div class="review-line-meta">
+          <span>Qty ${item.qty}</span>
+          <span>${formatPrice(item.price)} Each</span>
+          <strong>${formatPrice(item.price * item.qty)}</strong>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderOrderReview() {
+  if (!reviewItems || !reviewSubtotal) return;
+  if (!state.basket.length) {
+    reviewItems.innerHTML = `<p class="spec">Your Basket Is Empty.</p>`;
+    reviewSubtotal.textContent = formatPrice(0);
+    if (!pendingConfirmationNumber) orderConfirmation?.classList.add("hidden");
+    return;
+  }
+  const groups = [...new Set(state.basket.map(item => item.category || "Products"))];
+  reviewItems.innerHTML = groups.map(group => `
+    <section class="review-group">
+      <h4>${group}</h4>
+      ${state.basket.filter(item => (item.category || "Products") === group).map(reviewLineHtml).join("")}
+    </section>
+  `).join("");
+  reviewSubtotal.textContent = formatPrice(basketTotal());
 }
 
 function customerDetails() {
@@ -664,8 +672,7 @@ function orderLine(item, index) {
 function buildWhatsAppMessage() {
   const customer = customerDetails();
   const total = basketTotal();
-  const gifts = selectedGifts();
-  const confirmation = orderNumber();
+  const confirmation = pendingConfirmationNumber || orderNumber();
   return [
     "🛒 Home of Linen - New Order",
     "",
@@ -682,7 +689,6 @@ function buildWhatsAppMessage() {
     state.basket.map(orderLine).join("\n\n"),
     "",
     `Grand Total: ${plainPrice(total)}`,
-    gifts.length ? `Complimentary Gift${gifts.length > 1 ? "s" : ""}: ${gifts.join(", ")}` : "",
     "",
     "Thank you for choosing Home of Linen. We will confirm your order details shortly."
   ].join("\n");
@@ -702,42 +708,50 @@ function openProductInquiry(product, selections = {}) {
 }
 
 function openWhatsAppOrder() {
-  const customer = customerDetails();
   if (!state.basket.length) {
     showToast("Please add at least one item to the basket.");
     return;
   }
-  if (customerFields.classList.contains("hidden")) {
-    customerFields.classList.remove("hidden");
-    customerName.focus();
-    showToast("Please add your delivery details.");
+  pendingConfirmationNumber = "";
+  orderConfirmation.classList.add("hidden");
+  renderOrderReview();
+  closeDrawer();
+  orderReview.classList.remove("hidden");
+  history.replaceState(null, "", "#order-review");
+  const headerHeight = document.querySelector(".site-header").getBoundingClientRect().height;
+  const top = orderReview.getBoundingClientRect().top + window.scrollY - headerHeight - 14;
+  window.scrollTo({ top, behavior: "smooth" });
+}
+
+function confirmWhatsAppOrder() {
+  const customer = customerDetails();
+  if (!state.basket.length) {
+    showToast("Your basket is empty.");
     return;
   }
   if (!customer.name || !customer.phone || !customer.address) {
-    customerFields.classList.remove("hidden");
     showToast("Please add your name, phone, and address.");
+    customerName.focus();
     return;
   }
   const validationMessage = validateCustomer(customer);
   if (validationMessage) {
-    customerFields.classList.remove("hidden");
     showToast(validationMessage);
     return;
   }
-  const giftsRequired = eligibleGiftCount();
-  if (giftsRequired && selectedGifts().length < giftsRequired) {
-    showToast("Please choose your complimentary gift before WhatsApp checkout.");
-    return;
-  }
   saveCustomerDetails();
+  pendingConfirmationNumber = orderNumber();
   const message = encodeURIComponent(buildWhatsAppMessage());
   const whatsappUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${message}`;
+  orderConfirmation.innerHTML = `
+    <strong>Thank you for your order.</strong>
+    <span>Your confirmation number is ${pendingConfirmationNumber}. WhatsApp will open now with your order ready to send.</span>
+  `;
+  orderConfirmation.classList.remove("hidden");
   window.open(whatsappUrl, "_blank", "noopener");
   state.basket = [];
   saveBasket();
-  closeDrawer();
-  customerFields.classList.add("hidden");
-  showToast("Thank you. Your WhatsApp order is ready, and your basket has been reset.");
+  showToast(`Thank you. Your confirmation number is ${pendingConfirmationNumber}.`);
 }
 
 function showToast(message) {
@@ -769,6 +783,11 @@ document.addEventListener("keydown", e => {
   if (e.key === "Escape") closeDrawer();
 });
 document.querySelector("#checkout").addEventListener("click", openWhatsAppOrder);
+document.querySelector("#confirmOrder").addEventListener("click", confirmWhatsAppOrder);
+document.querySelector("#editBasket").addEventListener("click", () => {
+  basketDrawer.classList.add("open");
+  basketDrawer.setAttribute("aria-hidden", "false");
+});
 [customerName, customerPhone, customerAddress].forEach(field => {
   field.addEventListener("input", saveCustomerDetails);
 });

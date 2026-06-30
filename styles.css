@@ -27,6 +27,8 @@ body {
 
 button, select, input, textarea { font: inherit; }
 
+.hidden { display: none !important; }
+
 .site-header {
   position: sticky;
   top: 0;
@@ -92,6 +94,155 @@ button, select, input, textarea { font: inherit; }
   overflow: hidden;
   border-bottom: 1px solid var(--line);
   background: var(--taupe);
+}
+
+.order-review {
+  margin: clamp(26px, 5vw, 60px) clamp(18px, 4vw, 54px);
+  padding: clamp(22px, 4vw, 42px);
+  border: 1px solid var(--line);
+  border-radius: 30px;
+  background: rgba(255, 253, 248, .78);
+  box-shadow: var(--shadow);
+}
+
+.order-review-head {
+  max-width: 760px;
+  margin-bottom: 24px;
+}
+
+.order-review-head h2 {
+  margin: 0 0 8px;
+  font-size: clamp(2.8rem, 6vw, 5.4rem);
+  line-height: .92;
+  font-weight: 400;
+}
+
+.order-review-head p:last-child {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+  font-size: 1rem;
+}
+
+.order-review-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(320px, .8fr);
+  gap: 22px;
+  align-items: start;
+}
+
+.order-summary-card,
+.order-details-card {
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: var(--paper);
+  padding: clamp(18px, 3vw, 26px);
+}
+
+.order-summary-card h3,
+.order-details-card h3 {
+  margin: 0;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 400;
+}
+
+.order-summary-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.text-button {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.review-group {
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+  margin-top: 12px;
+}
+
+.review-group > h4 {
+  margin: 0 0 8px;
+  font-family: var(--brand-sans);
+  font-size: .78rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.review-line {
+  display: grid;
+  grid-template-columns: 86px 1fr;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.review-line img {
+  width: 86px;
+  height: 106px;
+  object-fit: cover;
+  border-radius: 16px;
+  background: #eee2d1;
+}
+
+.review-line h4 {
+  margin: 0 0 5px;
+  font-size: 1.05rem;
+}
+
+.review-line p {
+  margin: 0 0 10px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.review-line-meta,
+.review-total {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--muted);
+}
+
+.review-line-meta strong,
+.review-total strong {
+  color: var(--ink);
+}
+
+.review-total {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  font-size: 1.2rem;
+}
+
+.order-details-card {
+  display: grid;
+  gap: 14px;
+}
+
+.order-confirmation {
+  display: grid;
+  gap: 6px;
+  padding: 14px;
+  border: 1px solid rgba(169, 135, 86, .45);
+  border-radius: 18px;
+  background: rgba(250, 246, 239, .82);
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.order-confirmation strong {
+  color: var(--ink);
 }
 
 .hero-image {
@@ -475,33 +626,12 @@ select {
   color: var(--gold);
 }
 
-.gift-panel,
 .cart-recommendations {
   margin-top: 14px;
   padding: 14px;
   border: 1px solid var(--line);
   border-radius: 20px;
   background: rgba(250, 246, 239, .72);
-}
-
-.gift-panel h4 {
-  margin: 0 0 10px;
-  font-size: 1rem;
-}
-
-.gift-panel label {
-  display: grid;
-  gap: 6px;
-  margin-top: 8px;
-  color: var(--ink);
-  font-size: .82rem;
-  font-weight: 800;
-}
-
-.muted-gift {
-  color: var(--muted);
-  font-size: .88rem;
-  line-height: 1.5;
 }
 
 .cart-recommendations > div {
@@ -649,6 +779,30 @@ select {
     width: 100%;
     aspect-ratio: 16 / 10;
     height: auto;
+  }
+  .order-review {
+    margin: 20px 14px 34px;
+    padding: 18px;
+    border-radius: 24px;
+  }
+  .order-review-layout {
+    grid-template-columns: 1fr;
+  }
+  .order-summary-title {
+    align-items: flex-start;
+  }
+  .review-line {
+    grid-template-columns: 64px 1fr;
+    gap: 12px;
+  }
+  .review-line img {
+    width: 64px;
+    height: 82px;
+  }
+  .review-line-meta,
+  .review-total {
+    display: grid;
+    justify-content: stretch;
   }
   .card { display: flex; flex-direction: column; }
   .image-wrap { min-height: 0; aspect-ratio: 1 / 1; }
