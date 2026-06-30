@@ -56,6 +56,8 @@ window.HOL_PRODUCTS = {
       description: "A Complete Percale TC300 Duvet Cover Set With Two Matching Pillowcases, Designed To Create A Soft, Breathable And Beautifully Layered Bed. The Look Is Calm And Hotel-Inspired, With The Natural Freshness Of Egyptian Cotton For Everyday Comfort.",
       fabricBased: true,
       heroBase: "duvet",
+      setToggle: true,
+      singleDiscount: 420,
       sizes: [
         { label: "185 × 255 cm", percale: 1970 },
         { label: "245 × 255 cm", percale: 2675 }
@@ -70,6 +72,8 @@ window.HOL_PRODUCTS = {
       fabricBased: true,
       heroBase: "fitted",
       sizeLabel: "Mattress Size",
+      setToggle: true,
+      singleDiscount: 420,
       sizes: [
         { label: "100 × 200 cm + 30 cm Mattress Depth", percale: 1300 },
         { label: "120 × 200 cm + 30 cm Mattress Depth", percale: 1400 },
@@ -87,6 +91,8 @@ window.HOL_PRODUCTS = {
       fabricBased: true,
       heroBase: "flat",
       sizeLabel: "Sheet Size",
+      setToggle: true,
+      singleDiscount: 420,
       sizes: [
         { label: "180 × 260 cm", percale: 1350 },
         { label: "260 × 260 cm", percale: 1850 }

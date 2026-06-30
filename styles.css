@@ -120,7 +120,7 @@ button, select, input, textarea { font: inherit; }
 
 .category-head {
   display: grid;
-  grid-template-columns: 1fr minmax(280px, 480px);
+  grid-template-columns: 1fr minmax(320px, 520px);
   align-items: stretch;
   gap: 18px;
   margin-bottom: 26px;
@@ -130,9 +130,10 @@ button, select, input, textarea { font: inherit; }
 
 .category h2 {
   font-family: var(--brand-serif);
-  font-size: clamp(3.2rem, 7vw, 6.8rem);
+  font-size: clamp(3.1rem, 6.3vw, 6rem);
   font-weight: 400;
   letter-spacing: -.045em;
+  line-height: .9;
 }
 .category-head p {
   color: var(--muted);
@@ -140,6 +141,7 @@ button, select, input, textarea { font: inherit; }
   line-height: 1.7;
   font-size: clamp(1.05rem, 1.5vw, 1.28rem);
   font-weight: 400;
+  margin: 18px 0 0;
 }
 .category-head img {
   width: 100%;
@@ -148,8 +150,8 @@ button, select, input, textarea { font: inherit; }
   object-fit: cover;
   object-position: center;
   border-radius: 26px;
-  border: 1px solid var(--line);
-  box-shadow: 0 16px 48px rgba(47,42,37,.08);
+  border: 0;
+  box-shadow: 0 18px 50px rgba(47,42,37,.07);
 }
 
 .grid {

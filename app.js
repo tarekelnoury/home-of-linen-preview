@@ -110,7 +110,8 @@ function setImage(container, src, alt) {
 function productPrice(product, selections) {
   if (product.noPrice) return null;
   if (product.fabricBased) {
-    return product.sizes[selections.sizeIndex][selections.fabric];
+    const setPrice = product.sizes[selections.sizeIndex][selections.fabric];
+    return selections.bundleType === "single" ? Math.max(0, setPrice - (product.singleDiscount || 0)) : setPrice;
   }
   if (product.matrix) {
     const variant = product.matrix.variants[selections.variantIndex];
@@ -122,12 +123,14 @@ function productPrice(product, selections) {
 function productDescriptor(product, selections) {
   if (product.fabricBased) {
     const size = product.sizes[selections.sizeIndex].label;
+    const bundleLabel = product.setToggle && selections.bundleType === "single" ? "Single Item" : product.setToggle ? "Set With 2 Pillowcases" : "";
     return {
       fabric: fabrics[selections.fabric].label,
       option: selections.optionName,
       color: selections.optionName,
       size,
-      variant: `${fabrics[selections.fabric].label} · ${size}`
+      bundle: bundleLabel,
+      variant: [bundleLabel, fabrics[selections.fabric].label, size].filter(Boolean).join(" · ")
     };
   }
   if (product.matrix) {
@@ -249,6 +252,7 @@ function activateCard(product) {
     optionName: fabrics.percale.options[0].name,
     colorName: (product.colors || towelColors)[0]?.name || "",
     scentIndex: 0,
+    bundleType: product.setToggle ? "set" : "",
     sizeIndex: 0,
     variantIndex: 0,
     matrixSize: product.matrix ? Object.keys(product.matrix.variants[0].prices)[0] : "",
@@ -264,6 +268,12 @@ function activateCard(product) {
       }
       const fabric = fabrics[selections.fabric];
       controls.innerHTML = `
+        ${product.setToggle ? `
+          <div class="toggle bundle-toggle" role="tablist" aria-label="Set or single item">
+            <button type="button" class="${selections.bundleType === "set" ? "active" : ""}" data-bundle="set">Set</button>
+            <button type="button" class="${selections.bundleType === "single" ? "active" : ""}" data-bundle="single">Single Item</button>
+          </div>
+        ` : ``}
         ${availableFabrics.length > 1 ? `
           <div class="toggle" role="tablist" aria-label="Fabric">
             ${availableFabrics.map(([key, f]) => `<button type="button" class="${key === selections.fabric ? "active" : ""}" data-fabric="${key}">${f.label}</button>`).join("")}
@@ -287,6 +297,11 @@ function activateCard(product) {
         </div>
       `;
       mobileControls.innerHTML = controls.innerHTML;
+      controls.querySelectorAll("[data-bundle]").forEach(button => button.addEventListener("click", () => {
+        selections.bundleType = button.dataset.bundle;
+        renderControls();
+        update();
+      }));
       controls.querySelectorAll("[data-fabric]").forEach(button => button.addEventListener("click", () => {
         selections.fabric = button.dataset.fabric;
         selections.optionName = fabrics[selections.fabric].options[0].name;
@@ -305,6 +320,11 @@ function activateCard(product) {
       mobileControls.querySelectorAll("[data-fabric]").forEach(button => button.addEventListener("click", () => {
         selections.fabric = button.dataset.fabric;
         selections.optionName = fabrics[selections.fabric].options[0].name;
+        renderControls();
+        update();
+      }));
+      mobileControls.querySelectorAll("[data-bundle]").forEach(button => button.addEventListener("click", () => {
+        selections.bundleType = button.dataset.bundle;
         renderControls();
         update();
       }));
@@ -446,7 +466,8 @@ function activateCard(product) {
     const img = imageFor(product, selections.fabric, selections.optionName, selections.colorName);
     setImage(image, img, `${product.name} ${product.fabricBased ? fabrics[selections.fabric].label : selections.colorName}`);
     const scent = scents[selections.scentIndex] || scents[0];
-    spec.textContent = product.fabricBased ? `${product.includes} · ${fabrics[selections.fabric].spec}` : product.colorBased ? `${product.includes} · ${selections.colorName}` : product.fragranceBased ? `${product.includes} · ${scent.name}` : product.includes;
+    const bundleSpec = product.setToggle && selections.bundleType === "single" ? "Single Item" : product.includes;
+    spec.textContent = product.fabricBased ? `${bundleSpec} · ${fabrics[selections.fabric].spec}` : product.colorBased ? `${product.includes} · ${selections.colorName}` : product.fragranceBased ? `${product.includes} · ${scent.name}` : product.includes;
     if (descriptionEl) descriptionEl.textContent = currentDescription(product, selections);
     const price = productPrice(product, selections);
     priceEl.textContent = price === null ? "" : formatPrice(price);
@@ -468,7 +489,7 @@ function activateCard(product) {
     }
     const descriptor = productDescriptor(product, selections);
     const item = {
-      key: `${product.id}|${descriptor.variant}|${descriptor.option}`,
+      key: `${product.id}|${descriptor.variant}|${descriptor.option}|${descriptor.bundle || ""}`,
       productId: product.id,
       name: product.name,
       category: product.category,
@@ -482,6 +503,8 @@ function activateCard(product) {
     else state.basket.push(item);
     saveBasket();
     showToast(`${product.name} added to basket`);
+    selections.qty = 1;
+    update();
   });
 
   renderControls();
