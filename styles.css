@@ -332,7 +332,7 @@ button, select, input, textarea { font: inherit; }
 
 .category h2 {
   font-family: var(--brand-serif);
-  font-size: clamp(2.45rem, 4.35vw, 4.15rem);
+  font-size: clamp(2.2rem, 3.85vw, 3.65rem);
   font-weight: 400;
   letter-spacing: -.04em;
   line-height: .96;
@@ -359,6 +359,16 @@ button, select, input, textarea { font: inherit; }
   border-radius: 26px;
   border: 0;
   box-shadow: 0 18px 50px rgba(47,42,37,.07);
+}
+
+.category-home-fragrance .category-head img {
+  aspect-ratio: auto;
+  object-fit: contain;
+  background: transparent;
+}
+
+.category-home-fragrance .category-head {
+  grid-template-columns: 1fr minmax(260px, 360px);
 }
 
 .grid {
@@ -817,7 +827,7 @@ select {
   .nav::-webkit-scrollbar { display: none; }
   .nav a { white-space: nowrap; font-size: .68rem; }
   .category h2 {
-    font-size: clamp(2.35rem, 11vw, 3.45rem);
+    font-size: clamp(2.15rem, 9.5vw, 3.1rem);
   }
   .category-head { display: block; }
   .category {
@@ -829,6 +839,9 @@ select {
     width: 100%;
     aspect-ratio: 16 / 10;
     height: auto;
+  }
+  .category-home-fragrance .category-head img {
+    aspect-ratio: auto;
   }
   .order-review {
     margin: 20px 14px 34px;
