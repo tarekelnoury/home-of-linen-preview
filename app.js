@@ -1,4 +1,4 @@
-const { products, fabrics, towelColors = [] } = window.HOL_PRODUCTS;
+const { products, fabrics, towelColors = [], scents = [] } = window.HOL_PRODUCTS;
 const money = new Intl.NumberFormat("en-EG", { style: "currency", currency: "EGP", maximumFractionDigits: 0 });
 const state = { basket: JSON.parse(localStorage.getItem("holBasket") || "[]") };
 
@@ -13,6 +13,7 @@ const customerPhone = document.querySelector("#customerPhone");
 const customerAddress = document.querySelector("#customerAddress");
 const customerFields = document.querySelector("#customerFields");
 const WHATSAPP_PHONE = "201004333340";
+const giftOptions = ["Linen & Pillow Mist", "Reed Diffuser", "Scented Candle", "Room Spray"];
 
 const savedCustomer = JSON.parse(localStorage.getItem("holCustomer") || "{}");
 customerName.value = savedCustomer.name || "";
@@ -25,9 +26,11 @@ const categoryCopy = {
   Pillowcases: "Crisp Percale Pillowcase Sets With A Clean Tailored Finish For Everyday Comfort.",
   "Flat Sheets": "Elegant Percale Flat Sheet Sets For A Boutique-Hotel Fold And A Light Breathable Layer.",
   Towels: "Plush 600 Gsm Egyptian Cotton Essentials For A Spa-Like Daily Ritual.",
+  "Summer Essentials": "Striped pool and beach towels for sunny days, resort weekends and relaxed summer lounging.",
   Pillows: "Soft, Medium And Firm Bed Pillows With A Clean Blended-Cotton Shell.",
   "Mattress Toppers": "Comfort Layers Designed To Refresh The Mattress And Elevate The Whole Bed.",
-  Comforters: "White Comforters For Airy Layering, Warmth And A Soft Finished Bed."
+  Comforters: "White Comforters For Airy Layering, Warmth And A Soft Finished Bed.",
+  "Home Fragrance": "Beautiful bedding deserves a beautiful scent. Discover warm, calm scents for every room."
 };
 
 const categoryHeroImages = {
@@ -36,9 +39,11 @@ const categoryHeroImages = {
   Pillowcases: "assets/images/pillowcases-hero.jpg",
   "Flat Sheets": "assets/images/flat-sheets-hero.jpg",
   Towels: "assets/images/towels-hero.jpg",
+  "Summer Essentials": "assets/pool-towels/large-pool-towel-yellow.jpg",
   Pillows: "assets/images/pillows-hero.jpg",
   "Mattress Toppers": "assets/images/mattress-toppers-hero.jpg",
-  Comforters: "assets/images/comforters-hero.jpg"
+  Comforters: "assets/images/comforters-hero.jpg",
+  "Home Fragrance": "assets/fragrance/home-fragrance-collection.jpg"
 };
 
 const categoryOrder = [
@@ -47,9 +52,11 @@ const categoryOrder = [
   "Flat Sheets",
   "Duvet Covers",
   "Towels",
+  "Summer Essentials",
   "Pillows",
   "Comforters",
-  "Mattress Toppers"
+  "Mattress Toppers",
+  "Home Fragrance"
 ];
 
 function sectionId(label) {
@@ -75,6 +82,7 @@ function imageFor(product, fabric = "percale", optionName = "", colorName = "") 
     if (color?.name === "White") return product.image;
     return color?.swatch || product.image;
   }
+  if (product.fragranceBased) return product.image;
   if (product.fabricBased) return imageFor(product, "percale", fabrics.percale.options[0].name);
   return product.image;
 }
@@ -100,6 +108,7 @@ function setImage(container, src, alt) {
 }
 
 function productPrice(product, selections) {
+  if (product.noPrice) return null;
   if (product.fabricBased) {
     return product.sizes[selections.sizeIndex][selections.fabric];
   }
@@ -139,6 +148,16 @@ function productDescriptor(product, selections) {
       variant: product.variants[selections.variantIndex].label
     };
   }
+  if (product.fragranceBased) {
+    const scent = scents[selections.scentIndex] || scents[0];
+    return {
+      fabric: "",
+      option: scent?.name || "",
+      color: scent?.name || "",
+      size: product.includes,
+      variant: scent?.name || product.includes
+    };
+  }
   return {
     fabric: "",
     option: "",
@@ -153,6 +172,10 @@ function fabricDetailHtml() {
 }
 
 function currentDescription(product, selections) {
+  if (product.fragranceBased) {
+    const scent = scents[selections.scentIndex] || scents[0];
+    return `${product.description} Scent: ${scent.name}. ${scent.mood} Notes include ${scent.notes.join(", ")}.`;
+  }
   if (product.matrix) {
     return product.matrix.variants[selections.variantIndex]?.description || product.description || "";
   }
@@ -181,11 +204,12 @@ function renderCatalog() {
     </section>
   `).join("");
   products.forEach(activateCard);
+  renderFabricGuide();
 }
 
 function cardTemplate(product) {
   return `
-    <article class="card" data-product="${product.id}">
+    <article class="card ${product.noPrice ? "no-price-card" : ""}" data-product="${product.id}">
       <div class="image-wrap" data-image></div>
       <div class="mobile-controls" data-mobile-controls></div>
       <div class="card-body">
@@ -204,7 +228,7 @@ function cardTemplate(product) {
               <button type="button" data-qty-up aria-label="Increase quantity">+</button>
             </div>
           </div>
-          <button class="add-button" type="button" data-add>Add to Basket</button>
+          <button class="add-button" type="button" data-add>${product.noPrice ? "Ask On WhatsApp" : "Add to Basket"}</button>
         </div>
         ${product.description ? `<p class="description" data-description>${product.description}</p>` : ""}
       </div>
@@ -225,6 +249,7 @@ function activateCard(product) {
     fabric: "percale",
     optionName: fabrics.percale.options[0].name,
     colorName: (product.colors || towelColors)[0]?.name || "",
+    scentIndex: 0,
     sizeIndex: 0,
     variantIndex: 0,
     matrixSize: product.matrix ? Object.keys(product.matrix.variants[0].prices)[0] : "",
@@ -255,7 +280,7 @@ function activateCard(product) {
         </div>
         ${fabricDetailHtml(selections.fabric, selections.optionName)}
         <div class="selectors">
-          <label>Size
+          <label>${product.sizeLabel || "Size"}
             <select data-size>
               ${product.sizes.map((s, i) => `<option value="${i}" ${i === selections.sizeIndex ? "selected" : ""}>${s.label}</option>`).join("")}
             </select>
@@ -305,7 +330,7 @@ function activateCard(product) {
           `).join("")}
         </div>
         <div class="selectors">
-          <label>Size
+          <label>${product.sizeLabel || "Size"}
             <select data-variant>
               ${product.variants.map((v, i) => `<option value="${i}" ${i === selections.variantIndex ? "selected" : ""}>${v.label}</option>`).join("")}
             </select>
@@ -329,6 +354,32 @@ function activateCard(product) {
       }));
       mobileControls.querySelector("[data-variant]").addEventListener("change", e => {
         selections.variantIndex = Number(e.target.value);
+        update();
+      });
+    } else if (product.fragranceBased) {
+      const fragranceScents = product.variants?.length ? product.variants : scents;
+      controls.innerHTML = `
+        <div class="selectors">
+          <label>Scent
+            <select data-scent>
+              ${fragranceScents.map((s, i) => `<option value="${i}" ${i === selections.scentIndex ? "selected" : ""}>${s.name || s.label}</option>`).join("")}
+            </select>
+          </label>
+        </div>
+        <div class="fragrance-notes">
+          ${(fragranceScents[selections.scentIndex]?.notes || []).map(note => `<span>${note}</span>`).join("")}
+        </div>
+        <p class="fabric-note">${fragranceScents[selections.scentIndex]?.mood || ""}</p>
+      `;
+      mobileControls.innerHTML = controls.innerHTML;
+      controls.querySelector("[data-scent]").addEventListener("change", e => {
+        selections.scentIndex = Number(e.target.value);
+        renderControls();
+        update();
+      });
+      mobileControls.querySelector("[data-scent]").addEventListener("change", e => {
+        selections.scentIndex = Number(e.target.value);
+        renderControls();
         update();
       });
     } else if (product.matrix) {
@@ -395,9 +446,11 @@ function activateCard(product) {
   function update() {
     const img = imageFor(product, selections.fabric, selections.optionName, selections.colorName);
     setImage(image, img, `${product.name} ${product.fabricBased ? fabrics[selections.fabric].label : selections.colorName}`);
-    spec.textContent = product.fabricBased ? `${product.includes} · ${fabrics[selections.fabric].spec}` : product.colorBased ? `${product.includes} · ${selections.colorName}` : product.includes;
+    const scent = scents[selections.scentIndex] || scents[0];
+    spec.textContent = product.fabricBased ? `${product.includes} · ${fabrics[selections.fabric].spec}` : product.colorBased ? `${product.includes} · ${selections.colorName}` : product.fragranceBased ? `${product.includes} · ${scent.name}` : product.includes;
     if (descriptionEl) descriptionEl.textContent = currentDescription(product, selections);
-    priceEl.textContent = formatPrice(productPrice(product, selections));
+    const price = productPrice(product, selections);
+    priceEl.textContent = price === null ? "" : formatPrice(price);
     qtyEl.textContent = selections.qty;
   }
 
@@ -410,6 +463,10 @@ function activateCard(product) {
     update();
   });
   card.querySelector("[data-add]").addEventListener("click", () => {
+    if (product.noPrice) {
+      openProductInquiry(product, selections);
+      return;
+    }
     const descriptor = productDescriptor(product, selections);
     const item = {
       key: `${product.id}|${descriptor.variant}|${descriptor.option}`,
@@ -432,9 +489,85 @@ function activateCard(product) {
   update();
 }
 
+function renderFabricGuide() {
+  const existing = document.querySelector("#fabric-guide");
+  if (existing) return;
+  catalog.insertAdjacentHTML("beforebegin", `
+    <section class="fabric-guide" id="fabric-guide">
+      <div>
+        <p class="eyebrow">Fabric Guide</p>
+        <h2>Percale or Sateen?</h2>
+        <p>Two beautiful Egyptian cotton weaves, each with its own mood. Percale feels crisp, cool and matte. Sateen feels smoother, silkier and slightly more luminous.</p>
+      </div>
+      <div class="weave-grid">
+        <article>
+          <span>01</span>
+          <h3>Percale</h3>
+          <p>Crisp, breathable and hotel-fresh with a clean matte finish. Best for customers who love a cool, airy bed.</p>
+        </article>
+        <article>
+          <span>02</span>
+          <h3>Sateen</h3>
+          <p>Smooth, softly draped and elegant with a subtle sheen. Best for customers who prefer a silkier, warmer touch.</p>
+        </article>
+      </div>
+    </section>
+  `);
+}
+
 function saveBasket() {
   localStorage.setItem("holBasket", JSON.stringify(state.basket));
   renderBasket();
+}
+
+function basketTotal() {
+  return state.basket.reduce((sum, item) => sum + item.price * item.qty, 0);
+}
+
+function eligibleGiftCount(total = basketTotal()) {
+  if (total >= 20000) return 2;
+  if (total >= 10000) return 1;
+  return 0;
+}
+
+function selectedGifts() {
+  return Array.from(document.querySelectorAll("[data-gift-select]"))
+    .map(select => select.value)
+    .filter(Boolean);
+}
+
+function giftPanelHtml(total) {
+  const count = eligibleGiftCount(total);
+  if (!count) {
+    return `<div class="gift-panel muted-gift">Orders above EGP 10,000 include one Home Fragrance gift. Orders above EGP 20,000 include two gifts.</div>`;
+  }
+  return `
+    <div class="gift-panel">
+      <p class="eyebrow">Gift Eligible</p>
+      <h4>${count === 1 ? "Choose Your Complimentary Gift" : "Choose Your Two Complimentary Gifts"}</h4>
+      ${Array.from({ length: count }).map((_, i) => `
+        <label>Gift ${i + 1}
+          <select data-gift-select>
+            <option value="">Select a gift</option>
+            ${giftOptions.map(gift => `<option value="${gift}">${gift}</option>`).join("")}
+          </select>
+        </label>
+      `).join("")}
+    </div>
+  `;
+}
+
+function recommendationsHtml() {
+  return `
+    <div class="cart-recommendations">
+      <p class="eyebrow">You May Also Love</p>
+      <div>
+        <button type="button" data-inquiry-product="linen-pillow-mist">Linen Mist</button>
+        <button type="button" data-inquiry-product="scented-candle">Candle</button>
+        <button type="button" data-inquiry-product="reed-diffuser">Diffuser</button>
+      </div>
+    </div>
+  `;
 }
 
 function renderBasket() {
@@ -445,25 +578,32 @@ function renderBasket() {
     subtotal.textContent = formatPrice(0);
     return;
   }
-  basketItems.innerHTML = state.basket.map((item, index) => `
-    <div class="basket-line">
-      <img src="${item.image}" alt="" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'basket-thumb-fallback'}))">
-      <div>
-        <h4>${item.name}</h4>
-        <p>${[item.fabric, item.option, item.variant].filter(Boolean).join(" · ")}</p>
-        <div class="line-actions">
-          <div class="qty">
-            <button type="button" data-line-down="${index}" aria-label="Decrease ${item.name}">−</button>
-            <span>${item.qty}</span>
-            <button type="button" data-line-up="${index}" aria-label="Increase ${item.name}">+</button>
+  const total = basketTotal();
+  const groups = [...new Set(state.basket.map(item => item.category || "Products"))];
+  basketItems.innerHTML = groups.map(group => `
+    <section class="basket-group">
+      <h3>${group}</h3>
+      ${state.basket.map((item, index) => ({ item, index })).filter(({ item }) => (item.category || "Products") === group).map(({ item, index }) => `
+        <div class="basket-line">
+          <img src="${item.image}" alt="" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'basket-thumb-fallback'}))">
+          <div>
+            <h4>${item.name}</h4>
+            <p>${[item.fabric, item.option, item.variant].filter(Boolean).join(" · ")}</p>
+            <div class="line-actions">
+              <div class="qty">
+                <button type="button" data-line-down="${index}" aria-label="Decrease ${item.name}">−</button>
+                <span>${item.qty}</span>
+                <button type="button" data-line-up="${index}" aria-label="Increase ${item.name}">+</button>
+              </div>
+              <strong>${formatPrice(item.price * item.qty)}</strong>
+            </div>
+            <button class="remove" type="button" data-remove="${index}">Remove</button>
           </div>
-          <strong>${formatPrice(item.price * item.qty)}</strong>
         </div>
-        <button class="remove" type="button" data-remove="${index}">Remove</button>
-      </div>
-    </div>
-  `).join("");
-  subtotal.textContent = formatPrice(state.basket.reduce((sum, item) => sum + item.price * item.qty, 0));
+      `).join("")}
+    </section>
+  `).join("") + giftPanelHtml(total) + recommendationsHtml();
+  subtotal.textContent = formatPrice(total);
   basketItems.querySelectorAll("[data-line-down]").forEach(button => button.addEventListener("click", () => {
     const item = state.basket[Number(button.dataset.lineDown)];
     item.qty = Math.max(1, item.qty - 1);
@@ -477,6 +617,10 @@ function renderBasket() {
     state.basket.splice(Number(button.dataset.remove), 1);
     saveBasket();
   }));
+  basketItems.querySelectorAll("[data-inquiry-product]").forEach(button => button.addEventListener("click", () => {
+    const product = products.find(item => item.id === button.dataset.inquiryProduct);
+    if (product) openProductInquiry(product, { scentIndex: 0 });
+  }));
 }
 
 function customerDetails() {
@@ -489,6 +633,21 @@ function customerDetails() {
 
 function saveCustomerDetails() {
   localStorage.setItem("holCustomer", JSON.stringify(customerDetails()));
+}
+
+function validateCustomer(customer) {
+  const nameParts = customer.name.split(/\s+/).filter(Boolean);
+  if (nameParts.length < 2) return "Please enter your first and last name.";
+  if (!/^[+\d\s()-]{8,}$/.test(customer.phone)) return "Please enter a valid mobile number.";
+  if (customer.address.length < 18 || !/\d/.test(customer.address)) return "Please enter a complete delivery address with building or street number.";
+  return "";
+}
+
+function orderNumber() {
+  const stamp = new Date();
+  const date = stamp.toISOString().slice(0, 10).replaceAll("-", "");
+  const random = Math.random().toString(36).slice(2, 6).toUpperCase();
+  return `HOL-${date}-${random}`;
 }
 
 function orderLine(item, index) {
@@ -508,9 +667,13 @@ function orderLine(item, index) {
 
 function buildWhatsAppMessage() {
   const customer = customerDetails();
-  const total = state.basket.reduce((sum, item) => sum + item.price * item.qty, 0);
+  const total = basketTotal();
+  const gifts = selectedGifts();
+  const confirmation = orderNumber();
   return [
     "🛒 Home of Linen - New Order",
+    "",
+    `Order Confirmation Number: ${confirmation}`,
     "",
     "Customer Information",
     "",
@@ -522,8 +685,24 @@ function buildWhatsAppMessage() {
     "",
     state.basket.map(orderLine).join("\n\n"),
     "",
-    `Grand Total: ${plainPrice(total)}`
+    `Grand Total: ${plainPrice(total)}`,
+    gifts.length ? `Complimentary Gift${gifts.length > 1 ? "s" : ""}: ${gifts.join(", ")}` : "",
+    "",
+    "Thank you for choosing Home of Linen. We will confirm your order details shortly."
   ].join("\n");
+}
+
+function openProductInquiry(product, selections = {}) {
+  const scent = scents[selections.scentIndex || 0]?.name || "";
+  const message = encodeURIComponent([
+    "Hello Home of Linen,",
+    "",
+    `I would like to ask about: ${product.name}`,
+    scent ? `Scent: ${scent}` : "",
+    "",
+    "Please send me the available price and details."
+  ].filter(Boolean).join("\n"));
+  window.open(`https://wa.me/${WHATSAPP_PHONE}?text=${message}`, "_blank", "noopener");
 }
 
 function openWhatsAppOrder() {
@@ -543,10 +722,26 @@ function openWhatsAppOrder() {
     showToast("Please add your name, phone, and address.");
     return;
   }
+  const validationMessage = validateCustomer(customer);
+  if (validationMessage) {
+    customerFields.classList.remove("hidden");
+    showToast(validationMessage);
+    return;
+  }
+  const giftsRequired = eligibleGiftCount();
+  if (giftsRequired && selectedGifts().length < giftsRequired) {
+    showToast("Please choose your complimentary gift before WhatsApp checkout.");
+    return;
+  }
   saveCustomerDetails();
   const message = encodeURIComponent(buildWhatsAppMessage());
   const whatsappUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${message}`;
   window.open(whatsappUrl, "_blank", "noopener");
+  state.basket = [];
+  saveBasket();
+  closeDrawer();
+  customerFields.classList.add("hidden");
+  showToast("Thank you. Your WhatsApp order is ready, and your basket has been reset.");
 }
 
 function showToast(message) {
@@ -559,7 +754,7 @@ document.querySelector("#openBasket").addEventListener("click", () => {
   basketDrawer.classList.add("open");
   basketDrawer.setAttribute("aria-hidden", "false");
 });
-document.querySelectorAll(".nav a, .hero-cta").forEach(link => {
+document.querySelectorAll(".nav a, .hero-cta, .seo-links a").forEach(link => {
   link.addEventListener("click", event => {
     const targetId = link.getAttribute("href")?.slice(1);
     const target = targetId ? document.getElementById(targetId) : null;

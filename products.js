@@ -31,6 +31,12 @@ window.HOL_PRODUCTS = {
     { name: "Mint", swatch: "assets/towel-colors/mint.jpg", sourceSlug: "mint" },
     { name: "Rose", swatch: "assets/towel-colors/rose.jpg", sourceSlug: "rose" }
   ],
+  scents: [
+    { name: "Fresh Linen", mood: "Freshly washed Egyptian cotton.", notes: ["White Musk", "Soft Cotton", "Powder", "Light Amber"] },
+    { name: "Soft Slumber", mood: "A relaxing evening scent.", notes: ["Lavender", "White Musk", "Vanilla", "Cashmere"] },
+    { name: "Morning Light", mood: "Bright, clean and uplifting.", notes: ["Bergamot", "Neroli", "Green Tea", "White Woods"] },
+    { name: "Quiet Evening", mood: "Warm, sophisticated and quietly luxurious.", notes: ["Sandalwood", "Cedarwood", "Amber", "Tonka Bean"] }
+  ],
   products: [
     {
       id: "pillowcase-set",
@@ -63,12 +69,13 @@ window.HOL_PRODUCTS = {
       description: "A Smooth Percale TC300 Fitted Sheet Set With Two Matching Pillowcases, Tailored To Sit Securely Around The Mattress And Keep The Bed Looking Fresh. Crisp, Matte And Breathable, It Gives The Room A Clean Egyptian Cotton Finish Without Feeling Overstyled.",
       fabricBased: true,
       heroBase: "fitted",
+      sizeLabel: "Mattress Size",
       sizes: [
-        { label: "100 × 200 cm", percale: 1300 },
-        { label: "120 × 200 cm", percale: 1400 },
-        { label: "160 × 200 cm", percale: 1580 },
-        { label: "180 × 200 cm", percale: 1750 },
-        { label: "200 × 200 cm", percale: 1900 }
+        { label: "100 × 200 cm + 30 cm Mattress Depth", percale: 1300 },
+        { label: "120 × 200 cm + 30 cm Mattress Depth", percale: 1400 },
+        { label: "160 × 200 cm + 30 cm Mattress Depth", percale: 1580 },
+        { label: "180 × 200 cm + 30 cm Mattress Depth", percale: 1750 },
+        { label: "200 × 200 cm + 30 cm Mattress Depth", percale: 1900 }
       ]
     },
     {
@@ -79,6 +86,7 @@ window.HOL_PRODUCTS = {
       description: "A Refined Percale TC300 Flat Sheet Set With Two Matching Pillowcases, Perfect As A Light Top-Sheet Layer For A Neatly Folded Boutique-Hotel Bed. It Adds Breathability, Polish And An Elegant Finish Between The Sleeper And The Duvet.",
       fabricBased: true,
       heroBase: "flat",
+      sizeLabel: "Sheet Size",
       sizes: [
         { label: "180 × 260 cm", percale: 1350 },
         { label: "260 × 260 cm", percale: 1850 }
@@ -126,7 +134,7 @@ window.HOL_PRODUCTS = {
     },
     {
       id: "large-pool-towel",
-      category: "Towels",
+      category: "Summer Essentials",
       name: "Large Pool Towel",
       includes: "Striped Pool Towel",
       description: "A generous striped pool towel made for sunny days by the pool, beach weekends and relaxed summer lounging. Soft, absorbent and bold enough to bring a fresh resort feel to the outdoor setup.",
@@ -135,6 +143,20 @@ window.HOL_PRODUCTS = {
       colors: [
         { name: "Yellow", value: "#E8A900", image: "assets/pool-towels/large-pool-towel-yellow.jpg" },
         { name: "Blue", value: "#1F5F97", image: "assets/pool-towels/large-pool-towel-blue.jpg" }
+      ],
+      variants: [{ label: "100 × 190 cm", price: 650 }]
+    },
+    {
+      id: "beach-towel",
+      category: "Summer Essentials",
+      name: "Beach Towel",
+      includes: "Striped Summer Towel",
+      description: "A bright summer towel for beach bags, pool days and relaxed outdoor escapes. The striped design keeps the look fresh and resort-inspired while staying practical, absorbent and easy to style.",
+      image: "assets/pool-towels/large-pool-towel-blue.jpg",
+      colorBased: true,
+      colors: [
+        { name: "Blue Stripe", value: "#1F5F97", image: "assets/pool-towels/large-pool-towel-blue.jpg" },
+        { name: "Yellow Stripe", value: "#E8A900", image: "assets/pool-towels/large-pool-towel-yellow.jpg" }
       ],
       variants: [{ label: "100 × 190 cm", price: 650 }]
     },
@@ -197,6 +219,72 @@ window.HOL_PRODUCTS = {
           { label: "Winter", description: "Winter Is The Warmer Comforter Option, Made With A Fuller Feel For Cooler Nights And Customers Who Prefer Extra Coziness. It Creates A Plush, Inviting Bed With A More Substantial Layer.", prices: { "180 × 240 cm": 1650, "240 × 250 cm": 1850 } }
         ]
       }
+    },
+    {
+      id: "linen-pillow-mist",
+      category: "Home Fragrance",
+      name: "Linen & Pillow Mist",
+      includes: "150 ml Fine Mist Spray",
+      description: "A light, elegant mist designed to refresh bed sheets, pillowcases, duvet covers and washable bedroom fabrics before sleeping. It creates a calm bedroom atmosphere with a fine, delicate application and a bottle designed to sit beautifully beside your linen.",
+      image: "assets/fragrance/linen-pillow-mist.jpg",
+      fragranceBased: true,
+      noPrice: true,
+      variants: []
+    },
+    {
+      id: "reed-diffuser",
+      category: "Home Fragrance",
+      name: "Reed Diffuser",
+      includes: "100 ml Diffuser Bottle + Fibre Reeds + Premium Carton",
+      description: "A continuous home fragrance piece for bedrooms, bathrooms, entrances and living rooms. The diffuser scents the room effortlessly while adding a warm, minimal decorative object to modern interiors.",
+      image: "assets/fragrance/home-fragrance-collection.jpg",
+      fragranceBased: true,
+      noPrice: true,
+      variants: []
+    },
+    {
+      id: "scented-candle",
+      category: "Home Fragrance",
+      name: "Scented Candle",
+      includes: "Approx. 220–250 g Premium Candle",
+      description: "A premium scented candle created for slow, calming rituals and a warm bedroom ambience. The clean glass vessel feels refined on a bedside table, vanity or tray, making the candle both a fragrance piece and a decorative object.",
+      image: "assets/fragrance/scented-candle.jpg",
+      fragranceBased: true,
+      noPrice: true,
+      variants: []
+    },
+    {
+      id: "room-spray",
+      category: "Home Fragrance",
+      name: "Room Spray",
+      includes: "150 ml Room Spray",
+      description: "An immediate room refresh for bedrooms, living rooms, bathrooms and entrances. The elegant bottle delivers a clean fragrance moment throughout the home and is intended for the air and room atmosphere.",
+      image: "assets/fragrance/home-fragrance-collection.jpg",
+      fragranceBased: true,
+      noPrice: true,
+      variants: []
+    },
+    {
+      id: "bedroom-ritual-set",
+      category: "Home Fragrance",
+      name: "Bedroom Ritual Set",
+      includes: "1 Reed Diffuser + 1 Linen & Pillow Mist + 1 Candle",
+      description: "A complete bedroom fragrance ritual designed to layer a soft atmosphere across the room and the bed. The set combines continuous scent, a gentle linen refresh and candlelight for a polished Home Of Linen bedroom experience.",
+      image: "assets/fragrance/home-fragrance-bundle.jpg",
+      fragranceBased: true,
+      noPrice: true,
+      variants: []
+    },
+    {
+      id: "linen-refresh-set",
+      category: "Home Fragrance",
+      name: "Linen Refresh Set",
+      includes: "Linen & Pillow Mist + Room Spray",
+      description: "A simple everyday fragrance duo for refreshing the bedroom and creating a clean, welcoming home atmosphere. Light, practical and elegant, it pairs naturally with fresh bedding and towels.",
+      image: "assets/fragrance/home-fragrance-bundle.jpg",
+      fragranceBased: true,
+      noPrice: true,
+      variants: []
     }
   ]
 };
