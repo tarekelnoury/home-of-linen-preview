@@ -1,4 +1,7 @@
 const { products, fabrics, towelColors = [], scents = [] } = window.HOL_PRODUCTS;
+const pageConfig = window.HOL_PAGE || { locale: "en", type: "home" };
+const isArabic = pageConfig.locale === "ar";
+const assetBase = pageConfig.assetBase || "/";
 const money = new Intl.NumberFormat("en-EG", { style: "currency", currency: "EGP", maximumFractionDigits: 0 });
 const state = { basket: JSON.parse(localStorage.getItem("holBasket") || "[]") };
 
@@ -14,16 +17,34 @@ const reviewSubtotal = document.querySelector("#reviewSubtotal");
 const orderConfirmation = document.querySelector("#orderConfirmation");
 const customerName = document.querySelector("#customerName");
 const customerPhone = document.querySelector("#customerPhone");
+const customerEmail = document.querySelector("#customerEmail");
 const customerAddress = document.querySelector("#customerAddress");
 const customerFields = document.querySelector("#customerFields");
 const WHATSAPP_PHONE = "201004333340";
 let pendingConfirmationNumber = "";
+let pendingConfirmedAt = "";
 let currentReviewRecommendations = [];
+
+function assetUrl(path = "") {
+  if (!path || /^(https?:|data:|\/)/.test(path)) return path;
+  return `${assetBase}${path}`.replace(/\/{2,}/g, "/");
+}
+
+function t(en, ar) {
+  return isArabic ? ar : en;
+}
 
 const savedCustomer = JSON.parse(localStorage.getItem("holCustomer") || "{}");
 customerName.value = savedCustomer.name || "";
 customerPhone.value = savedCustomer.phone || "";
+customerEmail.value = savedCustomer.email || "";
 customerAddress.value = savedCustomer.address || "";
+
+document.querySelector("#basketTitle").textContent = t("Basket", "السلة");
+document.querySelector("#checkout").textContent = t("Review Order", "مراجعة الطلب");
+document.querySelector("#confirmOrder").textContent = t("Confirm Order & Continue To WhatsApp", "تأكيد الطلب والمتابعة إلى واتساب");
+document.querySelector("#editBasket").textContent = t("Edit Basket", "تعديل السلة");
+document.querySelector("#orderReviewTitle").textContent = t("Review Your Order", "مراجعة الطلب");
 
 const categoryCopy = {
   "Fitted Sheets": "Tailored Percale Fitted Sheet Sets Designed To Sit Smoothly On The Mattress And Keep The Bed Looking Fresh.",
@@ -64,11 +85,103 @@ const categoryOrder = [
   "Home Fragrance"
 ];
 
+const categorySlugs = {
+  "Pillowcases": "pillowcases",
+  "Fitted Sheets": "fitted-sheets",
+  "Flat Sheets": "flat-sheets",
+  "Duvet Covers": "duvet-covers",
+  "Towels": "towels",
+  "Summer Essentials": "summer-essentials",
+  "Pillows": "pillows",
+  "Comforters": "comforters",
+  "Mattress Toppers": "mattress-toppers",
+  "Home Fragrance": "home-fragrance"
+};
+
+const categorySlugToName = Object.fromEntries(Object.entries(categorySlugs).map(([name, slug]) => [slug, name]));
+
+const categoryArabicNames = {
+  "Pillowcases": "أكياس مخدات",
+  "Fitted Sheets": "ملايات بأستك",
+  "Flat Sheets": "ملايات سادة",
+  "Duvet Covers": "أغطية لحاف",
+  "Towels": "فوط",
+  "Summer Essentials": "أساسيات الصيف",
+  "Pillows": "مخدات",
+  "Comforters": "لحاف مبطن",
+  "Mattress Toppers": "مراتب توبر",
+  "Home Fragrance": "معطرات المنزل"
+};
+
+const productArabicNames = {
+  "Pillowcase Set": "طقم أكياس مخدات",
+  "Duvet Cover Set": "طقم غطاء لحاف",
+  "Fitted Sheet Set": "طقم ملاية بأستك",
+  "Flat Sheet Set": "طقم ملاية سادة",
+  "Face Towel": "فوطة وجه",
+  "Hand Towel": "فوطة يد",
+  "Bath Towel": "فوطة حمام",
+  "Extra-Large Bath Towel": "فوطة حمام كبيرة",
+  "Large Pool Towel": "فوطة حمام سباحة كبيرة",
+  "Kitchen Towels": "فوط مطبخ",
+  "Premium Bed Pillow": "مخدة سرير فاخرة",
+  "Mattress Topper": "مرتبة توبر",
+  "Comforter": "لحاف مبطن",
+  "Linen & Pillow Mist": "معطر مفروشات ومخدات",
+  "Reed Diffuser": "دفيوزر أعواد",
+  "Scented Candle": "شمعة معطرة",
+  "Room Spray": "معطر غرفة",
+  "Bedroom Ritual Set": "مجموعة تعطير غرفة النوم",
+  "Linen Refresh Set": "مجموعة إنعاش المفروشات"
+};
+
+function categoryLabel(name) {
+  return isArabic ? (categoryArabicNames[name] || name) : name;
+}
+
+function productLabel(product) {
+  return isArabic ? (productArabicNames[product.name] || product.name) : product.name;
+}
+
+function productDescription(product) {
+  if (!isArabic) return product.description || "";
+  const descriptions = {
+    "Fitted Sheets": "ملاية بأستك من قطن مصري بملمس بركال نظيف، مصممة لتثبت بسلاسة على المرتبة وتكمل شكل السرير الهادئ.",
+    "Flat Sheets": "ملاية سادة من قطن مصري خفيف ومريح، مناسبة كطبقة علوية أنيقة أو لاستكمال طقم السرير.",
+    "Pillowcases": "أكياس مخدات من قطن مصري بتشطيب بسيط وملمس منعش، سهلة التنسيق مع باقي مفروشات السرير.",
+    "Duvet Covers": "غطاء لحاف من قطن مصري مصمم ليمنح السرير طبقة هادئة وناعمة بتفاصيل نظيفة.",
+    "Towels": "فوط قطنية ناعمة وعملية للاستخدام اليومي، بألوان هادئة ومقاسات واضحة.",
+    "Summer Essentials": "فوط صيفية كبيرة ومريحة بألوان مخططة مناسبة للبحر وحمام السباحة.",
+    "Pillows": "مخدة سرير بيضاء بحشو مريح، متوفرة بدرجات دعم مختلفة حسب إحساس النوم الذي تفضله.",
+    "Comforters": "لحاف مبطن أبيض بطبقة ناعمة ودافئة، مناسب لتنسيق سرير هادئ ومكتمل.",
+    "Mattress Toppers": "توبر أبيض مبطن يضيف طبقة راحة إضافية للمرتبة ويجعل السرير أكثر نعومة.",
+    "Home Fragrance": "معطرات منزلية قادمة قريباً لتكمل إحساس المفروشات الهادئة برائحة أنيقة."
+  };
+  return descriptions[product.category] || product.description || "";
+}
+
 function sectionId(label) {
-  return label.toLowerCase().replaceAll(" ", "-");
+  return categorySlugs[label] || label.toLowerCase().replaceAll(" ", "-");
+}
+
+function visibleProducts() {
+  if (!["home", "category", "product"].includes(pageConfig.type || "home")) return [];
+  if (pageConfig.type === "product") return products.filter(product => product.id === pageConfig.productId);
+  if (pageConfig.type === "category") {
+    const categoryName = categorySlugToName[pageConfig.category] || pageConfig.category;
+    return products.filter(product => product.category === categoryName);
+  }
+  return products;
+}
+
+function visibleGroups() {
+  const shownProducts = visibleProducts();
+  return [...new Set(shownProducts.map(product => product.category))]
+    .sort((a, b) => categoryOrder.indexOf(a) - categoryOrder.indexOf(b));
 }
 
 function imageFor(product, fabric = "percale", optionName = "", colorName = "") {
+  let resolved = "";
   if (product.fabricBased && fabric === "percale") {
     const option = fabrics.percale.options.find(item => item.name === optionName);
     const slug = option?.sourceSlug || optionName.toLowerCase().replaceAll(" ", "-");
@@ -78,18 +191,18 @@ function imageFor(product, fabric = "percale", optionName = "", colorName = "") 
       "pillowcase-set": `assets/lifestyle/pillowcase-colors/pillowcase-set-${slug}.jpg`,
       "flat-sheet-set": `assets/lifestyle/flat-colors/flat-sheet-set-${slug}.jpg`
     };
-    if (images[product.id]) return images[product.id];
+    if (images[product.id]) resolved = images[product.id];
   }
-  if (product.colorBased) {
+  if (!resolved && product.colorBased) {
     const colors = product.colors || towelColors;
     const color = colors.find(item => item.name === colorName) || colors[0];
-    if (color?.image) return color.image;
-    if (color?.name === "White") return product.image;
-    return color?.swatch || product.image;
+    if (color?.image) resolved = color.image;
+    else if (color?.name === "White") resolved = product.image;
+    else resolved = color?.swatch || product.image;
   }
-  if (product.fragranceBased) return product.image;
-  if (product.fabricBased) return imageFor(product, "percale", fabrics.percale.options[0].name);
-  return product.image;
+  if (!resolved && product.fragranceBased) resolved = product.image;
+  if (!resolved && product.fabricBased) return imageFor(product, "percale", fabrics.percale.options[0].name);
+  return assetUrl(resolved || product.image);
 }
 
 function formatPrice(value) {
@@ -105,7 +218,7 @@ function fallbackArt(label) {
 }
 
 function setImage(container, src, alt) {
-  container.innerHTML = `<img src="${src}" alt="${alt}" loading="lazy">`;
+  container.innerHTML = `<img src="${assetUrl(src)}" alt="${alt}" loading="lazy">`;
   const img = container.querySelector("img");
   img.addEventListener("error", () => {
     container.innerHTML = fallbackArt(alt);
@@ -114,6 +227,7 @@ function setImage(container, src, alt) {
 
 function productPrice(product, selections) {
   if (product.noPrice) return null;
+  if (!isSelectionAvailable(product, selections)) return null;
   if (product.fabricBased) {
     const setPrice = product.sizes[selections.sizeIndex][selections.fabric];
     return selections.bundleType === "single" ? Math.max(0, setPrice - (product.singleDiscount || 0)) : setPrice;
@@ -123,6 +237,18 @@ function productPrice(product, selections) {
     return variant.prices[selections.matrixSize];
   }
   return product.variants[selections.variantIndex].price;
+}
+
+function isSelectionAvailable(product, selections) {
+  return !(product.id === "hand-towel" && selections.colorName === "Rose");
+}
+
+function stockMessage(product, selections) {
+  if (isSelectionAvailable(product, selections)) return "";
+  if (product.id === "hand-towel" && selections.colorName === "Rose") {
+    return t("Rose is currently out of stock for 50 × 100 cm.", "لون Rose غير متوفر حالياً لمقاس 50 × 100 سم.");
+  }
+  return t("This option is currently out of stock.", "هذا الاختيار غير متوفر حالياً.");
 }
 
 function productDescriptor(product, selections) {
@@ -180,6 +306,7 @@ function fabricDetailHtml() {
 }
 
 function currentDescription(product, selections) {
+  if (isArabic) return productDescription(product);
   if (product.fragranceBased) {
     const scent = scents[selections.scentIndex] || scents[0];
     return `${product.description} Scent: ${scent.name}. ${scent.mood} Notes include ${scent.notes.join(", ")}.`;
@@ -194,24 +321,28 @@ function currentDescription(product, selections) {
 }
 
 function renderCatalog() {
-  const groups = [...new Set(products.map(p => p.category))]
-    .sort((a, b) => categoryOrder.indexOf(a) - categoryOrder.indexOf(b));
+  const groups = visibleGroups();
+  if (!groups.length) {
+    catalog.innerHTML = "";
+    return;
+  }
   catalog.innerHTML = groups.map(group => `
     <section class="category category-${sectionId(group)}" id="${sectionId(group)}">
       <div class="category-head">
         <div>
-          <p class="eyebrow">Home Of Linen</p>
-          <h2>${group}</h2>
-          <p>${categoryCopy[group] || ""}</p>
+          <p class="eyebrow">${t("Home Of Linen", "هوم أوف لينن")}</p>
+          ${pageConfig.type === "category" ? `<h1>${pageConfig.h1 || categoryLabel(group)}</h1>` : `<h2>${categoryLabel(group)}</h2>`}
+          <p>${pageConfig.categoryIntroShort || categoryCopy[group] || ""}</p>
         </div>
-        <img src="${categoryHeroImages[group]}" alt="${group} Lifestyle Image" loading="lazy">
+        <img src="${assetUrl(categoryHeroImages[group])}" alt="${pageConfig.heroAlt || `${categoryLabel(group)} Lifestyle Image`}" loading="lazy">
       </div>
+      ${pageConfig.type === "category" && pageConfig.introHtml ? `<div class="seo-intro">${pageConfig.introHtml}</div>` : ""}
       <div class="grid">
-        ${products.filter(p => p.category === group).map(cardTemplate).join("")}
+        ${visibleProducts().filter(p => p.category === group).map(cardTemplate).join("")}
       </div>
     </section>
   `).join("");
-  products.forEach(activateCard);
+  visibleProducts().forEach(activateCard);
 }
 
 function cardTemplate(product) {
@@ -221,8 +352,8 @@ function cardTemplate(product) {
       <div class="mobile-controls" data-mobile-controls></div>
       <div class="card-body">
         <div>
-          <p class="eyebrow">${product.category}</p>
-          <h3>${product.name}</h3>
+          <p class="eyebrow">${categoryLabel(product.category)}</p>
+          <h3>${productLabel(product)}</h3>
         </div>
         <p class="spec" data-spec>${product.includes}</p>
         <div data-controls></div>
@@ -235,9 +366,9 @@ function cardTemplate(product) {
               <button type="button" data-qty-up aria-label="Increase quantity">+</button>
             </div>
           </div>
-          <button class="add-button" type="button" data-add ${product.noPrice ? "disabled" : ""}>${product.noPrice ? "Coming Soon" : "Add to Basket"}</button>
+          <button class="add-button" type="button" data-add ${product.noPrice ? "disabled" : ""}>${product.noPrice ? t("Coming Soon", "قريباً") : t("Add to Basket", "أضف للسلة")}</button>
         </div>
-        ${product.description ? `<p class="description" data-description>${product.description}</p>` : ""}
+        ${product.description ? `<p class="description" data-description>${productDescription(product)}</p>` : ""}
       </div>
     </article>
   `;
@@ -347,9 +478,10 @@ function activateCard(product) {
       controls.innerHTML = `
         <div class="swatches" aria-label="${product.name} colours">
           ${colors.map((opt, i) => `
-            <button type="button" class="swatch-choice ${opt.name === selections.colorName ? "active" : ""}" data-towel-option="${i}" aria-label="${opt.name}" title="${opt.name}">
-              <span class="swatch towel-swatch" style="${opt.swatch ? `background-image:url('${opt.swatch}')` : `background:${opt.value}`}"></span>
+            <button type="button" class="swatch-choice ${opt.name === selections.colorName ? "active" : ""} ${!isSelectionAvailable(product, { ...selections, colorName: opt.name }) ? "out-of-stock" : ""}" data-towel-option="${i}" aria-label="${opt.name}${!isSelectionAvailable(product, { ...selections, colorName: opt.name }) ? " out of stock" : ""}" title="${opt.name}${!isSelectionAvailable(product, { ...selections, colorName: opt.name }) ? " - Out of stock" : ""}" ${!isSelectionAvailable(product, { ...selections, colorName: opt.name }) ? "aria-disabled=\"true\"" : ""}>
+              <span class="swatch towel-swatch" style="${opt.swatch ? `background-image:url('${assetUrl(opt.swatch)}')` : `background:${opt.value}`}"></span>
               <span class="swatch-label">${opt.name}</span>
+              ${!isSelectionAvailable(product, { ...selections, colorName: opt.name }) ? `<span class="stock-label">${t("Out", "غير متوفر")}</span>` : ""}
             </button>
           `).join("")}
         </div>
@@ -469,14 +601,19 @@ function activateCard(product) {
 
   function update() {
     const img = imageFor(product, selections.fabric, selections.optionName, selections.colorName);
-    setImage(image, img, `${product.name} ${product.fabricBased ? fabrics[selections.fabric].label : selections.colorName}`);
+    setImage(image, img, `${productLabel(product)} ${product.fabricBased ? fabrics[selections.fabric].label : selections.colorName}`);
     const scent = scents[selections.scentIndex] || scents[0];
     const bundleSpec = product.setToggle && selections.bundleType === "single" ? "Single Item" : product.includes;
     spec.textContent = product.fabricBased ? `${bundleSpec} · ${fabrics[selections.fabric].spec}` : product.colorBased ? `${product.includes} · ${selections.colorName}` : product.fragranceBased ? `${product.includes} · ${scent.name}` : product.includes;
     if (descriptionEl) descriptionEl.textContent = currentDescription(product, selections);
     const price = productPrice(product, selections);
-    priceEl.textContent = price === null ? "" : formatPrice(price);
+    const unavailableMessage = stockMessage(product, selections);
+    priceEl.textContent = unavailableMessage || (price === null ? "" : formatPrice(price));
+    priceEl.classList.toggle("stock-warning", Boolean(unavailableMessage));
     qtyEl.textContent = selections.qty;
+    const addButton = card.querySelector("[data-add]");
+    addButton.disabled = product.noPrice || Boolean(unavailableMessage);
+    addButton.textContent = product.noPrice ? t("Coming Soon", "قريباً") : unavailableMessage ? t("Out Of Stock", "غير متوفر") : t("Add to Basket", "أضف للسلة");
   }
 
   card.querySelector("[data-qty-down]").addEventListener("click", () => {
@@ -492,12 +629,16 @@ function activateCard(product) {
       showToast("Home Fragrance is coming soon.");
       return;
     }
+    if (!isSelectionAvailable(product, selections)) {
+      showToast(stockMessage(product, selections));
+      return;
+    }
     const descriptor = productDescriptor(product, selections);
     const item = {
       key: `${product.id}|${descriptor.variant}|${descriptor.option}|${descriptor.bundle || ""}`,
       productId: product.id,
-      name: product.name,
-      category: product.category,
+      name: productLabel(product),
+      category: categoryLabel(product.category),
       image: imageFor(product, selections.fabric, selections.optionName, selections.colorName),
       price: productPrice(product, selections),
       qty: selections.qty,
@@ -507,7 +648,7 @@ function activateCard(product) {
     if (existing) existing.qty += item.qty;
     else state.basket.push(item);
     saveBasket();
-    showToast(`${product.name} added to basket`);
+    showToast(t(`${product.name} added to basket`, `تمت إضافة ${productLabel(product)} إلى السلة`));
     selections.qty = 1;
     update();
   });
@@ -621,8 +762,8 @@ function recommendationItem(productId, colorName = "") {
   return {
     key: `${product.id}|${descriptor.variant}|${descriptor.option}|${descriptor.bundle || ""}`,
     productId: product.id,
-    name: product.name,
-    category: product.category,
+    name: productLabel(product),
+    category: categoryLabel(product.category),
     image: imageFor(product, selections.fabric, selections.optionName, selections.colorName),
     price,
     qty: 1,
@@ -717,6 +858,7 @@ function customerDetails() {
   return {
     name: customerName.value.trim(),
     phone: customerPhone.value.trim(),
+    email: customerEmail.value.trim(),
     address: customerAddress.value.trim()
   };
 }
@@ -729,6 +871,7 @@ function validateCustomer(customer) {
   const nameParts = customer.name.split(/\s+/).filter(Boolean);
   if (nameParts.length < 2) return "Please enter your first and last name.";
   if (!/^[+\d\s()-]{8,}$/.test(customer.phone)) return "Please enter a valid mobile number.";
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customer.email)) return "Please enter a valid email address.";
   if (customer.address.length < 18 || !/\d/.test(customer.address)) return "Please enter a complete delivery address with building or street number.";
   return "";
 }
@@ -738,6 +881,13 @@ function orderNumber() {
   const date = stamp.toISOString().slice(0, 10).replaceAll("-", "");
   const random = Math.random().toString(36).slice(2, 6).toUpperCase();
   return `HOL-${date}-${random}`;
+}
+
+function orderConfirmedAt() {
+  return pendingConfirmedAt || new Intl.DateTimeFormat(isArabic ? "ar-EG" : "en-EG", {
+    dateStyle: "medium",
+    timeStyle: "short"
+  }).format(new Date());
 }
 
 function orderLine(item, index) {
@@ -763,11 +913,13 @@ function buildWhatsAppMessage() {
     "🛒 Home of Linen - New Order",
     "",
     `Order Confirmation Number: ${confirmation}`,
+    `Confirmed At: ${orderConfirmedAt()}`,
     "",
     "Customer Information",
     "",
     `Name: ${customer.name}`,
     `Phone: ${customer.phone}`,
+    `Email: ${customer.email}`,
     `Address: ${customer.address}`,
     "",
     "Order Details",
@@ -778,6 +930,47 @@ function buildWhatsAppMessage() {
     "",
     "Thank you for choosing Home of Linen. We will confirm your order details shortly."
   ].join("\n");
+}
+
+function buildCustomerEmailText() {
+  const customer = customerDetails();
+  const confirmation = pendingConfirmationNumber || orderNumber();
+  return {
+    to: customer.email,
+    subject: `Home of Linen order confirmation ${confirmation}`,
+    body: [
+      `Dear ${customer.name},`,
+      "",
+      "Thank you for your order from Home of Linen.",
+      `Your confirmation number is ${confirmation}.`,
+      `Confirmed at: ${orderConfirmedAt()}.`,
+      "",
+      "Order Details",
+      "",
+      state.basket.map(orderLine).join("\n\n"),
+      "",
+      `Grand Total: ${plainPrice(basketTotal())}`,
+      "",
+      "We have received your order details and will confirm availability and delivery shortly.",
+      "",
+      "Warmly,",
+      "Home of Linen"
+    ].join("\n")
+  };
+}
+
+function saveOrderRecord() {
+  const records = JSON.parse(localStorage.getItem("holOrders") || "[]");
+  records.unshift({
+    confirmationNumber: pendingConfirmationNumber,
+    confirmedAt: pendingConfirmedAt,
+    createdAt: new Date().toISOString(),
+    customer: customerDetails(),
+    items: state.basket,
+    total: basketTotal(),
+    email: buildCustomerEmailText()
+  });
+  localStorage.setItem("holOrders", JSON.stringify(records.slice(0, 20)));
 }
 
 function openProductInquiry(product, selections = {}) {
@@ -799,6 +992,7 @@ function openWhatsAppOrder() {
     return;
   }
   pendingConfirmationNumber = "";
+  pendingConfirmedAt = "";
   orderConfirmation.classList.add("hidden");
   renderOrderReview();
   closeDrawer();
@@ -815,8 +1009,8 @@ function confirmWhatsAppOrder() {
     showToast("Your basket is empty.");
     return;
   }
-  if (!customer.name || !customer.phone || !customer.address) {
-    showToast("Please add your name, phone, and address.");
+  if (!customer.name || !customer.phone || !customer.email || !customer.address) {
+    showToast("Please add your name, phone, email, and address.");
     customerName.focus();
     return;
   }
@@ -827,11 +1021,13 @@ function confirmWhatsAppOrder() {
   }
   saveCustomerDetails();
   pendingConfirmationNumber = orderNumber();
+  pendingConfirmedAt = orderConfirmedAt();
+  saveOrderRecord();
   const message = encodeURIComponent(buildWhatsAppMessage());
   const whatsappUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${message}`;
   orderConfirmation.innerHTML = `
-    <strong>Thank you for your order.</strong>
-    <span>Your confirmation number is ${pendingConfirmationNumber}. WhatsApp will open now with your order ready to send.</span>
+    <strong>${t("Thank you for your order.", "شكراً لطلبك من Home of Linen.")}</strong>
+    <span>${t(`Your confirmation number is ${pendingConfirmationNumber}. Confirmed on ${pendingConfirmedAt}. Your order total is ${plainPrice(basketTotal())}. WhatsApp will open now with your order ready to send. We will use your email to send order updates once email confirmations are connected.`, `رقم تأكيد طلبك هو ${pendingConfirmationNumber}. تم تأكيد الطلب في ${pendingConfirmedAt}. إجمالي الطلب ${plainPrice(basketTotal())}. سيتم فتح واتساب الآن برسالة الطلب الجاهزة للإرسال، وسنستخدم البريد الإلكتروني لإرسال تحديثات الطلب عند تفعيل تأكيدات البريد.`)}</span>
   `;
   orderConfirmation.classList.remove("hidden");
   window.open(whatsappUrl, "_blank", "noopener");
@@ -874,7 +1070,7 @@ document.querySelector("#editBasket").addEventListener("click", () => {
   basketDrawer.classList.add("open");
   basketDrawer.setAttribute("aria-hidden", "false");
 });
-[customerName, customerPhone, customerAddress].forEach(field => {
+[customerName, customerPhone, customerEmail, customerAddress].forEach(field => {
   field.addEventListener("input", saveCustomerDetails);
 });
 
