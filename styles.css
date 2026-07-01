@@ -29,6 +29,18 @@ button, select, input, textarea { font: inherit; }
 
 .hidden { display: none !important; }
 
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .site-header {
   position: sticky;
   top: 0;
@@ -330,6 +342,7 @@ button, select, input, textarea { font: inherit; }
   padding-top: 34px;
 }
 
+.category h1,
 .category h2 {
   font-family: var(--brand-serif);
   font-size: clamp(2rem, 3.35vw, 3.15rem);
@@ -729,6 +742,27 @@ select {
 .checkout { width: 100%; border-radius: 16px; }
 .checkout-note { color: var(--muted); font-size: .85rem; line-height: 1.5; }
 
+.guide-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.guide-links .eyebrow {
+  flex-basis: 100%;
+  margin: 0 0 4px;
+}
+
+.guide-links a {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--ink);
+  padding: 10px 14px;
+  text-decoration: none;
+  background: rgba(255,255,255,.45);
+}
+
 .add-button:disabled {
   cursor: default;
   opacity: .72;
@@ -826,6 +860,7 @@ select {
   }
   .nav::-webkit-scrollbar { display: none; }
   .nav a { white-space: nowrap; font-size: .68rem; }
+  .category h1,
   .category h2 {
     font-size: clamp(1.85rem, 7.2vw, 2.35rem);
     line-height: 1.02;
