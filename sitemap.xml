@@ -2,6 +2,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://homeoflineneg.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
   <url><loc>https://homeoflineneg.com/ar/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://homeoflineneg.com/categories/bedding/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://homeoflineneg.com/ar/categories/bedding/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://homeoflineneg.com/categories/fitted-sheets/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://homeoflineneg.com/ar/categories/fitted-sheets/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://homeoflineneg.com/categories/flat-sheets/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>

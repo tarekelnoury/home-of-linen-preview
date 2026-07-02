@@ -33,6 +33,8 @@ const categorySlugs = {
   Bedspreads: "bedspreads"
 };
 
+const beddingCategories = ["Pillowcases", "Fitted Sheets", "Flat Sheets", "Duvet Covers", "Bedspreads"];
+
 const categoryArabic = {
   "Fitted Sheets": "ملايات بأستك",
   "Flat Sheets": "ملايات سادة",
@@ -366,6 +368,32 @@ function categoryPage(category, locale) {
   return { locale, pathname, html: layout({ locale, type: "category", title, description, pathname, h1: name, body: "", catalogHtml, config: { type: "category", category: slug, h1: locale === "ar" ? `${name} قطن مصري` : `Egyptian Cotton ${category}`, introHtml: `<p>${intro}</p>`, heroAlt: locale === "ar" ? `${name} قطن مصري` : `Egyptian cotton ${category.toLowerCase()}` }, schema }) };
 }
 
+function beddingPage(locale) {
+  const pathname = "/categories/bedding/";
+  const title = locale === "ar" ? "مفروشات السرير | Home of Linen" : "Bedding Collection | Home of Linen Egypt";
+  const description = locale === "ar"
+    ? "تسوق مفروشات السرير من Home of Linen: أكياس مخدات، ملايات بأستك، ملايات سادة، أغطية لحاف ومفارش سرير. اطلب عبر واتساب."
+    : "Shop Home of Linen bedding: pillowcase sets, fitted sheet sets, flat sheet sets, duvet cover sets and bedspreads. Order through WhatsApp.";
+  const h1 = locale === "ar" ? "مفروشات السرير" : "Bedding Collection";
+  const subtitle = locale === "ar"
+    ? "كل ما تحتاجه لبناء سرير هادئ ومتناسق من Home of Linen."
+    : "Build a calm, coordinated Home of Linen bed with the core pieces in one place.";
+  const catalogHtml = beddingCategories.map(category => {
+    const slug = categorySlugs[category];
+    const groupProducts = products.filter(product => product.category === category);
+    return `<section class="category category-${slug}" id="${slug}">
+    <div class="category-head"><div><p class="eyebrow">${locale === "ar" ? "هوم أوف لينن" : "Home Of Linen"}</p><h2>${esc(categoryName(category, locale))}</h2><p>${esc(locale === "ar" ? "اختيارات هادئة ومتناسقة لغرفة النوم." : "Calm, coordinated pieces for a beautifully finished bed.")}</p></div><img src="${assetRef(locale, pathname, categoryHero[category])}" alt="${esc(locale === "ar" ? `${categoryName(category, locale)} من Home of Linen` : `${category.toLowerCase()} bedding collection by Home of Linen`)}" loading="lazy"></div>
+    <div class="grid">${groupProducts.map(product => productCardStatic(product, locale, pathname)).join("")}</div>
+  </section>`;
+  }).join("");
+  const body = `<section class="product-seo-page"><p class="eyebrow">${locale === "ar" ? "هوم أوف لينن" : "Home Of Linen"}</p><h1>${esc(h1)}</h1><p>${esc(subtitle)}</p></section>`;
+  const schema = [breadcrumbSchema([
+    { name: "Home", url: locale === "ar" ? arUrl("/") : enUrl("/") },
+    { name: h1, url: locale === "ar" ? arUrl(pathname) : enUrl(pathname) }
+  ])];
+  return { locale, pathname, html: layout({ locale, type: "category", title, description, pathname, h1, body, catalogHtml, config: { type: "category", category: "bedding", h1, categoryIntroShort: subtitle }, schema }) };
+}
+
 function productPage(product, locale) {
   const pathname = `/products/${productSlug(product)}/`;
   const name = productName(product, locale);
@@ -450,8 +478,10 @@ function homePage(locale) {
   const h1 = locale === "ar" ? "مفروشات قطن مصري مصنوعة في مصر" : "Egyptian Cotton Bedding, Made in Egypt";
   const body = `<h1 class="visually-hidden">${esc(h1)}</h1>
       <section class="hero" aria-label="${esc(h1)}">
-        <img class="hero-image" src="${assetRef(locale, "/", "assets/images/main-hero-image.png")}" alt="${esc(locale === "ar" ? "سرير بمفروشات قطن مصري بيضاء من Home of Linen في غرفة هادئة" : "white Egyptian cotton bedding in a warm Home of Linen bedroom")}" />
-        <a class="hero-hotspot" href="${hrefTo(locale, "/", locale, "/categories/fitted-sheets/")}" aria-label="${esc(locale === "ar" ? "تسوق مفروشات القطن المصري" : "Shop Egyptian cotton bedding")}"></a>
+        <a class="hero-link" href="${hrefTo(locale, "/", locale, "/categories/bedding/")}" aria-label="${esc(locale === "ar" ? "تسوق مفروشات القطن المصري" : "Shop Egyptian cotton bedding")}">
+          <img class="hero-image" src="${assetRef(locale, "/", "assets/images/main-hero-image.png")}" alt="${esc(locale === "ar" ? "سرير بمفروشات قطن مصري بيضاء من Home of Linen في غرفة هادئة" : "white Egyptian cotton bedding in a warm Home of Linen bedroom")}" />
+        </a>
+        <a class="hero-hotspot" href="${hrefTo(locale, "/", locale, "/categories/bedding/")}" aria-label="${esc(locale === "ar" ? "تسوق مفروشات القطن المصري" : "Shop Egyptian cotton bedding")}"></a>
       </section>`;
   return {
     locale,
@@ -473,6 +503,8 @@ function generate() {
   const pages = [];
   pages.push(homePage("en"));
   pages.push(homePage("ar"));
+  pages.push(beddingPage("en"));
+  pages.push(beddingPage("ar"));
   Object.keys(categorySlugs).forEach(category => {
     pages.push(categoryPage(category, "en"));
     pages.push(categoryPage(category, "ar"));

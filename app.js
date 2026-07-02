@@ -88,6 +88,8 @@ const categoryOrder = [
   "Bedspreads"
 ];
 
+const beddingCategories = ["Pillowcases", "Fitted Sheets", "Flat Sheets", "Duvet Covers", "Bedspreads"];
+
 const categorySlugs = {
   "Fitted Sheets": "fitted-sheets",
   "Flat Sheets": "flat-sheets",
@@ -175,6 +177,9 @@ function visibleProducts() {
   if (!["home", "category", "product"].includes(pageConfig.type || "home")) return [];
   if (pageConfig.type === "product") return products.filter(product => product.id === pageConfig.productId);
   if (pageConfig.type === "category") {
+    if (pageConfig.category === "bedding") {
+      return products.filter(product => beddingCategories.includes(product.category));
+    }
     const categoryName = categorySlugToName[pageConfig.category] || pageConfig.category;
     return products.filter(product => product.category === categoryName);
   }
@@ -183,6 +188,9 @@ function visibleProducts() {
 
 function visibleGroups() {
   const shownProducts = visibleProducts();
+  if (pageConfig.type === "category" && pageConfig.category === "bedding") {
+    return beddingCategories.filter(group => shownProducts.some(product => product.category === group));
+  }
   return [...new Set(shownProducts.map(product => product.category))]
     .sort((a, b) => categoryOrder.indexOf(a) - categoryOrder.indexOf(b));
 }
