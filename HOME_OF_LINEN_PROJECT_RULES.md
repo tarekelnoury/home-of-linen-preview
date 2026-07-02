@@ -63,6 +63,16 @@ Always display where applicable:
 
 Cards should remain visually clean with generous spacing and no visual noise.
 
+On mobile, product cards must follow a consistent vertical order:
+
+1. Product name and category
+2. Product image
+3. Colour swatches, size selectors, and variant selectors
+4. Price, quantity selector, and Add to Basket button
+5. Description and supporting details
+
+Mobile product controls must never overlap, feel cramped, or sit far away from the image. Swatches should remain comfortable to tap and may scroll horizontally when there are many colour options.
+
 ## Product Image Gallery Rules
 
 - When a product has more than one image, desktop controls should appear as subtle left/right arrows over the image.

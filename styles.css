@@ -1030,13 +1030,17 @@ select {
     display: flex;
     flex-direction: column;
     gap: 0;
+    border-radius: 26px;
+    overflow: hidden;
   }
   .image-wrap {
-    order: 3;
+    order: 2;
     min-height: 0;
     aspect-ratio: 1 / 1;
-    margin: 0 14px 12px;
+    width: calc(100% - 28px);
+    margin: 10px 14px 14px;
     border-radius: 24px;
+    align-self: center;
   }
   .image-wrap img {
     object-fit: contain;
@@ -1057,16 +1061,16 @@ select {
   }
   .card-body > div:first-child {
     order: 1;
-    padding: 18px 20px 0;
+    padding: 18px 20px 4px;
   }
   .card h3 {
     font-size: clamp(1.45rem, 7vw, 2rem);
     line-height: 1.05;
   }
   .description {
-    order: 2;
+    order: 5;
     padding: 0 20px;
-    margin: 6px 0 14px;
+    margin: 6px 0 4px;
     display: block;
     overflow: visible;
     font-size: .95rem;
@@ -1075,33 +1079,65 @@ select {
     opacity: 1;
   }
   .spec {
-    order: 4;
+    order: 6;
     min-height: 0;
     padding: 0 20px;
-    margin: 0;
+    margin: 0 0 18px;
+    font-size: .86rem;
   }
   .card-body [data-controls] {
     display: grid;
-    order: 5;
-    gap: 12px;
+    order: 3;
+    gap: 14px;
     margin: 0;
-    padding: 0 20px;
+    padding: 0 20px 12px;
   }
   .buy-row {
-    order: 6;
+    order: 4;
     grid-template-columns: 1fr;
     margin: 0;
-    padding: 2px 20px 20px;
+    padding: 0 20px 16px;
+    gap: 12px;
+  }
+  .buy-row > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+  }
+  .price {
+    font-size: 1.22rem;
+    line-height: 1.2;
   }
   .swatches {
     max-height: none;
-    overflow: visible;
-    grid-template-columns: repeat(auto-fit, minmax(64px, 1fr));
+    overflow-x: auto;
+    overflow-y: hidden;
+    display: flex;
     gap: 10px;
     padding: 12px;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+  }
+  .swatches::-webkit-scrollbar {
+    display: none;
+  }
+  .swatch-choice {
+    flex: 0 0 68px;
+    scroll-snap-align: start;
+    padding: 6px 4px;
   }
   .selectors label {
     font-size: .84rem;
+  }
+  .selectors {
+    gap: 12px;
+  }
+  select {
+    min-height: 48px;
+    padding: 12px 14px;
+    font-size: .95rem;
   }
   .swatch {
     width: 30px;
@@ -1110,7 +1146,18 @@ select {
   .swatch-label {
     font-size: .66rem;
   }
-  .add-button { width: 100%; }
+  .qty {
+    min-height: 42px;
+  }
+  .qty button {
+    min-width: 42px;
+    min-height: 42px;
+    padding: 8px 12px;
+  }
+  .add-button {
+    width: 100%;
+    min-height: 48px;
+  }
   .drawer-panel { width: 100%; }
   .drawer-header, .drawer-footer { padding: 18px; }
   .basket-items {

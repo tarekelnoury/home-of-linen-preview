@@ -355,7 +355,6 @@ function cardTemplate(product) {
           <p class="eyebrow">${categoryLabel(product.category)}</p>
           <h3>${productLabel(product)}</h3>
         </div>
-        <p class="spec" data-spec>${product.includes}</p>
         <div data-controls></div>
         <div class="buy-row">
           <div>
@@ -369,6 +368,7 @@ function cardTemplate(product) {
           <button class="add-button" type="button" data-add ${product.noPrice ? "disabled" : ""}>${product.noPrice ? t("Coming Soon", "قريباً") : t("Add to Basket", "أضف للسلة")}</button>
         </div>
         ${product.description ? `<p class="description" data-description>${productDescription(product)}</p>` : ""}
+        <p class="spec" data-spec>${product.includes}</p>
       </div>
     </article>
   `;
