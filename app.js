@@ -371,8 +371,8 @@ function renderCatalog() {
     `;
     return;
   }
-  if (pageConfig.type === "category" && pageConfig.category === "bedding") {
-    catalog.innerHTML = `<section class="category category-bedding-products only-products"><div class="grid">${visibleProducts().map(cardTemplate).join("")}</div></section>`;
+  if (pageConfig.type === "category") {
+    catalog.innerHTML = `<section class="category category-${pageConfig.category || "products"} only-products"><h1 class="visually-hidden">${pageConfig.h1 || t("Products", "المنتجات")}</h1><div class="grid">${visibleProducts().map(cardTemplate).join("")}</div></section>`;
     visibleProducts().forEach(activateCard);
     return;
   }

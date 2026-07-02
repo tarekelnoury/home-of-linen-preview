@@ -355,17 +355,15 @@ function categoryPage(category, locale) {
   const description = locale === "ar"
     ? `تسوق ${name} من Home of Linen بتصميم هادئ وأسعار بالجنيه المصري. اختر المقاس واللون واطلب بسهولة عبر واتساب.`
     : `Shop ${category.toLowerCase()} in Egyptian cotton from Home of Linen. Choose your size and colour, then order easily through WhatsApp in EGP.`;
-  const intro = categoryIntros[category][locale];
-  const catalogHtml = `<section class="category category-${slug}" id="${slug}">
-    <div class="category-head"><div><p class="eyebrow">${locale === "ar" ? "هوم أوف لينن" : "Home Of Linen"}</p><h1>${esc(locale === "ar" ? `${name} قطن مصري` : `Egyptian Cotton ${category}`)}</h1><p>${esc(locale === "ar" ? "اختيارات هادئة ومريحة للبيت المصري." : "Calm, premium essentials for Egyptian homes.")}</p></div><img src="${assetRef(locale, pathname, categoryHero[category])}" alt="${esc(locale === "ar" ? `${name} قطن مصري` : `Egyptian cotton ${category.toLowerCase()} lifestyle image`)}" loading="lazy"></div>
-    <div class="seo-intro"><p>${esc(intro)}</p></div>
+  const catalogHtml = `<section class="category category-${slug} only-products" id="${slug}">
+    <h1 class="visually-hidden">${esc(locale === "ar" ? `${name} قطن مصري` : `Egyptian Cotton ${category}`)}</h1>
     <div class="grid">${products.filter(product => product.category === category).map(product => productCardStatic(product, locale, pathname)).join("")}</div>
   </section>`;
   const schema = [breadcrumbSchema([
     { name: "Home", url: locale === "ar" ? arUrl("/") : enUrl("/") },
     { name, url: locale === "ar" ? arUrl(pathname) : enUrl(pathname) }
   ])];
-  return { locale, pathname, html: layout({ locale, type: "category", title, description, pathname, h1: name, body: "", catalogHtml, config: { type: "category", category: slug, h1: locale === "ar" ? `${name} قطن مصري` : `Egyptian Cotton ${category}`, introHtml: `<p>${intro}</p>`, heroAlt: locale === "ar" ? `${name} قطن مصري` : `Egyptian cotton ${category.toLowerCase()}` }, schema }) };
+  return { locale, pathname, html: layout({ locale, type: "category", title, description, pathname, h1: name, body: "", catalogHtml, config: { type: "category", category: slug, h1: locale === "ar" ? `${name} قطن مصري` : `Egyptian Cotton ${category}` }, schema }) };
 }
 
 function beddingPage(locale) {
