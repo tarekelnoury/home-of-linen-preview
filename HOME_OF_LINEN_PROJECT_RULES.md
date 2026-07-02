@@ -26,11 +26,14 @@ Design and develop mobile-first.
 
 Category hero banners are part of the Home of Linen identity.
 
+- The homepage hero must feel equal in visual weight to the rest of the site, especially on mobile.
+- Homepage hero typography embedded in imagery must remain readable and should not appear smaller than category hierarchy.
 - Use responsive image cropping.
 - Preserve the product as the focal point.
 - Preserve typography and tagline when they are part of the image.
 - Never crop the main product.
 - Never allow important text outside the visible area.
+- Hero and category images should fill their designated containers cleanly without plain background borders.
 - Desktop should use wide cinematic presentation.
 - Mobile should resize intelligently so customers understand the category without excessive scrolling.
 - Hero images should not consume the entire first mobile screen.
@@ -72,6 +75,8 @@ On mobile, product cards must follow a consistent vertical order:
 5. Description and supporting details
 
 Mobile product controls must never overlap, feel cramped, or sit far away from the image. Swatches should remain comfortable to tap and may scroll horizontally when there are many colour options.
+
+Product descriptions must always expand naturally on mobile. Never clamp, crop, truncate, or hide long descriptions inside fixed-height containers.
 
 ## Product Image Gallery Rules
 

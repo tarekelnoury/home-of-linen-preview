@@ -316,6 +316,8 @@ button, select, input, textarea { font: inherit; }
   display: block;
   width: 100%;
   height: auto;
+  object-fit: cover;
+  object-position: center;
 }
 
 .hero-hotspot {
@@ -375,8 +377,8 @@ button, select, input, textarea { font: inherit; }
 }
 
 .category-home-fragrance .category-head img {
-  aspect-ratio: auto;
-  object-fit: contain;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
   background: transparent;
 }
 
@@ -420,8 +422,9 @@ button, select, input, textarea { font: inherit; }
 
 .image-wrap.has-gallery img,
 .image-wrap:has(.gallery-toggle) img {
-  object-fit: contain;
-  background: linear-gradient(135deg, #f3eadb, #fffaf1);
+  object-fit: cover;
+  object-position: center;
+  background: transparent;
 }
 
 .image-wrap.image-fading img {
@@ -513,6 +516,10 @@ button, select, input, textarea { font: inherit; }
   opacity: .82;
   line-height: 1.52;
   max-width: 58ch;
+  height: auto;
+  max-height: none;
+  overflow: visible;
+  display: block;
 }
 
 .card-body [data-controls] {
@@ -969,6 +976,22 @@ select {
   }
   .nav::-webkit-scrollbar { display: none; }
   .nav a { white-space: nowrap; font-size: .68rem; }
+  .hero {
+    height: clamp(360px, 82vw, 520px);
+    border-bottom: 1px solid var(--line);
+  }
+  .hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 36% center;
+  }
+  .hero-hotspot {
+    left: 5%;
+    top: 58%;
+    width: 116px;
+    height: 48px;
+  }
   .product-gallery-strip {
     grid-template-columns: 1fr;
     gap: 12px;
@@ -998,9 +1021,13 @@ select {
     width: 100%;
     aspect-ratio: 16 / 10;
     height: auto;
+    object-fit: cover;
+    object-position: center;
+    background: transparent;
   }
   .category-home-fragrance .category-head img {
-    aspect-ratio: auto;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
   }
   .order-review {
     margin: 20px 14px 34px;
@@ -1043,11 +1070,15 @@ select {
     align-self: center;
   }
   .image-wrap img {
-    object-fit: contain;
-    background: linear-gradient(135deg, #f3eadb, #fffaf1);
+    object-fit: cover;
+    object-position: center;
+    background: transparent;
   }
   .image-wrap.has-gallery {
     aspect-ratio: 4 / 5;
+  }
+  .image-wrap.has-gallery img {
+    object-fit: cover;
   }
   .image-wrap:has(.gallery-toggle) {
     touch-action: pan-y;
@@ -1073,6 +1104,10 @@ select {
     margin: 6px 0 4px;
     display: block;
     overflow: visible;
+    height: auto;
+    max-height: none;
+    -webkit-line-clamp: unset;
+    line-clamp: unset;
     font-size: .95rem;
     line-height: 1.45;
     color: var(--muted);
