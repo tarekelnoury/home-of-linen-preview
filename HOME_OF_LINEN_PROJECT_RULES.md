@@ -66,8 +66,10 @@ Cards should remain visually clean with generous spacing and no visual noise.
 ## Product Image Gallery Rules
 
 - When a product has more than one image, desktop controls should appear as subtle left/right arrows over the image.
+- Desktop gallery arrows should only become visible when the customer hovers over, focuses, or interacts with the image area.
 - Do not use large text buttons such as “Photo 1” or “Photo 2” on product images.
-- On mobile, hide gallery arrows and allow customers to swipe between product images.
+- On mobile, hide gallery arrows and allow customers to swipe smoothly between product images.
+- Mobile gallery images must fit within the frame and should not crop important product details.
 - Image gallery controls must feel minimal, premium, and quiet so the product remains the focus.
 - Apply this rule to all future product image galleries unless explicitly overridden.
 

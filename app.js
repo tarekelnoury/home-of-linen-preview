@@ -601,11 +601,13 @@ function activateCard(product) {
   }
 
   function update() {
+    const hasGallery = product.gallery?.length > 1;
+    image.classList.toggle("has-gallery", hasGallery);
     const img = product.gallery?.length
       ? product.gallery[selections.galleryIndex] || product.gallery[0]
       : imageFor(product, selections.fabric, selections.optionName, selections.colorName);
     setImage(image, img, `${productLabel(product)} ${product.fabricBased ? fabrics[selections.fabric].label : selections.colorName}`);
-    if (product.gallery?.length > 1) {
+    if (hasGallery) {
       const galleryToggle = document.createElement("div");
       galleryToggle.className = "gallery-toggle";
       galleryToggle.innerHTML = `
@@ -614,8 +616,13 @@ function activateCard(product) {
       `;
       image.appendChild(galleryToggle);
       const showGalleryImage = direction => {
-        selections.galleryIndex = (selections.galleryIndex + direction + product.gallery.length) % product.gallery.length;
-        update();
+        if (image.classList.contains("image-fading")) return;
+        image.classList.add("image-fading");
+        window.setTimeout(() => {
+          selections.galleryIndex = (selections.galleryIndex + direction + product.gallery.length) % product.gallery.length;
+          update();
+          window.requestAnimationFrame(() => image.classList.remove("image-fading"));
+        }, 120);
       };
       galleryToggle.querySelectorAll("[data-gallery-direction]").forEach(button => button.addEventListener("click", event => {
         event.preventDefault();

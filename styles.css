@@ -415,6 +415,18 @@ button, select, input, textarea { font: inherit; }
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: opacity .24s ease, transform .24s ease;
+}
+
+.image-wrap.has-gallery img,
+.image-wrap:has(.gallery-toggle) img {
+  object-fit: contain;
+  background: linear-gradient(135deg, #f3eadb, #fffaf1);
+}
+
+.image-wrap.image-fading img {
+  opacity: .28;
+  transform: scale(.995);
 }
 
 .gallery-toggle {
@@ -426,6 +438,13 @@ button, select, input, textarea { font: inherit; }
   padding: 18px;
   pointer-events: none;
   z-index: 3;
+  opacity: 0;
+  transition: opacity .18s ease;
+}
+
+.image-wrap:hover .gallery-toggle,
+.image-wrap:focus-within .gallery-toggle {
+  opacity: 1;
 }
 
 .gallery-arrow {
@@ -1022,6 +1041,9 @@ select {
   .image-wrap img {
     object-fit: contain;
     background: linear-gradient(135deg, #f3eadb, #fffaf1);
+  }
+  .image-wrap.has-gallery {
+    aspect-ratio: 4 / 5;
   }
   .image-wrap:has(.gallery-toggle) {
     touch-action: pan-y;
