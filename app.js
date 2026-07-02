@@ -88,7 +88,7 @@ const categoryOrder = [
   "Bedspreads"
 ];
 
-const beddingCategories = ["Pillowcases", "Fitted Sheets", "Flat Sheets", "Duvet Covers", "Bedspreads"];
+const beddingCategories = ["Pillowcases", "Fitted Sheets", "Flat Sheets", "Duvet Covers", "Comforters", "Pillows", "Mattress Toppers"];
 
 const categorySlugs = {
   "Fitted Sheets": "fitted-sheets",
@@ -368,6 +368,11 @@ function renderCatalog() {
   }
   if (pageConfig.type === "home") {
     catalog.innerHTML = groups.map(homeCategoryTemplate).join("");
+    return;
+  }
+  if (pageConfig.type === "category" && pageConfig.category === "bedding") {
+    catalog.innerHTML = `<section class="category category-bedding-products only-products"><div class="grid">${visibleProducts().map(cardTemplate).join("")}</div></section>`;
+    visibleProducts().forEach(activateCard);
     return;
   }
   catalog.innerHTML = groups.map(group => `

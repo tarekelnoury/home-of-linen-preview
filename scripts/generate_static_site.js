@@ -33,7 +33,7 @@ const categorySlugs = {
   Bedspreads: "bedspreads"
 };
 
-const beddingCategories = ["Pillowcases", "Fitted Sheets", "Flat Sheets", "Duvet Covers", "Bedspreads"];
+const beddingCategories = ["Pillowcases", "Fitted Sheets", "Flat Sheets", "Duvet Covers", "Comforters", "Pillows", "Mattress Toppers"];
 
 const categoryArabic = {
   "Fitted Sheets": "ملايات بأستك",
@@ -372,26 +372,17 @@ function beddingPage(locale) {
   const pathname = "/categories/bedding/";
   const title = locale === "ar" ? "مفروشات السرير | Home of Linen" : "Bedding Collection | Home of Linen Egypt";
   const description = locale === "ar"
-    ? "تسوق مفروشات السرير من Home of Linen: أكياس مخدات، ملايات بأستك، ملايات سادة، أغطية لحاف ومفارش سرير. اطلب عبر واتساب."
-    : "Shop Home of Linen bedding: pillowcase sets, fitted sheet sets, flat sheet sets, duvet cover sets and bedspreads. Order through WhatsApp.";
+    ? "تسوق مفروشات السرير من Home of Linen: أكياس مخدات، ملايات بأستك، ملايات سادة، أغطية لحاف، لحاف مبطن، مخدات ومراتب توبر."
+    : "Shop Home of Linen bedding: pillowcase sets, fitted sheet sets, flat sheet sets, duvet cover sets, comforters, pillows and mattress toppers.";
   const h1 = locale === "ar" ? "مفروشات السرير" : "Bedding Collection";
-  const subtitle = locale === "ar"
-    ? "كل ما تحتاجه لبناء سرير هادئ ومتناسق من Home of Linen."
-    : "Build a calm, coordinated Home of Linen bed with the core pieces in one place.";
-  const catalogHtml = beddingCategories.map(category => {
-    const slug = categorySlugs[category];
-    const groupProducts = products.filter(product => product.category === category);
-    return `<section class="category category-${slug}" id="${slug}">
-    <div class="category-head"><div><p class="eyebrow">${locale === "ar" ? "هوم أوف لينن" : "Home Of Linen"}</p><h2>${esc(categoryName(category, locale))}</h2><p>${esc(locale === "ar" ? "اختيارات هادئة ومتناسقة لغرفة النوم." : "Calm, coordinated pieces for a beautifully finished bed.")}</p></div><img src="${assetRef(locale, pathname, categoryHero[category])}" alt="${esc(locale === "ar" ? `${categoryName(category, locale)} من Home of Linen` : `${category.toLowerCase()} bedding collection by Home of Linen`)}" loading="lazy"></div>
-    <div class="grid">${groupProducts.map(product => productCardStatic(product, locale, pathname)).join("")}</div>
-  </section>`;
-  }).join("");
-  const body = `<section class="product-seo-page"><p class="eyebrow">${locale === "ar" ? "هوم أوف لينن" : "Home Of Linen"}</p><h1>${esc(h1)}</h1><p>${esc(subtitle)}</p></section>`;
+  const orderedProducts = beddingCategories.flatMap(category => products.filter(product => product.category === category));
+  const catalogHtml = `<section class="category category-bedding-products only-products"><div class="grid">${orderedProducts.map(product => productCardStatic(product, locale, pathname)).join("")}</div></section>`;
+  const body = `<h1 class="visually-hidden">${esc(h1)}</h1>`;
   const schema = [breadcrumbSchema([
     { name: "Home", url: locale === "ar" ? arUrl("/") : enUrl("/") },
     { name: h1, url: locale === "ar" ? arUrl(pathname) : enUrl(pathname) }
   ])];
-  return { locale, pathname, html: layout({ locale, type: "category", title, description, pathname, h1, body, catalogHtml, config: { type: "category", category: "bedding", h1, categoryIntroShort: subtitle }, schema }) };
+  return { locale, pathname, html: layout({ locale, type: "category", title, description, pathname, h1, body, catalogHtml, config: { type: "category", category: "bedding", h1 }, schema }) };
 }
 
 function productPage(product, locale) {
