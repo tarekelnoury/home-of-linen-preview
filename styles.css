@@ -1065,36 +1065,40 @@ select {
     border-radius: 14px;
     border-color: rgba(47, 42, 37, .55);
     background: rgba(255, 253, 248, .86);
-    color: var(--ink);
+    color: #a79d8c;
     font-size: 0;
     white-space: nowrap;
-    display: grid;
-    place-items: center;
+    display: block;
     overflow: visible;
   }
   .basket-button:hover {
     background: rgba(255, 253, 248, .96);
-    color: var(--ink);
+    color: #a79d8c;
     transform: none;
   }
   .basket-button::before {
     content: "";
-    width: 17px;
-    height: 16px;
-    border: 2px solid currentColor;
-    border-radius: 2px 2px 4px 4px;
-    transform: translateY(2px);
+    position: absolute;
+    left: 11px;
+    bottom: 9px;
+    width: 22px;
+    height: 20px;
+    border: 3px solid currentColor;
+    border-radius: 6px;
+    background:
+      radial-gradient(circle at 7px 5px, currentColor 0 2px, transparent 2.5px),
+      radial-gradient(circle at 15px 5px, currentColor 0 2px, transparent 2.5px);
   }
   .basket-button::after {
     content: "";
     position: absolute;
-    top: 13px;
+    top: 9px;
     left: 50%;
-    width: 10px;
-    height: 8px;
-    border: 2px solid currentColor;
+    width: 17px;
+    height: 17px;
+    border: 3px solid currentColor;
     border-bottom: 0;
-    border-radius: 8px 8px 0 0;
+    border-radius: 18px 18px 0 0;
     transform: translateX(-50%);
   }
   .basket-button #basketCount {
