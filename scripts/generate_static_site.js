@@ -366,7 +366,12 @@ function productPage(product, locale) {
     ? `تسوق ${name} من Home of Linen. اختر المقاس أو اللون وأرسل الطلب عبر واتساب بأسعار واضحة بالجنيه المصري.`
     : `Shop ${product.name} from Home of Linen in Egypt. Choose size, colour and quantity, then confirm your order through WhatsApp in EGP.`;
   const image = productImage(product);
-  const body = `<section class="product-seo-page"><p class="eyebrow">${esc(catName)}</p><h1>${esc(locale === "ar" ? `${name} من Home of Linen` : `${product.name} in Egypt`)}</h1><p>${esc(locale === "ar" ? "اختر التفاصيل المناسبة وأكمل الطلب عبر واتساب." : "Choose your preferred details and complete your order through WhatsApp.")}</p></section>`;
+  const galleryHtml = product.gallery?.length > 1
+    ? `<section class="product-gallery-strip" aria-label="${esc(locale === "ar" ? "صور المنتج" : "Product images")}">
+    ${product.gallery.map((galleryImage, index) => `<img src="${assetRef(locale, pathname, galleryImage)}" alt="${esc(`${product.name} ${index === 0 ? "featured product image" : "lifestyle image"}`)}" loading="lazy">`).join("")}
+  </section>`
+    : "";
+  const body = `<section class="product-seo-page"><p class="eyebrow">${esc(catName)}</p><h1>${esc(locale === "ar" ? `${name} من Home of Linen` : `${product.name} in Egypt`)}</h1><p>${esc(locale === "ar" ? "اختر التفاصيل المناسبة وأكمل الطلب عبر واتساب." : "Choose your preferred details and complete your order through WhatsApp.")}</p></section>${galleryHtml ? `\n  ${galleryHtml}` : ""}`;
   const catalogHtml = `<div class="grid">${productCardStatic(product, locale, pathname)}</div>`;
   const productSchema = {
     "@context": "https://schema.org",

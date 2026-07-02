@@ -167,6 +167,71 @@ window.HOL_PRODUCTS = {
       variants: [{ label: "100 × 190 cm", price: 650 }]
     },
     {
+      id: "sunshine-garden-beach-towel",
+      category: "Summer Essentials",
+      name: "Sunshine Garden Beach Towel",
+      includes: "70 × 140 cm",
+      description: "A joyful summer design filled with playful florals, sunshine motifs, and bright colours. Sunshine Garden brings a cheerful poolside feeling to the collection, made for relaxed beach days, warm afternoons, and colourful summer escapes.",
+      image: "assets/summer-essentials/printed-beach-towels/sunshine-garden-beach-towel.jpg",
+      gallery: [
+        "assets/summer-essentials/printed-beach-towels/sunshine-garden-beach-towel.jpg",
+        "assets/summer-essentials/printed-beach-towels/sunshine-garden-beach-towel-2.jpg"
+      ],
+      variants: [{ label: "70 × 140 cm", price: 650 }]
+    },
+    {
+      id: "sunray-bliss-beach-towel",
+      category: "Summer Essentials",
+      name: "Sunray Bliss Beach Towel",
+      includes: "70 × 140 cm",
+      description: "A vibrant sunburst design inspired by carefree summer days and retro coastal energy. Sunray Bliss adds warmth, movement, and a bright holiday mood to any beach club, poolside lounger, or sunny getaway.",
+      image: "assets/summer-essentials/printed-beach-towels/sunray-bliss-beach-towel.jpg",
+      gallery: [
+        "assets/summer-essentials/printed-beach-towels/sunray-bliss-beach-towel.jpg",
+        "assets/summer-essentials/printed-beach-towels/sunray-bliss-beach-towel-2.jpg"
+      ],
+      variants: [{ label: "70 × 140 cm", price: 650 }]
+    },
+    {
+      id: "amalfi-escape-beach-towel",
+      category: "Summer Essentials",
+      name: "Amalfi Escape Beach Towel",
+      includes: "70 × 140 cm",
+      description: "Inspired by the charm of the Italian coast, Amalfi Escape features lemons, seaside details, and Mediterranean colours. It brings a refined holiday feeling to summer days, from poolside lounging to coastal weekend escapes.",
+      image: "assets/summer-essentials/printed-beach-towels/amalfi-escape-beach-towel.jpg",
+      gallery: [
+        "assets/summer-essentials/printed-beach-towels/amalfi-escape-beach-towel.jpg",
+        "assets/summer-essentials/printed-beach-towels/amalfi-escape-beach-towel-2.jpg"
+      ],
+      variants: [{ label: "70 × 140 cm", price: 650 }]
+    },
+    {
+      id: "blue-horizon-beach-towel",
+      category: "Summer Essentials",
+      name: "Blue Horizon Beach Towel",
+      includes: "70 × 140 cm",
+      description: "A clean sun-and-sea design with golden rays and flowing blue waves. Blue Horizon captures the calm feeling of ocean mornings, resort living, and peaceful summer afternoons by the water.",
+      image: "assets/summer-essentials/printed-beach-towels/blue-horizon-beach-towel.jpg",
+      gallery: [
+        "assets/summer-essentials/printed-beach-towels/blue-horizon-beach-towel.jpg",
+        "assets/summer-essentials/printed-beach-towels/blue-horizon-beach-towel-2.jpg"
+      ],
+      variants: [{ label: "70 × 140 cm", price: 650 }]
+    },
+    {
+      id: "citrus-amore-beach-towel",
+      category: "Summer Essentials",
+      name: "Citrus Amore Beach Towel",
+      includes: "70 × 140 cm",
+      description: "Bold, playful, and full of Italian summer character. Citrus Amore combines vivid pink, orange, and citrus-inspired artwork for a stylish beach club look with a bright Mediterranean spirit.",
+      image: "assets/summer-essentials/printed-beach-towels/citrus-amore-beach-towel.jpg",
+      gallery: [
+        "assets/summer-essentials/printed-beach-towels/citrus-amore-beach-towel.jpg",
+        "assets/summer-essentials/printed-beach-towels/citrus-amore-beach-towel-2.jpg"
+      ],
+      variants: [{ label: "70 × 140 cm", price: 650 }]
+    },
+    {
       id: "kitchen-towel",
       category: "Towels",
       name: "Kitchen Towels",
