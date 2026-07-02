@@ -70,7 +70,7 @@ const categoryHeroImages = {
   "Mattress Toppers": "assets/images/editorial/mattress-toppers.png",
   Pillows: "assets/images/editorial/pillows.png",
   "Summer Essentials": "assets/images/editorial/summer-essentials.png",
-  "Home Fragrance": "assets/images/editorial/home-fragrance.jpg",
+  "Home Fragrance": "assets/images/editorial/home-fragrance.png",
   Bedspreads: "assets/images/editorial/bedspreads.png"
 };
 
