@@ -419,32 +419,36 @@ button, select, input, textarea { font: inherit; }
 
 .gallery-toggle {
   position: absolute;
-  left: 18px;
-  right: 18px;
-  bottom: 18px;
+  inset: 0;
   display: flex;
-  justify-content: center;
-  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px;
+  pointer-events: none;
   z-index: 3;
 }
 
-.gallery-toggle button {
+.gallery-arrow {
+  width: 42px;
+  height: 42px;
   border: 1px solid rgba(46, 39, 33, .18);
-  background: rgba(255, 253, 248, .86);
+  background: rgba(255, 253, 248, .78);
   color: var(--ink);
-  border-radius: 999px;
-  padding: 8px 13px;
-  font-size: .72rem;
-  letter-spacing: .08em;
-  text-transform: uppercase;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-family: var(--brand-serif);
+  font-size: 2rem;
+  line-height: 1;
   cursor: pointer;
   box-shadow: 0 8px 24px rgba(73, 55, 37, .12);
+  pointer-events: auto;
+  transition: transform .18s ease, background .18s ease;
 }
 
-.gallery-toggle button.active {
-  background: var(--ink);
-  color: var(--paper);
-  border-color: var(--ink);
+.gallery-arrow:hover {
+  background: rgba(255, 253, 248, .94);
+  transform: scale(1.04);
 }
 
 .fallback-art {
@@ -1018,6 +1022,12 @@ select {
   .image-wrap img {
     object-fit: contain;
     background: linear-gradient(135deg, #f3eadb, #fffaf1);
+  }
+  .image-wrap:has(.gallery-toggle) {
+    touch-action: pan-y;
+  }
+  .gallery-toggle {
+    display: none;
   }
   .mobile-controls { display: none; }
   .card-body {

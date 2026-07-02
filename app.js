@@ -608,15 +608,31 @@ function activateCard(product) {
     if (product.gallery?.length > 1) {
       const galleryToggle = document.createElement("div");
       galleryToggle.className = "gallery-toggle";
-      galleryToggle.innerHTML = product.gallery.map((_, index) => `
-        <button type="button" class="${index === selections.galleryIndex ? "active" : ""}" data-gallery-index="${index}" aria-label="${t(`Show photo ${index + 1}`, `عرض الصورة ${index + 1}`)}">${t(`Photo ${index + 1}`, `صورة ${index + 1}`)}</button>
-      `).join("");
+      galleryToggle.innerHTML = `
+        <button type="button" class="gallery-arrow gallery-arrow-prev" data-gallery-direction="-1" aria-label="${t("Previous image", "الصورة السابقة")}">‹</button>
+        <button type="button" class="gallery-arrow gallery-arrow-next" data-gallery-direction="1" aria-label="${t("Next image", "الصورة التالية")}">›</button>
+      `;
       image.appendChild(galleryToggle);
-      galleryToggle.querySelectorAll("[data-gallery-index]").forEach(button => button.addEventListener("click", event => {
-        event.preventDefault();
-        selections.galleryIndex = Number(button.dataset.galleryIndex);
+      const showGalleryImage = direction => {
+        selections.galleryIndex = (selections.galleryIndex + direction + product.gallery.length) % product.gallery.length;
         update();
+      };
+      galleryToggle.querySelectorAll("[data-gallery-direction]").forEach(button => button.addEventListener("click", event => {
+        event.preventDefault();
+        showGalleryImage(Number(button.dataset.galleryDirection));
       }));
+      let touchStartX = 0;
+      image.ontouchstart = event => {
+        touchStartX = event.changedTouches[0].clientX;
+      };
+      image.ontouchend = event => {
+        const deltaX = event.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(deltaX) < 42) return;
+        showGalleryImage(deltaX < 0 ? 1 : -1);
+      };
+    } else {
+      image.ontouchstart = null;
+      image.ontouchend = null;
     }
     const scent = scents[selections.scentIndex] || scents[0];
     const bundleSpec = product.setToggle && selections.bundleType === "single" ? "Single Item" : product.includes;
