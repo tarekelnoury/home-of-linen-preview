@@ -52,50 +52,54 @@ const categoryCopy = {
   Pillowcases: "Crisp Percale Pillowcase Sets With A Clean Tailored Finish For Everyday Comfort.",
   "Flat Sheets": "Elegant Percale Flat Sheet Sets For A Boutique-Hotel Fold And A Light Breathable Layer.",
   Towels: "Plush 600 Gsm Egyptian Cotton Essentials For A Spa-Like Daily Ritual.",
-  "Summer Essentials": "Striped pool and beach towels for sunny days, resort weekends and relaxed summer lounging.",
-  Pillows: "Soft, Medium And Firm Bed Pillows With A Clean Blended-Cotton Shell.",
-  "Mattress Toppers": "Comfort Layers Designed To Refresh The Mattress And Elevate The Whole Bed.",
   Comforters: "White Comforters For Airy Layering, Warmth And A Soft Finished Bed.",
-  "Home Fragrance": "Coming Soon."
+  "Mattress Toppers": "Comfort Layers Designed To Refresh The Mattress And Elevate The Whole Bed.",
+  Pillows: "Soft, Medium And Firm Bed Pillows With A Clean Blended-Cotton Shell.",
+  "Summer Essentials": "Striped pool and beach towels for sunny days, resort weekends and relaxed summer lounging.",
+  "Home Fragrance": "Coming Soon.",
+  Bedspreads: "Honeycomb woven bedspreads for a warm, textured and beautifully finished bedroom."
 };
 
 const categoryHeroImages = {
-  "Fitted Sheets": "assets/images/editorial/fitted-sheets.jpg",
-  "Duvet Covers": "assets/images/editorial/duvet-covers.jpg",
-  Pillowcases: "assets/images/editorial/pillowcases.jpg",
-  "Flat Sheets": "assets/images/editorial/flat-sheets.jpg",
-  Towels: "assets/images/editorial/towels.jpg",
-  "Summer Essentials": "assets/images/editorial/summer-essentials.jpg",
-  Pillows: "assets/images/editorial/pillows.jpg",
-  "Mattress Toppers": "assets/images/editorial/mattress-toppers.jpg",
-  Comforters: "assets/images/editorial/comforters.jpg",
-  "Home Fragrance": "assets/images/editorial/home-fragrance.jpg"
+  "Fitted Sheets": "assets/images/editorial/fitted-sheets.png",
+  "Flat Sheets": "assets/images/editorial/flat-sheets.png",
+  Pillowcases: "assets/images/editorial/pillowcases.png",
+  "Duvet Covers": "assets/images/editorial/duvet-covers.png",
+  Towels: "assets/images/editorial/towels.png",
+  Comforters: "assets/images/editorial/comforters.png",
+  "Mattress Toppers": "assets/images/editorial/mattress-toppers.png",
+  Pillows: "assets/images/editorial/pillows.png",
+  "Summer Essentials": "assets/images/editorial/summer-essentials.png",
+  "Home Fragrance": "assets/images/editorial/home-fragrance.jpg",
+  Bedspreads: "assets/images/editorial/bedspreads.png"
 };
 
 const categoryOrder = [
-  "Pillowcases",
   "Fitted Sheets",
   "Flat Sheets",
+  "Pillowcases",
   "Duvet Covers",
   "Towels",
-  "Summer Essentials",
-  "Pillows",
   "Comforters",
   "Mattress Toppers",
-  "Home Fragrance"
+  "Pillows",
+  "Summer Essentials",
+  "Home Fragrance",
+  "Bedspreads"
 ];
 
 const categorySlugs = {
-  "Pillowcases": "pillowcases",
   "Fitted Sheets": "fitted-sheets",
   "Flat Sheets": "flat-sheets",
+  "Pillowcases": "pillowcases",
   "Duvet Covers": "duvet-covers",
   "Towels": "towels",
-  "Summer Essentials": "summer-essentials",
-  "Pillows": "pillows",
   "Comforters": "comforters",
   "Mattress Toppers": "mattress-toppers",
-  "Home Fragrance": "home-fragrance"
+  "Pillows": "pillows",
+  "Summer Essentials": "summer-essentials",
+  "Home Fragrance": "home-fragrance",
+  "Bedspreads": "bedspreads"
 };
 
 const categorySlugToName = Object.fromEntries(Object.entries(categorySlugs).map(([name, slug]) => [slug, name]));
@@ -106,11 +110,12 @@ const categoryArabicNames = {
   "Flat Sheets": "ملايات سادة",
   "Duvet Covers": "أغطية لحاف",
   "Towels": "فوط",
-  "Summer Essentials": "أساسيات الصيف",
-  "Pillows": "مخدات",
   "Comforters": "لحاف مبطن",
   "Mattress Toppers": "مراتب توبر",
-  "Home Fragrance": "معطرات المنزل"
+  "Pillows": "مخدات",
+  "Summer Essentials": "أساسيات الصيف",
+  "Home Fragrance": "معطرات المنزل",
+  "Bedspreads": "مفارش سرير"
 };
 
 const productArabicNames = {
@@ -127,6 +132,7 @@ const productArabicNames = {
   "Premium Bed Pillow": "مخدة سرير فاخرة",
   "Mattress Topper": "مرتبة توبر",
   "Comforter": "لحاف مبطن",
+  "Honeycomb Bedspread": "مفرش سرير هوني كومب",
   "Linen & Pillow Mist": "معطر مفروشات ومخدات",
   "Reed Diffuser": "دفيوزر أعواد",
   "Scented Candle": "شمعة معطرة",
@@ -155,7 +161,8 @@ function productDescription(product) {
     "Pillows": "مخدة سرير بيضاء بحشو مريح، متوفرة بدرجات دعم مختلفة حسب إحساس النوم الذي تفضله.",
     "Comforters": "لحاف مبطن أبيض بطبقة ناعمة ودافئة، مناسب لتنسيق سرير هادئ ومكتمل.",
     "Mattress Toppers": "توبر أبيض مبطن يضيف طبقة راحة إضافية للمرتبة ويجعل السرير أكثر نعومة.",
-    "Home Fragrance": "معطرات منزلية قادمة قريباً لتكمل إحساس المفروشات الهادئة برائحة أنيقة."
+    "Home Fragrance": "معطرات منزلية قادمة قريباً لتكمل إحساس المفروشات الهادئة برائحة أنيقة.",
+    "Bedspreads": "مفرش سرير بنسيج هوني كومب هادئ يضيف ملمساً دافئاً وطبقة نهائية أنيقة للغرفة."
   };
   return descriptions[product.category] || product.description || "";
 }
@@ -497,6 +504,7 @@ function activateCard(product) {
       mobileControls.innerHTML = controls.innerHTML;
       controls.querySelectorAll("[data-towel-option]").forEach(button => button.addEventListener("click", () => {
         selections.colorName = colors[Number(button.dataset.towelOption)].name;
+        selections.galleryIndex = 0;
         renderControls();
         update();
       }));
@@ -506,6 +514,7 @@ function activateCard(product) {
       });
       mobileControls.querySelectorAll("[data-towel-option]").forEach(button => button.addEventListener("click", () => {
         selections.colorName = colors[Number(button.dataset.towelOption)].name;
+        selections.galleryIndex = 0;
         renderControls();
         update();
       }));
@@ -601,10 +610,12 @@ function activateCard(product) {
   }
 
   function update() {
-    const hasGallery = product.gallery?.length > 1;
+    const selectedColor = product.colorBased ? (product.colors || towelColors).find(item => item.name === selections.colorName) : null;
+    const activeGallery = selectedColor?.gallery || product.gallery || [];
+    const hasGallery = activeGallery.length > 1;
     image.classList.toggle("has-gallery", hasGallery);
-    const img = product.gallery?.length
-      ? product.gallery[selections.galleryIndex] || product.gallery[0]
+    const img = activeGallery.length
+      ? activeGallery[selections.galleryIndex] || activeGallery[0]
       : imageFor(product, selections.fabric, selections.optionName, selections.colorName);
     setImage(image, img, `${productLabel(product)} ${product.fabricBased ? fabrics[selections.fabric].label : selections.colorName}`);
     if (hasGallery) {
@@ -619,7 +630,7 @@ function activateCard(product) {
         if (image.classList.contains("image-fading")) return;
         image.classList.add("image-fading");
         window.setTimeout(() => {
-          selections.galleryIndex = (selections.galleryIndex + direction + product.gallery.length) % product.gallery.length;
+          selections.galleryIndex = (selections.galleryIndex + direction + activeGallery.length) % activeGallery.length;
           update();
           window.requestAnimationFrame(() => image.classList.remove("image-fading"));
         }, 120);
@@ -665,7 +676,7 @@ function activateCard(product) {
   });
   card.querySelector("[data-add]").addEventListener("click", () => {
     if (product.noPrice) {
-      showToast("Home Fragrance is coming soon.");
+      showToast(t(`${productLabel(product)} is coming soon.`, `${productLabel(product)} قريباً.`));
       return;
     }
     if (!isSelectionAvailable(product, selections)) {
@@ -1085,8 +1096,21 @@ document.querySelector("#openBasket").addEventListener("click", () => {
   basketDrawer.classList.add("open");
   basketDrawer.setAttribute("aria-hidden", "false");
 });
+const menuToggle = document.querySelector("#menuToggle");
+const siteNav = document.querySelector("#siteNav");
+function closeMenu() {
+  siteNav?.classList.remove("open");
+  menuToggle?.setAttribute("aria-expanded", "false");
+  document.body.classList.remove("menu-open");
+}
+menuToggle?.addEventListener("click", () => {
+  const isOpen = siteNav.classList.toggle("open");
+  menuToggle.setAttribute("aria-expanded", String(isOpen));
+  document.body.classList.toggle("menu-open", isOpen);
+});
 document.querySelectorAll(".nav a, .hero-hotspot").forEach(link => {
   link.addEventListener("click", event => {
+    closeMenu();
     const targetId = link.getAttribute("href")?.slice(1);
     const target = targetId ? document.getElementById(targetId) : null;
     if (!target) return;
@@ -1101,7 +1125,10 @@ basketDrawer.addEventListener("click", e => {
   if (e.target === basketDrawer) closeDrawer();
 });
 document.addEventListener("keydown", e => {
-  if (e.key === "Escape") closeDrawer();
+  if (e.key === "Escape") {
+    closeDrawer();
+    closeMenu();
+  }
 });
 document.querySelector("#checkout").addEventListener("click", openWhatsAppOrder);
 document.querySelector("#confirmOrder").addEventListener("click", confirmWhatsAppOrder);

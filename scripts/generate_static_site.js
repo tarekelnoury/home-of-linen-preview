@@ -25,11 +25,12 @@ const categorySlugs = {
   Pillowcases: "pillowcases",
   "Duvet Covers": "duvet-covers",
   Towels: "towels",
-  "Summer Essentials": "summer-essentials",
-  Pillows: "pillows",
   Comforters: "comforters",
   "Mattress Toppers": "mattress-toppers",
-  "Home Fragrance": "home-fragrance"
+  Pillows: "pillows",
+  "Summer Essentials": "summer-essentials",
+  "Home Fragrance": "home-fragrance",
+  Bedspreads: "bedspreads"
 };
 
 const categoryArabic = {
@@ -38,24 +39,26 @@ const categoryArabic = {
   Pillowcases: "أكياس مخدات",
   "Duvet Covers": "أغطية لحاف",
   Towels: "فوط",
-  "Summer Essentials": "أساسيات الصيف",
-  Pillows: "مخدات",
   Comforters: "لحاف مبطن",
   "Mattress Toppers": "مراتب توبر",
-  "Home Fragrance": "معطرات المنزل"
+  Pillows: "مخدات",
+  "Summer Essentials": "أساسيات الصيف",
+  "Home Fragrance": "معطرات المنزل",
+  Bedspreads: "مفارش سرير"
 };
 
 const categoryHero = {
-  "Fitted Sheets": "assets/images/editorial/fitted-sheets.jpg",
-  "Flat Sheets": "assets/images/editorial/flat-sheets.jpg",
-  Pillowcases: "assets/images/editorial/pillowcases.jpg",
-  "Duvet Covers": "assets/images/editorial/duvet-covers.jpg",
-  Towels: "assets/images/editorial/towels.jpg",
-  "Summer Essentials": "assets/images/editorial/summer-essentials.jpg",
-  Pillows: "assets/images/editorial/pillows.jpg",
-  Comforters: "assets/images/editorial/comforters.jpg",
-  "Mattress Toppers": "assets/images/editorial/mattress-toppers.jpg",
-  "Home Fragrance": "assets/images/editorial/home-fragrance.jpg"
+  "Fitted Sheets": "assets/images/editorial/fitted-sheets.png",
+  "Flat Sheets": "assets/images/editorial/flat-sheets.png",
+  Pillowcases: "assets/images/editorial/pillowcases.png",
+  "Duvet Covers": "assets/images/editorial/duvet-covers.png",
+  Towels: "assets/images/editorial/towels.png",
+  Comforters: "assets/images/editorial/comforters.png",
+  "Mattress Toppers": "assets/images/editorial/mattress-toppers.png",
+  Pillows: "assets/images/editorial/pillows.png",
+  "Summer Essentials": "assets/images/editorial/summer-essentials.png",
+  "Home Fragrance": "assets/images/editorial/home-fragrance.jpg",
+  Bedspreads: "assets/images/editorial/bedspreads.png"
 };
 
 const categoryIntros = {
@@ -98,6 +101,10 @@ const categoryIntros = {
   "Home Fragrance": {
     en: "Home Fragrance is a coming soon extension of the Home of Linen world. Beautiful bedding deserves a beautiful scent, so this collection is being prepared to sit naturally beside Egyptian cotton sheets, pillowcases, duvet covers and calm bedroom essentials. The direction is warm, minimal and hotel-inspired, with linen and pillow mist, reed diffusers, room sprays and scented candles planned for future release. For now, the collection page is kept visible for preview and SEO structure while products remain unavailable to order. This allows customers to understand the upcoming mood without showing fake prices or stock. The final collection will focus on gentle everyday scents, elegant packaging and fragrance rituals that make bedrooms, bathrooms and living spaces feel more complete.",
     ar: "معطرات المنزل هي امتداد قادم لعالم Home of Linen. المفروشات الجميلة تستحق رائحة جميلة، لذلك يتم تجهيز هذه المجموعة لتتناسب بشكل طبيعي مع الملايات القطن المصري وأكياس المخدات وأغطية اللحاف ومستلزمات غرفة النوم الهادئة. الاتجاه العام دافئ وبسيط ومستوحى من الفنادق، مع معطر مفروشات ومخدات ودفيوزر أعواد ومعطر غرفة وشموع معطرة مخطط لها لاحقاً. حالياً تظهر الصفحة للمعاينة وبناء الموقع بشكل منظم بدون أسعار وهمية أو مخزون غير حقيقي. المجموعة النهائية ستركز على روائح يومية ناعمة، تغليف أنيق وطقوس عطرية تجعل غرف النوم والحمامات والمساحات المعيشية أكثر اكتمالاً."
+  },
+  Bedspreads: {
+    en: "Home of Linen bedspreads are designed as the final editorial layer for a calm, finished bedroom. The honeycomb woven texture adds quiet depth without making the bed feel heavy or busy, creating the kind of relaxed luxury associated with boutique hotels and warm modern interiors. Available in Off White, Beige and Olive, each colour is selected to sit naturally beside Egyptian cotton sheets, pillows, duvet covers and comforters. The generous 180 × 240 cm and 230 × 240 cm sizes make the bedspread easy to style across different bed setups, whether folded at the foot of the bed or spread fully for a soft, textured finish. Use it to add warmth, texture and a more complete look to the room while keeping the Home of Linen mood minimal, neutral and timeless.",
+    ar: "مفارش السرير من Home of Linen مصممة كطبقة أخيرة أنيقة تمنح غرفة النوم شكلاً هادئاً ومكتملاً. نسيج الهوني كومب يضيف ملمساً واضحاً وعمقاً ناعماً بدون أن يجعل السرير مزدحماً أو ثقيلاً، ليعطي إحساساً قريباً من الفنادق البوتيك والغرف العصرية الدافئة. تتوفر الألوان أوف وايت، بيج وأوليف لتتناسب بسهولة مع ملايات القطن المصري والمخدات وأغطية اللحاف واللحاف المبطن. مقاسات 180 × 240 سم و230 × 240 سم تجعل المفرش عملياً لتنسيقات مختلفة، سواء مطوياً عند نهاية السرير أو مفروشاً بالكامل كطبقة ناعمة ذات ملمس. استخدمه لإضافة دفء وملمس وشكل أكثر اكتمالاً مع الحفاظ على هوية Home of Linen الهادئة والبسيطة."
   }
 };
 
@@ -115,6 +122,7 @@ const productArabicNames = {
   "Premium Bed Pillow": "مخدة سرير فاخرة",
   "Mattress Topper": "مرتبة توبر",
   Comforter: "لحاف مبطن",
+  "Honeycomb Bedspread": "مفرش سرير هوني كومب",
   "Linen & Pillow Mist": "معطر مفروشات ومخدات",
   "Reed Diffuser": "دفيوزر أعواد",
   "Scented Candle": "شمعة معطرة",
@@ -139,7 +147,8 @@ function productDescription(product, locale) {
     Pillows: "مخدة سرير بيضاء بحشو مريح، متوفرة بدرجات دعم مختلفة حسب إحساس النوم الذي تفضله.",
     Comforters: "لحاف مبطن أبيض بطبقة ناعمة ودافئة، مناسب لتنسيق سرير هادئ ومكتمل.",
     "Mattress Toppers": "توبر أبيض مبطن يضيف طبقة راحة إضافية للمرتبة ويجعل السرير أكثر نعومة.",
-    "Home Fragrance": "معطرات منزلية قادمة قريباً لتكمل إحساس المفروشات الهادئة برائحة أنيقة."
+    "Home Fragrance": "معطرات منزلية قادمة قريباً لتكمل إحساس المفروشات الهادئة برائحة أنيقة.",
+    Bedspreads: "مفرش سرير بنسيج هوني كومب هادئ يضيف ملمساً دافئاً وطبقة نهائية أنيقة للغرفة."
   };
   return descriptions[product.category] || product.description || "";
 }
@@ -256,7 +265,8 @@ function layout({ locale = "en", type = "content", title, description, pathname,
       <a class="brand" href="${hrefTo(locale, pathname, locale, "/")}" aria-label="Home of Linen home">
         <img src="${assetRef(locale, pathname, "assets/brand/home-of-linen-logo.png")}" alt="Home of Linen logo" />
       </a>
-      <nav class="nav" aria-label="${locale === "ar" ? "أقسام المنتجات" : "Product categories"}">${nav(locale, pathname)}</nav>
+      <button class="menu-button" id="menuToggle" type="button" aria-label="${locale === "ar" ? "فتح القائمة" : "Open menu"}" aria-expanded="false" aria-controls="siteNav"><span></span><span></span><span></span></button>
+      <nav class="nav" id="siteNav" aria-label="${locale === "ar" ? "أقسام المنتجات" : "Product categories"}"><button class="shop-trigger" type="button">${locale === "ar" ? "تسوق" : "Shop"}</button><div class="nav-panel"><p class="eyebrow">${locale === "ar" ? "تسوق" : "Shop"}</p>${nav(locale, pathname)}</div></nav>
       <button class="basket-button" id="openBasket" aria-label="${locale === "ar" ? "افتح السلة" : "Open basket"}">${locale === "ar" ? "السلة" : "Basket"} <span id="basketCount">0</span></button>
     </header>
     <main id="top">

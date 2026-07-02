@@ -292,6 +292,26 @@ window.HOL_PRODUCTS = {
       }
     },
     {
+      id: "bedspread",
+      category: "Bedspreads",
+      name: "Honeycomb Bedspread",
+      includes: "Honeycomb Woven Bedspread",
+      description: "A calm honeycomb woven bedspread designed to add quiet texture, softness and an elegant finished layer to the bedroom. Available in Off White, Beige and Olive, with two generous sizes for refined everyday styling.",
+      image: "assets/bedspreads/off-white-bedspread.png",
+      colorBased: true,
+      noPrice: true,
+      sizeLabel: "Size",
+      colors: [
+        { name: "Off White", value: "#F3EEE4", image: "assets/bedspreads/off-white-bedspread.png", gallery: ["assets/bedspreads/off-white-bedspread.png", "assets/bedspreads/off-white-bedspread-2.png"] },
+        { name: "Beige", value: "#CDB999", image: "assets/bedspreads/beige-bedspread.png", gallery: ["assets/bedspreads/beige-bedspread.png", "assets/bedspreads/beige-bedspread-2.png"] },
+        { name: "Olive", value: "#8E9270", image: "assets/bedspreads/olive-bedspread.png", gallery: ["assets/bedspreads/olive-bedspread.png", "assets/bedspreads/olive-bedspread-2.png"] }
+      ],
+      variants: [
+        { label: "180 × 240 cm" },
+        { label: "230 × 240 cm" }
+      ]
+    },
+    {
       id: "linen-pillow-mist",
       category: "Home Fragrance",
       name: "Linen & Pillow Mist",
