@@ -391,6 +391,7 @@ function activateCard(product) {
     bundleType: product.setToggle ? "set" : "",
     sizeIndex: 0,
     variantIndex: 0,
+    galleryIndex: 0,
     matrixSize: product.matrix ? Object.keys(product.matrix.variants[0].prices)[0] : "",
     qty: 1
   };
@@ -600,8 +601,23 @@ function activateCard(product) {
   }
 
   function update() {
-    const img = imageFor(product, selections.fabric, selections.optionName, selections.colorName);
+    const img = product.gallery?.length
+      ? product.gallery[selections.galleryIndex] || product.gallery[0]
+      : imageFor(product, selections.fabric, selections.optionName, selections.colorName);
     setImage(image, img, `${productLabel(product)} ${product.fabricBased ? fabrics[selections.fabric].label : selections.colorName}`);
+    if (product.gallery?.length > 1) {
+      const galleryToggle = document.createElement("div");
+      galleryToggle.className = "gallery-toggle";
+      galleryToggle.innerHTML = product.gallery.map((_, index) => `
+        <button type="button" class="${index === selections.galleryIndex ? "active" : ""}" data-gallery-index="${index}" aria-label="${t(`Show photo ${index + 1}`, `عرض الصورة ${index + 1}`)}">${t(`Photo ${index + 1}`, `صورة ${index + 1}`)}</button>
+      `).join("");
+      image.appendChild(galleryToggle);
+      galleryToggle.querySelectorAll("[data-gallery-index]").forEach(button => button.addEventListener("click", event => {
+        event.preventDefault();
+        selections.galleryIndex = Number(button.dataset.galleryIndex);
+        update();
+      }));
+    }
     const scent = scents[selections.scentIndex] || scents[0];
     const bundleSpec = product.setToggle && selections.bundleType === "single" ? "Single Item" : product.includes;
     spec.textContent = product.fabricBased ? `${bundleSpec} · ${fabrics[selections.fabric].spec}` : product.colorBased ? `${product.includes} · ${selections.colorName}` : product.fragranceBased ? `${product.includes} · ${scent.name}` : product.includes;
