@@ -327,10 +327,39 @@ function currentDescription(product, selections) {
   return product.description || "";
 }
 
+function categoryHref(group) {
+  return `categories/${categorySlugs[group]}/index.html`;
+}
+
+function homeCategoryTemplate(group) {
+  const label = categoryLabel(group);
+  const description = categoryCopy[group] || "";
+  const image = categoryHeroImages[group];
+  return `
+    <section class="home-collection home-collection-${sectionId(group)}" id="${sectionId(group)}">
+      <a class="home-collection-image" href="${categoryHref(group)}" aria-label="${t(`Discover ${label}`, `اكتشف ${label}`)}">
+        <img src="${assetUrl(image)}" alt="${label} ${t("collection hero image", "صورة المجموعة")}" loading="lazy">
+      </a>
+      <div class="home-collection-copy">
+        <div>
+          <p class="eyebrow">${t("Home Of Linen", "هوم أوف لينن")}</p>
+          <h2>${label}</h2>
+          <p>${description}</p>
+        </div>
+        <a class="discover-button" href="${categoryHref(group)}">${t("Discover Collection", "اكتشف المجموعة")}</a>
+      </div>
+    </section>
+  `;
+}
+
 function renderCatalog() {
   const groups = visibleGroups();
   if (!groups.length) {
     catalog.innerHTML = "";
+    return;
+  }
+  if (pageConfig.type === "home") {
+    catalog.innerHTML = groups.map(homeCategoryTemplate).join("");
     return;
   }
   catalog.innerHTML = groups.map(group => `

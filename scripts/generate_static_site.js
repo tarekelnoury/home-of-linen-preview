@@ -195,7 +195,7 @@ function nav(locale, pathname) {
   const items = Object.entries(categorySlugs).map(([label, slug]) =>
     `<a href="${hrefTo(locale, pathname, locale, `/categories/${slug}/`)}">${esc(categoryName(label, locale))}</a>`
   ).join("");
-  return `${items}<a href="${hrefTo(locale, pathname, locale, "/about/")}">${locale === "ar" ? "عن القطن المصري" : "About"}</a><a href="${hrefTo(locale, pathname, locale, "/guides/")}">${locale === "ar" ? "الدليل" : "Guides"}</a>`;
+  return items;
 }
 
 function organizationSchema() {
@@ -266,7 +266,7 @@ function layout({ locale = "en", type = "content", title, description, pathname,
         <img src="${assetRef(locale, pathname, "assets/brand/home-of-linen-logo.png")}" alt="Home of Linen logo" />
       </a>
       <button class="menu-button" id="menuToggle" type="button" aria-label="${locale === "ar" ? "فتح القائمة" : "Open menu"}" aria-expanded="false" aria-controls="siteNav"><span></span><span></span><span></span></button>
-      <nav class="nav" id="siteNav" aria-label="${locale === "ar" ? "أقسام المنتجات" : "Product categories"}"><button class="shop-trigger" type="button">${locale === "ar" ? "تسوق" : "Shop"}</button><div class="nav-panel"><p class="eyebrow">${locale === "ar" ? "تسوق" : "Shop"}</p>${nav(locale, pathname)}</div></nav>
+      <nav class="nav" id="siteNav" aria-label="${locale === "ar" ? "أقسام المنتجات" : "Product categories"}"><div class="nav-panel">${nav(locale, pathname)}</div></nav>
       <button class="basket-button" id="openBasket" aria-label="${locale === "ar" ? "افتح السلة" : "Open basket"}">${locale === "ar" ? "السلة" : "Basket"} <span id="basketCount">0</span></button>
     </header>
     <main id="top">
