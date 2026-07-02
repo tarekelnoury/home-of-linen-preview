@@ -341,23 +341,20 @@ function categoryHref(group) {
 
 function homeCategoryTemplate(group) {
   const label = categoryLabel(group);
-  const description = categoryCopy[group] || "";
   const image = categoryHeroImages[group];
   return `
     <section class="home-collection home-collection-${sectionId(group)}" id="${sectionId(group)}">
       <a class="home-collection-image" href="${categoryHref(group)}" aria-label="${t(`Discover ${label}`, `اكتشف ${label}`)}">
         <img src="${assetUrl(image)}" alt="${label} ${t("collection hero image", "صورة المجموعة")}" loading="lazy">
       </a>
-      <div class="home-collection-copy">
-        <div>
-          <p class="eyebrow">${t("Home Of Linen", "هوم أوف لينن")}</p>
-          <h2>${label}</h2>
-          <p>${description}</p>
-        </div>
-        <a class="discover-button" href="${categoryHref(group)}">${t("Discover Collection", "اكتشف المجموعة")}</a>
-      </div>
     </section>
   `;
+}
+
+function homeGroups() {
+  const desktopOrder = ["Fitted Sheets", "Flat Sheets", "Pillowcases", "Duvet Covers", "Towels", "Summer Essentials", "Comforters", "Mattress Toppers", "Pillows", "Home Fragrance", "Bedspreads"];
+  const mobileOrder = ["Towels", "Summer Essentials", "Fitted Sheets", "Flat Sheets", "Pillowcases", "Duvet Covers", "Comforters", "Mattress Toppers", "Pillows", "Home Fragrance", "Bedspreads"];
+  return { desktopOrder, mobileOrder };
 }
 
 function renderCatalog() {
@@ -367,7 +364,11 @@ function renderCatalog() {
     return;
   }
   if (pageConfig.type === "home") {
-    catalog.innerHTML = groups.map(homeCategoryTemplate).join("");
+    const { desktopOrder, mobileOrder } = homeGroups();
+    catalog.innerHTML = `
+      <div class="home-category-stack home-category-stack-desktop">${desktopOrder.map(homeCategoryTemplate).join("")}</div>
+      <div class="home-category-stack home-category-stack-mobile">${mobileOrder.map(homeCategoryTemplate).join("")}</div>
+    `;
     return;
   }
   if (pageConfig.type === "category" && pageConfig.category === "bedding") {
