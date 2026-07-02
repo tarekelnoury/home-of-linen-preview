@@ -28,6 +28,7 @@ Category hero banners are part of the Home of Linen identity.
 
 - The homepage hero must feel equal in visual weight to the rest of the site, especially on mobile.
 - Homepage hero typography embedded in imagery must remain readable and should not appear smaller than category hierarchy.
+- When homepage hero text is embedded on the left side of the image, mobile cropping must preserve the full left-side text, plant, pot, and important styling details.
 - Use responsive image cropping.
 - Preserve the product as the focal point.
 - Preserve typography and tagline when they are part of the image.
