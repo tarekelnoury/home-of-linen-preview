@@ -1159,6 +1159,29 @@ function placeMenuForViewport() {
 }
 if (navPanel && !navPanel.querySelector(".mobile-menu-header")) {
   const logoSrc = document.querySelector(".brand img")?.getAttribute("src") || "assets/brand/home-of-linen-logo.png";
+  const existingLinks = Array.from(navPanel.querySelectorAll(":scope > a"));
+  const hrefForCategory = slug => {
+    const matchedLink = existingLinks.find(link => {
+      const href = link.getAttribute("href") || "";
+      return href.includes(`/categories/${slug}/`) || href.includes(`/${slug}/`) || href.includes(`${slug}/index.html`) || (pageConfig.category === slug && href === "index.html");
+    });
+    return matchedLink?.getAttribute("href");
+  };
+  const brandHref = document.querySelector(".brand")?.getAttribute("href") || "index.html";
+  const mobileMenuItems = [
+    { label: t("Bedding", "المفروشات"), href: brandHref },
+    { label: t("Towels", "الفوط"), href: hrefForCategory("towels") },
+    { label: t("Summer Essentials", "أساسيات الصيف"), href: hrefForCategory("summer-essentials") },
+    { label: t("Fitted Sheet Sets", "ملايات بأستك"), href: hrefForCategory("fitted-sheets") },
+    { label: t("Flat Sheets", "ملايات سادة"), href: hrefForCategory("flat-sheets") },
+    { label: t("Pillowcase Sets", "أكياس مخدات"), href: hrefForCategory("pillowcases") },
+    { label: t("Pillows", "مخدات"), href: hrefForCategory("pillows") },
+    { label: t("Comforters", "لحاف مبطن"), href: hrefForCategory("comforters") },
+    { label: t("Mattress Toppers", "مراتب توبر"), href: hrefForCategory("mattress-toppers") },
+    { label: t("Bedspreads", "مفارش سرير"), href: hrefForCategory("bedspreads") },
+    { label: t("Duvet Covers", "أغطية لحاف"), href: hrefForCategory("duvet-covers") },
+    { label: t("Home Fragrance", "معطرات المنزل"), href: hrefForCategory("home-fragrance") }
+  ].filter(item => item.href);
   navPanel.insertAdjacentHTML("afterbegin", `
     <div class="mobile-menu-header" aria-hidden="false">
       <button class="mobile-menu-close" type="button" aria-label="${t("Close menu", "إغلاق القائمة")}">×</button>
@@ -1167,6 +1190,9 @@ if (navPanel && !navPanel.querySelector(".mobile-menu-header")) {
         <span class="mobile-menu-basket-text">${t("Basket", "السلة")}</span>
         <span class="mobile-menu-basket-count" data-menu-basket-count>${basketCount?.textContent || "0"}</span>
       </button>
+    </div>
+    <div class="mobile-menu-links">
+      ${mobileMenuItems.map(item => `<a href="${item.href}">${item.label}</a>`).join("")}
     </div>
   `);
 }

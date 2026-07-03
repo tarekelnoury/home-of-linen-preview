@@ -71,7 +71,8 @@ button, select, input, textarea { font: inherit; }
   align-items: center;
 }
 
-.mobile-menu-header {
+.mobile-menu-header,
+.mobile-menu-links {
   display: none;
 }
 
@@ -504,6 +505,18 @@ button, select, input, textarea { font: inherit; }
 
 .image-wrap.has-gallery img,
 .image-wrap:has(.gallery-toggle) img {
+  object-fit: cover;
+  object-position: center;
+  background: transparent;
+}
+
+.card-summer-essentials .image-wrap,
+.category-summer-essentials .image-wrap {
+  background: transparent;
+}
+
+.card-summer-essentials .image-wrap img,
+.category-summer-essentials .image-wrap img {
   object-fit: cover;
   object-position: center;
   background: transparent;
@@ -1213,7 +1226,15 @@ select {
     overflow: hidden;
     clip: rect(0, 0, 0, 0);
   }
-  .nav a {
+  .mobile-menu-links {
+    display: grid;
+    gap: 0;
+  }
+  .nav-panel > a {
+    display: none;
+  }
+  .nav a,
+  .mobile-menu-links a {
     min-height: 68px;
     display: flex;
     align-items: center;
@@ -1353,6 +1374,15 @@ select {
   .image-wrap.has-gallery img {
     object-fit: contain;
     background: #f4eadc;
+  }
+  .card-summer-essentials .image-wrap.has-gallery,
+  .category-summer-essentials .image-wrap.has-gallery {
+    background: transparent;
+  }
+  .card-summer-essentials .image-wrap.has-gallery img,
+  .category-summer-essentials .image-wrap.has-gallery img {
+    object-fit: cover;
+    background: transparent;
   }
   .image-wrap:has(.gallery-toggle) {
     touch-action: pan-y;

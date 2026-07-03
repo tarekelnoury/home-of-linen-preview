@@ -153,20 +153,6 @@ window.HOL_PRODUCTS = {
       variants: [{ label: "100 × 190 cm", price: 650 }]
     },
     {
-      id: "beach-towel",
-      category: "Summer Essentials",
-      name: "Beach Towel",
-      includes: "Striped Summer Towel",
-      description: "A bright summer towel for beach bags, pool days and relaxed outdoor escapes. The striped design keeps the look fresh and resort-inspired while staying practical, absorbent and easy to style.",
-      image: "assets/pool-towels/large-pool-towel-blue.jpg",
-      colorBased: true,
-      colors: [
-        { name: "Blue Stripe", value: "#1F5F97", image: "assets/pool-towels/large-pool-towel-blue.jpg" },
-        { name: "Yellow Stripe", value: "#E8A900", image: "assets/pool-towels/large-pool-towel-yellow.jpg" }
-      ],
-      variants: [{ label: "100 × 190 cm", price: 650 }]
-    },
-    {
       id: "sunshine-garden-beach-towel",
       category: "Summer Essentials",
       name: "Sunshine Garden Beach Towel",
