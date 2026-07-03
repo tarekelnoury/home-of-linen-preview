@@ -352,8 +352,9 @@ function homeCategoryTemplate(group) {
 }
 
 function homeGroups() {
-  const desktopOrder = ["Fitted Sheets", "Flat Sheets", "Pillowcases", "Duvet Covers", "Towels", "Summer Essentials", "Comforters", "Mattress Toppers", "Pillows", "Home Fragrance", "Bedspreads"];
-  const mobileOrder = ["Towels", "Summer Essentials", "Fitted Sheets", "Flat Sheets", "Pillowcases", "Duvet Covers", "Comforters", "Mattress Toppers", "Pillows", "Home Fragrance", "Bedspreads"];
+  const sharedOrder = ["Towels", "Summer Essentials", "Fitted Sheets", "Flat Sheets", "Bedspreads", "Duvet Covers", "Pillowcases", "Pillows", "Comforters", "Mattress Toppers", "Home Fragrance"];
+  const desktopOrder = sharedOrder;
+  const mobileOrder = sharedOrder;
   return { desktopOrder, mobileOrder };
 }
 
