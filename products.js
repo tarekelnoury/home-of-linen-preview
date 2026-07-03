@@ -46,7 +46,7 @@ window.HOL_PRODUCTS = {
       description: "A Pair Of 50 × 70 Cm Pillowcases In Crisp Percale TC300 Egyptian Cotton, Made To Bring A Fresh, Coordinated Finish To The Bed. Smooth, Breathable And Elegant For Everyday Sleeping, With A Clean Tailored Look That Reflects Home Of Linen’s Quiet Luxury Style.",
       fabricBased: true,
       heroBase: "pillowcases",
-      sizes: [{ label: "50 × 70 cm", percale: 420 }]
+      sizes: [{ label: "50 × 70 cm", percale: 480 }]
     },
     {
       id: "duvet-cover-set",
@@ -59,8 +59,8 @@ window.HOL_PRODUCTS = {
       setToggle: true,
       singleDiscount: 420,
       sizes: [
-        { label: "185 × 255 cm", percale: 1970 },
-        { label: "245 × 255 cm", percale: 2675 }
+        { label: "185 × 255 cm", percale: 2400 },
+        { label: "245 × 255 cm", percale: 3200 }
       ]
     },
     {
@@ -75,11 +75,11 @@ window.HOL_PRODUCTS = {
       setToggle: true,
       singleDiscount: 420,
       sizes: [
-        { label: "100 × 200 cm + 30 cm Mattress Depth", percale: 1300 },
-        { label: "120 × 200 cm + 30 cm Mattress Depth", percale: 1400 },
-        { label: "160 × 200 cm + 30 cm Mattress Depth", percale: 1580 },
-        { label: "180 × 200 cm + 30 cm Mattress Depth", percale: 1750 },
-        { label: "200 × 200 cm + 30 cm Mattress Depth", percale: 1900 }
+        { label: "100 × 200 cm + 30 cm Mattress Depth", percale: 1600 },
+        { label: "120 × 200 cm + 30 cm Mattress Depth", percale: 1700 },
+        { label: "160 × 200 cm + 30 cm Mattress Depth", percale: 1950 },
+        { label: "180 × 200 cm + 30 cm Mattress Depth", percale: 2100 },
+        { label: "200 × 200 cm + 30 cm Mattress Depth", percale: 2200 }
       ]
     },
     {
@@ -94,8 +94,8 @@ window.HOL_PRODUCTS = {
       setToggle: true,
       singleDiscount: 420,
       sizes: [
-        { label: "180 × 260 cm", percale: 1350 },
-        { label: "260 × 260 cm", percale: 1850 }
+        { label: "180 × 260 cm", percale: 1750 },
+        { label: "260 × 260 cm", percale: 2200 }
       ]
     },
     {
@@ -106,7 +106,7 @@ window.HOL_PRODUCTS = {
       description: "A Small Everyday Essential In Dense 600 Gsm Egyptian Cotton Terry, Soft Enough For The Face And Practical Enough For Daily Use. Plush, Absorbent And Calmly Finished For A Spa-Like Bathroom Detail.",
       image: "assets/towels/face-towel.jpg",
       colorBased: true,
-      variants: [{ label: "33 × 33 cm", price: 50 }]
+      variants: [{ label: "33 × 33 cm", price: 670 }]
     },
     {
       id: "hand-towel",
@@ -116,7 +116,7 @@ window.HOL_PRODUCTS = {
       description: "A Generously Sized 600 Gsm Egyptian Cotton Hand Towel With A Plush Terry Feel And Excellent Absorbency. Designed For The Bathroom, Guest Washroom Or Vanity Area With The Soft, Understated Finish Of Home Of Linen.",
       image: "assets/towels/hand-towel.jpg",
       colorBased: true,
-      variants: [{ label: "50 × 100 cm", price: 265 }]
+      variants: [{ label: "50 × 100 cm", price: 320 }]
     },
     {
       id: "bath-towel",
@@ -126,7 +126,7 @@ window.HOL_PRODUCTS = {
       description: "A Plush 600 Gsm Egyptian Cotton Bath Towel Made To Feel Soft, Substantial And Absorbent After Every Shower. It Brings A Clean Spa-Like Touch To Daily Bathing While Staying Elegant And Simple.",
       image: "assets/towels/bath-towel.jpg",
       colorBased: true,
-      variants: [{ label: "70 × 140 cm", price: 555 }]
+      variants: [{ label: "70 × 140 cm", price: 650 }]
     },
     {
       id: "xl-bath-towel",
@@ -136,7 +136,7 @@ window.HOL_PRODUCTS = {
       description: "An Extra-Large 600 Gsm Egyptian Cotton Bath Towel For A More Enveloping, Hotel-Like Feel. Soft, Dense And Highly Absorbent, It Is Made For Customers Who Prefer A Larger Towel With A More Luxurious Drape.",
       image: "assets/towels/xl-bath-towel.jpg",
       colorBased: true,
-      variants: [{ label: "90 × 160 cm", price: 680 }]
+      variants: [{ label: "90 × 160 cm", price: 800 }]
     },
     {
       id: "large-pool-towel",
@@ -240,9 +240,9 @@ window.HOL_PRODUCTS = {
       description: "White Bed Pillows With A Smooth Blended-Cotton Shell And Polydown Alternative Fill, Available In Three Comfort Levels. Choose Soft For A Gentle Sink-In Feel, Medium For Balanced Everyday Support, Or Firm For A Higher, More Structured Pillow.",
       image: "assets/products/pillows.jpg",
       variants: [
-        { label: "Firm · 1200 g", price: 800, description: "Firm · 1200 G Is The Most Supportive Pillow Option, Made For Customers Who Prefer Extra Height, Structure And A Fuller Feel Through The Night. It Keeps The Bed Looking Plump While Offering A More Stable Resting Surface." },
-        { label: "Medium · 1000 g", price: 680, description: "Medium · 1000 G Is The Balanced Everyday Choice, Combining Softness And Support In A Comfortable Middle Feel. It Is A Good Fit For Customers Who Want A Pillow That Feels Plush Without Being Too High Or Too Soft." },
-        { label: "Soft · 850 g", price: 600, description: "Soft · 850 G Has The Gentlest Feel, Designed For Customers Who Prefer A Lower, More Relaxed Pillow With An Easy Sink-In Comfort. It Brings A Light And Airy Finish To The Bed." }
+        { label: "Firm · 1200 g", price: 850, description: "Firm · 1200 G Is The Most Supportive Pillow Option, Made For Customers Who Prefer Extra Height, Structure And A Fuller Feel Through The Night. It Keeps The Bed Looking Plump While Offering A More Stable Resting Surface." },
+        { label: "Medium · 1000 g", price: 650, description: "Medium · 1000 G Is The Balanced Everyday Choice, Combining Softness And Support In A Comfortable Middle Feel. It Is A Good Fit For Customers Who Want A Pillow That Feels Plush Without Being Too High Or Too Soft." },
+        { label: "Soft · 850 g", price: 550, description: "Soft · 850 G Has The Gentlest Feel, Designed For Customers Who Prefer A Lower, More Relaxed Pillow With An Easy Sink-In Comfort. It Brings A Light And Airy Finish To The Bed." }
       ]
     },
     {
@@ -256,8 +256,8 @@ window.HOL_PRODUCTS = {
         variantLabel: "Fill",
         sizeLabel: "Size",
         variants: [
-          { label: "9 cm Polydown Alternative", description: "9 Cm Polydown Alternative Is The Plusher Topper Choice, Made To Add Noticeable Height, Softness And A More Cushioned Hotel-Bed Feeling. It Is Ideal When The Customer Wants A Softer Sleep Surface And A More Luxurious Layered Bed Look.", prices: { "100 × 200 cm": 1250, "120 × 200 cm": 1500, "160 × 200 cm": 2000, "180 × 200 cm": 2250, "200 × 200 cm": 2500 } },
-          { label: "7 cm Microfiber", description: "7 Cm Microfiber Is A Slightly Lower And More Practical Comfort Layer, Designed To Refresh The Mattress With Softness Without Adding As Much Height. It Is A Clean Everyday Upgrade For A Smoother, More Inviting Bed.", prices: { "100 × 200 cm": 1100, "120 × 200 cm": 1320, "160 × 200 cm": 1750, "180 × 200 cm": 1980, "200 × 200 cm": 2200 } }
+          { label: "9 cm Polydown Alternative", description: "9 Cm Polydown Alternative Is The Plusher Topper Choice, Made To Add Noticeable Height, Softness And A More Cushioned Hotel-Bed Feeling. It Is Ideal When The Customer Wants A Softer Sleep Surface And A More Luxurious Layered Bed Look.", prices: { "100 × 200 cm": 1400, "120 × 200 cm": 1600, "160 × 200 cm": 2100, "180 × 200 cm": 2350, "200 × 200 cm": 2650 } },
+          { label: "7 cm Microfiber", description: "7 Cm Microfiber Is A Slightly Lower And More Practical Comfort Layer, Designed To Refresh The Mattress With Softness Without Adding As Much Height. It Is A Clean Everyday Upgrade For A Smoother, More Inviting Bed.", prices: { "100 × 200 cm": 1150, "120 × 200 cm": 1350, "160 × 200 cm": 1750, "180 × 200 cm": 2000, "200 × 200 cm": 2200 } }
         ]
       }
     },
@@ -272,8 +272,8 @@ window.HOL_PRODUCTS = {
         variantLabel: "Type",
         sizeLabel: "Size",
         variants: [
-          { label: "All-Season", description: "All-Season Is The Versatile Comforter Option, Designed For A Light Yet Cozy Layer That Works Across Most Of The Year. It Keeps The Bed Looking Soft And Full Without Feeling Too Heavy.", prices: { "180 × 240 cm": 1450, "240 × 250 cm": 1650 } },
-          { label: "Winter", description: "Winter Is The Warmer Comforter Option, Made With A Fuller Feel For Cooler Nights And Customers Who Prefer Extra Coziness. It Creates A Plush, Inviting Bed With A More Substantial Layer.", prices: { "180 × 240 cm": 1650, "240 × 250 cm": 1850 } }
+          { label: "All-Season", description: "All-Season Is The Versatile Comforter Option, Designed For A Light Yet Cozy Layer That Works Across Most Of The Year. It Keeps The Bed Looking Soft And Full Without Feeling Too Heavy.", prices: { "180 × 240 cm": 1600, "240 × 250 cm": 1800 } },
+          { label: "Winter", description: "Winter Is The Warmer Comforter Option, Made With A Fuller Feel For Cooler Nights And Customers Who Prefer Extra Coziness. It Creates A Plush, Inviting Bed With A More Substantial Layer.", prices: { "180 × 240 cm": 1800, "240 × 250 cm": 2000 } }
         ]
       }
     },
@@ -285,7 +285,6 @@ window.HOL_PRODUCTS = {
       description: "A calm honeycomb woven bedspread designed to add quiet texture, softness and an elegant finished layer to the bedroom. Available in Off White, Beige and Olive, with two generous sizes for refined everyday styling.",
       image: "assets/bedspreads/off-white-bedspread.png",
       colorBased: true,
-      noPrice: true,
       sizeLabel: "Size",
       colors: [
         { name: "Off White", value: "#F3EEE4", image: "assets/bedspreads/off-white-bedspread.png", gallery: ["assets/bedspreads/off-white-bedspread.png", "assets/bedspreads/off-white-bedspread-2.png"] },
@@ -293,8 +292,8 @@ window.HOL_PRODUCTS = {
         { name: "Olive", value: "#8E9270", image: "assets/bedspreads/olive-bedspread.png", gallery: ["assets/bedspreads/olive-bedspread.png", "assets/bedspreads/olive-bedspread-2.png"] }
       ],
       variants: [
-        { label: "180 × 240 cm" },
-        { label: "230 × 240 cm" }
+        { label: "180 × 240 cm", price: 1200 },
+        { label: "230 × 240 cm", price: 1500 }
       ]
     },
     {
