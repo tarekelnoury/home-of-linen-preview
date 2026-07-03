@@ -34,7 +34,7 @@
       </a>
       <button class="menu-button" id="menuToggle" type="button" aria-label="فتح القائمة" aria-expanded="false" aria-controls="siteNav"><span></span><span></span><span></span></button>
       <nav class="nav" id="siteNav" aria-label="أقسام المنتجات"><div class="nav-panel"><a href="../fitted-sheets/index.html">ملايات بأستك</a><a href="../flat-sheets/index.html">ملايات سادة</a><a href="../pillowcases/index.html">أكياس مخدات</a><a href="../duvet-covers/index.html">أغطية لحاف</a><a href="../towels/index.html">فوط</a><a href="../comforters/index.html">لحاف مبطن</a><a href="../mattress-toppers/index.html">مراتب توبر</a><a href="../pillows/index.html">مخدات</a><a href="../summer-essentials/index.html">أساسيات الصيف</a><a href="../home-fragrance/index.html">معطرات المنزل</a><a href="../bedspreads/index.html">مفارش سرير</a></div></nav>
-      <button class="basket-button" id="openBasket" aria-label="افتح السلة">السلة <span id="basketCount">0</span></button>
+      <button class="basket-button" id="openBasket" aria-label="افتح السلة">السلة <span id="basketCount" class="hidden">0</span></button>
     </header>
     <main id="top">
       <h1 class="visually-hidden">مفروشات السرير</h1>
@@ -48,7 +48,7 @@
           <div class="order-summary-card">
             <div class="order-summary-title"><h3>سلتك</h3><button type="button" class="text-button" id="editBasket">تعديل السلة</button></div>
             <div id="reviewItems" class="review-items"></div>
-            <div class="review-total"><span>الإجمالي</span><strong id="reviewSubtotal">EGP 0</strong></div>
+            <div class="review-total total-breakdown" id="reviewSubtotal"></div>
           </div>
           <div class="order-details-card">
             <h3>بيانات التوصيل</h3>
@@ -79,14 +79,18 @@
     <a class="image-wrap" data-image href="../../products/duvet-cover-set/index.html"><img src="../../../assets/lifestyle/duvet-colors/duvet-cover-set-white.jpg" alt="طقم غطاء لحاف من هوم أوف لينن" loading="lazy"></a>
     <div class="mobile-controls" data-mobile-controls></div>
     <div class="card-body"><div><p class="eyebrow">أغطية لحاف</p><h3><a href="../../products/duvet-cover-set/index.html">طقم غطاء لحاف</a></h3></div><div data-controls></div><div class="buy-row"><div><div class="price" data-price>EGP 2,400</div><div class="qty" aria-label="Quantity selector"><button type="button" data-qty-down>−</button><span data-qty>1</span><button type="button" data-qty-up>+</button></div></div><button class="add-button" type="button" data-add>أضف للسلة</button></div><p class="description" data-description>غطاء لحاف من قطن مصري مصمم ليمنح السرير طبقة هادئة وناعمة بتفاصيل نظيفة.</p><p class="spec" data-spec>Duvet Cover + 2 Pillowcases</p></div>
-  </article><article class="card" data-product="comforter">
-    <a class="image-wrap" data-image href="../../products/comforter/index.html"><img src="../../../assets/products/comforter.jpg" alt="لحاف مبطن من هوم أوف لينن" loading="lazy"></a>
+  </article><article class="card" data-product="bedspread">
+    <a class="image-wrap" data-image href="../../products/bedspread/index.html"><img src="../../../assets/bedspreads/off-white-bedspread.png" alt="مفرش سرير هوني كومب من هوم أوف لينن" loading="lazy"></a>
     <div class="mobile-controls" data-mobile-controls></div>
-    <div class="card-body"><div><p class="eyebrow">لحاف مبطن</p><h3><a href="../../products/comforter/index.html">لحاف مبطن</a></h3></div><div data-controls></div><div class="buy-row"><div><div class="price" data-price>EGP 1,600</div><div class="qty" aria-label="Quantity selector"><button type="button" data-qty-down>−</button><span data-qty>1</span><button type="button" data-qty-up>+</button></div></div><button class="add-button" type="button" data-add>أضف للسلة</button></div><p class="description" data-description>لحاف مبطن أبيض بطبقة ناعمة ودافئة، مناسب لتنسيق سرير هادئ ومكتمل.</p><p class="spec" data-spec>Blended Cotton Shell</p></div>
+    <div class="card-body"><div><p class="eyebrow">مفارش سرير</p><h3><a href="../../products/bedspread/index.html">مفرش سرير هوني كومب</a></h3></div><div data-controls></div><div class="buy-row"><div><div class="price" data-price>EGP 1,200</div><div class="qty" aria-label="Quantity selector"><button type="button" data-qty-down>−</button><span data-qty>1</span><button type="button" data-qty-up>+</button></div></div><button class="add-button" type="button" data-add>أضف للسلة</button></div><p class="description" data-description>مفرش سرير بنسيج هوني كومب هادئ يضيف ملمساً دافئاً وطبقة نهائية أنيقة للغرفة.</p><p class="spec" data-spec>Honeycomb Woven Bedspread</p></div>
   </article><article class="card" data-product="pillows">
     <a class="image-wrap" data-image href="../../products/pillows/index.html"><img src="../../../assets/products/pillows.jpg" alt="مخدة سرير فاخرة من هوم أوف لينن" loading="lazy"></a>
     <div class="mobile-controls" data-mobile-controls></div>
     <div class="card-body"><div><p class="eyebrow">مخدات</p><h3><a href="../../products/pillows/index.html">مخدة سرير فاخرة</a></h3></div><div data-controls></div><div class="buy-row"><div><div class="price" data-price>EGP 850</div><div class="qty" aria-label="Quantity selector"><button type="button" data-qty-down>−</button><span data-qty>1</span><button type="button" data-qty-up>+</button></div></div><button class="add-button" type="button" data-add>أضف للسلة</button></div><p class="description" data-description>مخدة سرير بيضاء بحشو مريح، متوفرة بدرجات دعم مختلفة حسب إحساس النوم الذي تفضله.</p><p class="spec" data-spec>Blended Cotton Shell · Polydown Alternative</p></div>
+  </article><article class="card" data-product="comforter">
+    <a class="image-wrap" data-image href="../../products/comforter/index.html"><img src="../../../assets/products/comforter.jpg" alt="لحاف مبطن من هوم أوف لينن" loading="lazy"></a>
+    <div class="mobile-controls" data-mobile-controls></div>
+    <div class="card-body"><div><p class="eyebrow">لحاف مبطن</p><h3><a href="../../products/comforter/index.html">لحاف مبطن</a></h3></div><div data-controls></div><div class="buy-row"><div><div class="price" data-price>EGP 1,600</div><div class="qty" aria-label="Quantity selector"><button type="button" data-qty-down>−</button><span data-qty>1</span><button type="button" data-qty-up>+</button></div></div><button class="add-button" type="button" data-add>أضف للسلة</button></div><p class="description" data-description>لحاف مبطن أبيض بطبقة ناعمة ودافئة، مناسب لتنسيق سرير هادئ ومكتمل.</p><p class="spec" data-spec>Blended Cotton Shell</p></div>
   </article><article class="card" data-product="mattress-topper">
     <a class="image-wrap" data-image href="../../products/mattress-topper/index.html"><img src="../../../assets/products/mattress-topper.jpg" alt="مرتبة توبر من هوم أوف لينن" loading="lazy"></a>
     <div class="mobile-controls" data-mobile-controls></div>
@@ -97,10 +101,10 @@
       <div class="drawer-panel" role="dialog" aria-modal="true" aria-labelledby="basketTitle">
         <div class="drawer-header"><div><p class="eyebrow">اختياراتك</p><h2 id="basketTitle">السلة</h2></div><button id="closeBasket" class="icon-button" aria-label="إغلاق السلة">×</button></div>
         <div id="basketItems" class="basket-items"></div>
-        <div class="drawer-footer"><div class="subtotal"><span>الإجمالي</span><strong id="subtotal">EGP 0</strong></div><button id="checkout" class="checkout">مراجعة الطلب</button><p class="checkout-note">راجع السلة قبل إدخال بيانات التوصيل وتأكيد الطلب على واتساب.</p></div>
+        <div class="drawer-footer"><div class="subtotal total-breakdown" id="subtotal"></div><button id="checkout" class="checkout">مراجعة الطلب</button><p class="checkout-note">راجع السلة قبل إدخال بيانات التوصيل وتأكيد الطلب على واتساب.</p></div>
       </div>
     </aside>
-    <footer class="site-footer">Home of Linen • Preview v0.1</footer>
+    <footer class="site-footer"></footer>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
     <script src="../../../products.js"></script>
     <script src="../../../app.js"></script>

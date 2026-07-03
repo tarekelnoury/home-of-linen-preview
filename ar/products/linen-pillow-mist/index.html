@@ -35,7 +35,7 @@
       </a>
       <button class="menu-button" id="menuToggle" type="button" aria-label="فتح القائمة" aria-expanded="false" aria-controls="siteNav"><span></span><span></span><span></span></button>
       <nav class="nav" id="siteNav" aria-label="أقسام المنتجات"><div class="nav-panel"><a href="../../categories/fitted-sheets/index.html">ملايات بأستك</a><a href="../../categories/flat-sheets/index.html">ملايات سادة</a><a href="../../categories/pillowcases/index.html">أكياس مخدات</a><a href="../../categories/duvet-covers/index.html">أغطية لحاف</a><a href="../../categories/towels/index.html">فوط</a><a href="../../categories/comforters/index.html">لحاف مبطن</a><a href="../../categories/mattress-toppers/index.html">مراتب توبر</a><a href="../../categories/pillows/index.html">مخدات</a><a href="../../categories/summer-essentials/index.html">أساسيات الصيف</a><a href="../../categories/home-fragrance/index.html">معطرات المنزل</a><a href="../../categories/bedspreads/index.html">مفارش سرير</a></div></nav>
-      <button class="basket-button" id="openBasket" aria-label="افتح السلة">السلة <span id="basketCount">0</span></button>
+      <button class="basket-button" id="openBasket" aria-label="افتح السلة">السلة <span id="basketCount" class="hidden">0</span></button>
     </header>
     <main id="top">
       <section class="product-seo-page"><p class="eyebrow">معطرات المنزل</p><h1>معطر مفروشات ومخدات من Home of Linen</h1><p>اختر التفاصيل المناسبة وأكمل الطلب عبر واتساب.</p></section>
@@ -49,7 +49,7 @@
           <div class="order-summary-card">
             <div class="order-summary-title"><h3>سلتك</h3><button type="button" class="text-button" id="editBasket">تعديل السلة</button></div>
             <div id="reviewItems" class="review-items"></div>
-            <div class="review-total"><span>الإجمالي</span><strong id="reviewSubtotal">EGP 0</strong></div>
+            <div class="review-total total-breakdown" id="reviewSubtotal"></div>
           </div>
           <div class="order-details-card">
             <h3>بيانات التوصيل</h3>
@@ -74,10 +74,10 @@
       <div class="drawer-panel" role="dialog" aria-modal="true" aria-labelledby="basketTitle">
         <div class="drawer-header"><div><p class="eyebrow">اختياراتك</p><h2 id="basketTitle">السلة</h2></div><button id="closeBasket" class="icon-button" aria-label="إغلاق السلة">×</button></div>
         <div id="basketItems" class="basket-items"></div>
-        <div class="drawer-footer"><div class="subtotal"><span>الإجمالي</span><strong id="subtotal">EGP 0</strong></div><button id="checkout" class="checkout">مراجعة الطلب</button><p class="checkout-note">راجع السلة قبل إدخال بيانات التوصيل وتأكيد الطلب على واتساب.</p></div>
+        <div class="drawer-footer"><div class="subtotal total-breakdown" id="subtotal"></div><button id="checkout" class="checkout">مراجعة الطلب</button><p class="checkout-note">راجع السلة قبل إدخال بيانات التوصيل وتأكيد الطلب على واتساب.</p></div>
       </div>
     </aside>
-    <footer class="site-footer">Home of Linen • Preview v0.1</footer>
+    <footer class="site-footer"></footer>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
     <script src="../../../products.js"></script>
     <script src="../../../app.js"></script>

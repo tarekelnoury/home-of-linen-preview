@@ -33,7 +33,7 @@
       </a>
       <button class="menu-button" id="menuToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="siteNav"><span></span><span></span><span></span></button>
       <nav class="nav" id="siteNav" aria-label="Product categories"><div class="nav-panel"><a href="categories/fitted-sheets/index.html">Fitted Sheets</a><a href="categories/flat-sheets/index.html">Flat Sheets</a><a href="categories/pillowcases/index.html">Pillowcases</a><a href="categories/duvet-covers/index.html">Duvet Covers</a><a href="categories/towels/index.html">Towels</a><a href="categories/comforters/index.html">Comforters</a><a href="categories/mattress-toppers/index.html">Mattress Toppers</a><a href="categories/pillows/index.html">Pillows</a><a href="categories/summer-essentials/index.html">Summer Essentials</a><a href="categories/home-fragrance/index.html">Home Fragrance</a><a href="categories/bedspreads/index.html">Bedspreads</a></div></nav>
-      <button class="basket-button" id="openBasket" aria-label="Open basket">Basket <span id="basketCount">0</span></button>
+      <button class="basket-button" id="openBasket" aria-label="Open basket">Basket <span id="basketCount" class="hidden">0</span></button>
     </header>
     <main id="top">
       <h1 class="visually-hidden">Egyptian Cotton Bedding, Made in Egypt</h1>
@@ -53,7 +53,7 @@
           <div class="order-summary-card">
             <div class="order-summary-title"><h3>Your Basket</h3><button type="button" class="text-button" id="editBasket">Edit Basket</button></div>
             <div id="reviewItems" class="review-items"></div>
-            <div class="review-total"><span>Grand Total</span><strong id="reviewSubtotal">EGP 0</strong></div>
+            <div class="review-total total-breakdown" id="reviewSubtotal"></div>
           </div>
           <div class="order-details-card">
             <h3>Delivery Details</h3>
@@ -74,10 +74,10 @@
       <div class="drawer-panel" role="dialog" aria-modal="true" aria-labelledby="basketTitle">
         <div class="drawer-header"><div><p class="eyebrow">Your Selection</p><h2 id="basketTitle">Basket</h2></div><button id="closeBasket" class="icon-button" aria-label="Close basket">×</button></div>
         <div id="basketItems" class="basket-items"></div>
-        <div class="drawer-footer"><div class="subtotal"><span>Subtotal</span><strong id="subtotal">EGP 0</strong></div><button id="checkout" class="checkout">Review Order</button><p class="checkout-note">Review your basket before adding delivery details and confirming on WhatsApp.</p></div>
+        <div class="drawer-footer"><div class="subtotal total-breakdown" id="subtotal"></div><button id="checkout" class="checkout">Review Order</button><p class="checkout-note">Review your basket before adding delivery details and confirming on WhatsApp.</p></div>
       </div>
     </aside>
-    <footer class="site-footer">Home of Linen • Preview v0.1</footer>
+    <footer class="site-footer"></footer>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
     <script src="./products.js"></script>
     <script src="./app.js"></script>

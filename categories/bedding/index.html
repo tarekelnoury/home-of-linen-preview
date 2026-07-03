@@ -34,7 +34,7 @@
       </a>
       <button class="menu-button" id="menuToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="siteNav"><span></span><span></span><span></span></button>
       <nav class="nav" id="siteNav" aria-label="Product categories"><div class="nav-panel"><a href="../fitted-sheets/index.html">Fitted Sheets</a><a href="../flat-sheets/index.html">Flat Sheets</a><a href="../pillowcases/index.html">Pillowcases</a><a href="../duvet-covers/index.html">Duvet Covers</a><a href="../towels/index.html">Towels</a><a href="../comforters/index.html">Comforters</a><a href="../mattress-toppers/index.html">Mattress Toppers</a><a href="../pillows/index.html">Pillows</a><a href="../summer-essentials/index.html">Summer Essentials</a><a href="../home-fragrance/index.html">Home Fragrance</a><a href="../bedspreads/index.html">Bedspreads</a></div></nav>
-      <button class="basket-button" id="openBasket" aria-label="Open basket">Basket <span id="basketCount">0</span></button>
+      <button class="basket-button" id="openBasket" aria-label="Open basket">Basket <span id="basketCount" class="hidden">0</span></button>
     </header>
     <main id="top">
       <h1 class="visually-hidden">Bedding Collection</h1>
@@ -48,7 +48,7 @@
           <div class="order-summary-card">
             <div class="order-summary-title"><h3>Your Basket</h3><button type="button" class="text-button" id="editBasket">Edit Basket</button></div>
             <div id="reviewItems" class="review-items"></div>
-            <div class="review-total"><span>Grand Total</span><strong id="reviewSubtotal">EGP 0</strong></div>
+            <div class="review-total total-breakdown" id="reviewSubtotal"></div>
           </div>
           <div class="order-details-card">
             <h3>Delivery Details</h3>
@@ -79,14 +79,18 @@
     <a class="image-wrap" data-image href="../../products/duvet-cover-set/index.html"><img src="../../assets/lifestyle/duvet-colors/duvet-cover-set-white.jpg" alt="Duvet Cover Set by Home of Linen" loading="lazy"></a>
     <div class="mobile-controls" data-mobile-controls></div>
     <div class="card-body"><div><p class="eyebrow">Duvet Covers</p><h3><a href="../../products/duvet-cover-set/index.html">Duvet Cover Set</a></h3></div><div data-controls></div><div class="buy-row"><div><div class="price" data-price>EGP 2,400</div><div class="qty" aria-label="Quantity selector"><button type="button" data-qty-down>−</button><span data-qty>1</span><button type="button" data-qty-up>+</button></div></div><button class="add-button" type="button" data-add>Add to Basket</button></div><p class="description" data-description>A Complete Percale TC300 Duvet Cover Set With Two Matching Pillowcases, Designed To Create A Soft, Breathable And Beautifully Layered Bed. The Look Is Calm And Hotel-Inspired, With The Natural Freshness Of Egyptian Cotton For Everyday Comfort.</p><p class="spec" data-spec>Duvet Cover + 2 Pillowcases</p></div>
-  </article><article class="card" data-product="comforter">
-    <a class="image-wrap" data-image href="../../products/comforter/index.html"><img src="../../assets/products/comforter.jpg" alt="Comforter by Home of Linen" loading="lazy"></a>
+  </article><article class="card" data-product="bedspread">
+    <a class="image-wrap" data-image href="../../products/bedspread/index.html"><img src="../../assets/bedspreads/off-white-bedspread.png" alt="Honeycomb Bedspread by Home of Linen" loading="lazy"></a>
     <div class="mobile-controls" data-mobile-controls></div>
-    <div class="card-body"><div><p class="eyebrow">Comforters</p><h3><a href="../../products/comforter/index.html">Comforter</a></h3></div><div data-controls></div><div class="buy-row"><div><div class="price" data-price>EGP 1,600</div><div class="qty" aria-label="Quantity selector"><button type="button" data-qty-down>−</button><span data-qty>1</span><button type="button" data-qty-up>+</button></div></div><button class="add-button" type="button" data-add>Add to Basket</button></div><p class="description" data-description>A White Comforter With A Smooth Blended-Cotton Shell And An Airy, Premium Fill. Choose All-Season For Comfortable Year-Round Layering, Or Winter For A Warmer, Fuller Feel During Cooler Nights.</p><p class="spec" data-spec>Blended Cotton Shell</p></div>
+    <div class="card-body"><div><p class="eyebrow">Bedspreads</p><h3><a href="../../products/bedspread/index.html">Honeycomb Bedspread</a></h3></div><div data-controls></div><div class="buy-row"><div><div class="price" data-price>EGP 1,200</div><div class="qty" aria-label="Quantity selector"><button type="button" data-qty-down>−</button><span data-qty>1</span><button type="button" data-qty-up>+</button></div></div><button class="add-button" type="button" data-add>Add to Basket</button></div><p class="description" data-description>A calm honeycomb woven bedspread designed to add quiet texture, softness and an elegant finished layer to the bedroom. Available in Off White, Beige and Olive, with two generous sizes for refined everyday styling.</p><p class="spec" data-spec>Honeycomb Woven Bedspread</p></div>
   </article><article class="card" data-product="pillows">
     <a class="image-wrap" data-image href="../../products/pillows/index.html"><img src="../../assets/products/pillows.jpg" alt="Premium Bed Pillow by Home of Linen" loading="lazy"></a>
     <div class="mobile-controls" data-mobile-controls></div>
     <div class="card-body"><div><p class="eyebrow">Pillows</p><h3><a href="../../products/pillows/index.html">Premium Bed Pillow</a></h3></div><div data-controls></div><div class="buy-row"><div><div class="price" data-price>EGP 850</div><div class="qty" aria-label="Quantity selector"><button type="button" data-qty-down>−</button><span data-qty>1</span><button type="button" data-qty-up>+</button></div></div><button class="add-button" type="button" data-add>Add to Basket</button></div><p class="description" data-description>White Bed Pillows With A Smooth Blended-Cotton Shell And Polydown Alternative Fill, Available In Three Comfort Levels. Choose Soft For A Gentle Sink-In Feel, Medium For Balanced Everyday Support, Or Firm For A Higher, More Structured Pillow.</p><p class="spec" data-spec>Blended Cotton Shell · Polydown Alternative</p></div>
+  </article><article class="card" data-product="comforter">
+    <a class="image-wrap" data-image href="../../products/comforter/index.html"><img src="../../assets/products/comforter.jpg" alt="Comforter by Home of Linen" loading="lazy"></a>
+    <div class="mobile-controls" data-mobile-controls></div>
+    <div class="card-body"><div><p class="eyebrow">Comforters</p><h3><a href="../../products/comforter/index.html">Comforter</a></h3></div><div data-controls></div><div class="buy-row"><div><div class="price" data-price>EGP 1,600</div><div class="qty" aria-label="Quantity selector"><button type="button" data-qty-down>−</button><span data-qty>1</span><button type="button" data-qty-up>+</button></div></div><button class="add-button" type="button" data-add>Add to Basket</button></div><p class="description" data-description>A White Comforter With A Smooth Blended-Cotton Shell And An Airy, Premium Fill. Choose All-Season For Comfortable Year-Round Layering, Or Winter For A Warmer, Fuller Feel During Cooler Nights.</p><p class="spec" data-spec>Blended Cotton Shell</p></div>
   </article><article class="card" data-product="mattress-topper">
     <a class="image-wrap" data-image href="../../products/mattress-topper/index.html"><img src="../../assets/products/mattress-topper.jpg" alt="Mattress Topper by Home of Linen" loading="lazy"></a>
     <div class="mobile-controls" data-mobile-controls></div>
@@ -97,10 +101,10 @@
       <div class="drawer-panel" role="dialog" aria-modal="true" aria-labelledby="basketTitle">
         <div class="drawer-header"><div><p class="eyebrow">Your Selection</p><h2 id="basketTitle">Basket</h2></div><button id="closeBasket" class="icon-button" aria-label="Close basket">×</button></div>
         <div id="basketItems" class="basket-items"></div>
-        <div class="drawer-footer"><div class="subtotal"><span>Subtotal</span><strong id="subtotal">EGP 0</strong></div><button id="checkout" class="checkout">Review Order</button><p class="checkout-note">Review your basket before adding delivery details and confirming on WhatsApp.</p></div>
+        <div class="drawer-footer"><div class="subtotal total-breakdown" id="subtotal"></div><button id="checkout" class="checkout">Review Order</button><p class="checkout-note">Review your basket before adding delivery details and confirming on WhatsApp.</p></div>
       </div>
     </aside>
-    <footer class="site-footer">Home of Linen • Preview v0.1</footer>
+    <footer class="site-footer"></footer>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
     <script src="../../products.js"></script>
     <script src="../../app.js"></script>

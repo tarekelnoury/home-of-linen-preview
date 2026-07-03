@@ -33,7 +33,7 @@ const categorySlugs = {
   Bedspreads: "bedspreads"
 };
 
-const beddingCategories = ["Pillowcases", "Fitted Sheets", "Flat Sheets", "Duvet Covers", "Comforters", "Pillows", "Mattress Toppers"];
+const beddingCategories = ["Pillowcases", "Fitted Sheets", "Flat Sheets", "Duvet Covers", "Bedspreads", "Pillows", "Comforters", "Mattress Toppers"];
 
 const categoryArabic = {
   "Fitted Sheets": "ملايات بأستك",
@@ -60,7 +60,8 @@ const categoryHero = {
   Pillows: "assets/images/editorial/pillows.png",
   "Summer Essentials": "assets/images/editorial/summer-essentials.png",
   "Home Fragrance": "assets/images/editorial/home-fragrance.png",
-  Bedspreads: "assets/images/editorial/bedspreads.png"
+  Bedspreads: "assets/images/editorial/bedspreads.png",
+  "About Us": "assets/images/editorial/about-us.png"
 };
 
 const categoryIntros = {
@@ -269,7 +270,7 @@ function layout({ locale = "en", type = "content", title, description, pathname,
       </a>
       <button class="menu-button" id="menuToggle" type="button" aria-label="${locale === "ar" ? "فتح القائمة" : "Open menu"}" aria-expanded="false" aria-controls="siteNav"><span></span><span></span><span></span></button>
       <nav class="nav" id="siteNav" aria-label="${locale === "ar" ? "أقسام المنتجات" : "Product categories"}"><div class="nav-panel">${nav(locale, pathname)}</div></nav>
-      <button class="basket-button" id="openBasket" aria-label="${locale === "ar" ? "افتح السلة" : "Open basket"}">${locale === "ar" ? "السلة" : "Basket"} <span id="basketCount">0</span></button>
+      <button class="basket-button" id="openBasket" aria-label="${locale === "ar" ? "افتح السلة" : "Open basket"}">${locale === "ar" ? "السلة" : "Basket"} <span id="basketCount" class="hidden">0</span></button>
     </header>
     <main id="top">
       ${body}
@@ -283,7 +284,7 @@ function layout({ locale = "en", type = "content", title, description, pathname,
           <div class="order-summary-card">
             <div class="order-summary-title"><h3>${locale === "ar" ? "سلتك" : "Your Basket"}</h3><button type="button" class="text-button" id="editBasket">${locale === "ar" ? "تعديل السلة" : "Edit Basket"}</button></div>
             <div id="reviewItems" class="review-items"></div>
-            <div class="review-total"><span>${locale === "ar" ? "الإجمالي" : "Grand Total"}</span><strong id="reviewSubtotal">EGP 0</strong></div>
+            <div class="review-total total-breakdown" id="reviewSubtotal"></div>
           </div>
           <div class="order-details-card">
             <h3>${locale === "ar" ? "بيانات التوصيل" : "Delivery Details"}</h3>
@@ -304,10 +305,10 @@ function layout({ locale = "en", type = "content", title, description, pathname,
       <div class="drawer-panel" role="dialog" aria-modal="true" aria-labelledby="basketTitle">
         <div class="drawer-header"><div><p class="eyebrow">${locale === "ar" ? "اختياراتك" : "Your Selection"}</p><h2 id="basketTitle">${locale === "ar" ? "السلة" : "Basket"}</h2></div><button id="closeBasket" class="icon-button" aria-label="${locale === "ar" ? "إغلاق السلة" : "Close basket"}">×</button></div>
         <div id="basketItems" class="basket-items"></div>
-        <div class="drawer-footer"><div class="subtotal"><span>${locale === "ar" ? "الإجمالي" : "Subtotal"}</span><strong id="subtotal">EGP 0</strong></div><button id="checkout" class="checkout">${locale === "ar" ? "مراجعة الطلب" : "Review Order"}</button><p class="checkout-note">${locale === "ar" ? "راجع السلة قبل إدخال بيانات التوصيل وتأكيد الطلب على واتساب." : "Review your basket before adding delivery details and confirming on WhatsApp."}</p></div>
+        <div class="drawer-footer"><div class="subtotal total-breakdown" id="subtotal"></div><button id="checkout" class="checkout">${locale === "ar" ? "مراجعة الطلب" : "Review Order"}</button><p class="checkout-note">${locale === "ar" ? "راجع السلة قبل إدخال بيانات التوصيل وتأكيد الطلب على واتساب." : "Review your basket before adding delivery details and confirming on WhatsApp."}</p></div>
       </div>
     </aside>
-    <footer class="site-footer">Home of Linen • Preview v0.1</footer>
+    <footer class="site-footer"></footer>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
     <script src="${assetRef(locale, pathname, "products.js")}"></script>
     <script src="${assetRef(locale, pathname, "app.js")}"></script>
@@ -457,6 +458,31 @@ function contentPage(locale, pathname, titleEn, titleAr, descEn, descAr, h1En, h
   return { locale, pathname, html: layout({ locale, type, title, description, pathname, h1, body, config: { type }, schema }) };
 }
 
+function aboutPage(locale) {
+  const pathname = "/about/";
+  const title = locale === "ar" ? "من نحن | Home of Linen" : "About Us | Home of Linen Egypt";
+  const description = locale === "ar"
+    ? "تعرف على قصة Home of Linen وخبرة Nourytex في تصنيع المنسوجات المصرية منذ عام 1988."
+    : "Discover the Home of Linen story, backed by Nourytex and more than 30 years of Egyptian textile expertise.";
+  const body = `<section class="about-story">
+    <div class="about-story-copy">
+      <p class="eyebrow">Home Of Linen</p>
+      <h1>Our Story</h1>
+      <p>Every Home of Linen product begins with over 30 years of Egyptian textile expertise.</p>
+      <p>Founded by Nourytex, a trusted manufacturer established in 1988, our heritage is built on crafting premium home textiles for many of Egypt’s leading brands.</p>
+      <p>Today, we’re proud to bring that same quality directly from our factory to your home—offering beautifully crafted bedding, towels, and home essentials made from the finest Egyptian cotton, designed for everyday comfort and made to last.</p>
+    </div>
+    <figure class="about-story-image">
+      <img src="${assetRef(locale, pathname, "assets/images/editorial/about-us.png")}" alt="Premium Egyptian cotton textiles folded in a calm Home of Linen setting" loading="lazy">
+    </figure>
+  </section>`;
+  const schema = [breadcrumbSchema([
+    { name: "Home", url: locale === "ar" ? arUrl("/") : enUrl("/") },
+    { name: locale === "ar" ? "من نحن" : "About Us", url: locale === "ar" ? arUrl(pathname) : enUrl(pathname) }
+  ])];
+  return { locale, pathname, html: layout({ locale, type: "content", title, description, pathname, h1: "Our Story", body, config: { type: "content" }, schema }) };
+}
+
 function homePage(locale) {
   const title = locale === "ar"
     ? "Home of Linen | مفروشات قطن مصري في مصر"
@@ -502,12 +528,8 @@ function generate() {
     pages.push(productPage(product, "en"));
     pages.push(productPage(product, "ar"));
   });
-  const aboutText = {
-    en: ["Home of Linen was created for customers who want calm, premium bedding without an overcomplicated shopping experience. Our focus is Egyptian cotton, clean colours, practical sizing and a warm editorial look that feels right for modern homes in Egypt.", "Egyptian cotton is valued for its long fibres, breathable feel and ability to create smooth, comfortable fabrics. We use that story as the foundation for bedding, towels and bedroom essentials that feel refined but approachable."],
-    ar: ["تأسست Home of Linen للعملاء الذين يريدون مفروشات هادئة وفاخرة بدون تجربة شراء معقدة. نركز على القطن المصري، الألوان النظيفة، المقاسات العملية، والشكل الدافئ المناسب للبيت المصري الحديث.", "يشتهر القطن المصري بأليافه الطويلة وملمسه المريح وقدرته على إنتاج أقمشة ناعمة وقابلة للتنفس. هذه القصة هي أساس مجموعاتنا من الملايات والفوط ومستلزمات غرفة النوم."]
-  };
-  pages.push(contentPage("en", "/about/", "Why Egyptian Cotton | Home of Linen Egypt", "لماذا القطن المصري | Home of Linen", "Discover the Home of Linen story and why Egyptian cotton is loved for breathable, premium bedding. Explore the collection today.", "تعرف على قصة Home of Linen ولماذا القطن المصري اختيار مثالي لمفروشات ناعمة ومريحة. تصفح المجموعة اليوم.", "Why Egyptian Cotton Bedding Matters", "لماذا نختار مفروشات القطن المصري", aboutText));
-  pages.push(contentPage("ar", "/about/", "Why Egyptian Cotton | Home of Linen Egypt", "لماذا القطن المصري | Home of Linen", "Discover the Home of Linen story and why Egyptian cotton is loved for breathable, premium bedding. Explore the collection today.", "تعرف على قصة Home of Linen ولماذا القطن المصري اختيار مثالي لمفروشات ناعمة ومريحة. تصفح المجموعة اليوم.", "Why Egyptian Cotton Bedding Matters", "لماذا نختار مفروشات القطن المصري", aboutText));
+  pages.push(aboutPage("en"));
+  pages.push(aboutPage("ar"));
   pages.push(contentPage("en", "/guides/", "Bedding Guides | Home of Linen Egypt", "دليل المفروشات | Home of Linen", "Read Home of Linen guides for Egyptian cotton bedding, thread count, percale, sateen, care and bed sizes in Egypt.", "اقرأ دليل Home of Linen عن القطن المصري وعدد الخيوط والبركال والساتين والعناية والمقاسات في مصر.", "Egyptian Cotton Bedding Guides", "دليل مفروشات القطن المصري", { en: guides.map(g => `${g[1]} — ${g[3]}`), ar: guides.map(g => `${g[2]} — ${g[4]}`) }));
   pages.push(contentPage("ar", "/guides/", "Bedding Guides | Home of Linen Egypt", "دليل المفروشات | Home of Linen", "Read Home of Linen guides for Egyptian cotton bedding, thread count, percale, sateen, care and bed sizes in Egypt.", "اقرأ دليل Home of Linen عن القطن المصري وعدد الخيوط والبركال والساتين والعناية والمقاسات في مصر.", "Egyptian Cotton Bedding Guides", "دليل مفروشات القطن المصري", { en: [], ar: guides.map(g => `${g[2]} — ${g[4]}`) }));
   guides.forEach(([slug, enTitle, arTitle, enDesc, arDesc]) => {

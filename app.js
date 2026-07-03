@@ -21,6 +21,8 @@ const customerEmail = document.querySelector("#customerEmail");
 const customerAddress = document.querySelector("#customerAddress");
 const customerFields = document.querySelector("#customerFields");
 const WHATSAPP_PHONE = "201004333340";
+const SHIPPING_THRESHOLD = 6000;
+const SHIPPING_FEE = 70;
 let pendingConfirmationNumber = "";
 let pendingConfirmedAt = "";
 let currentReviewRecommendations = [];
@@ -71,7 +73,8 @@ const categoryHeroImages = {
   Pillows: "assets/images/editorial/pillows.png",
   "Summer Essentials": "assets/images/editorial/summer-essentials.png",
   "Home Fragrance": "assets/images/editorial/home-fragrance.png",
-  Bedspreads: "assets/images/editorial/bedspreads.png"
+  Bedspreads: "assets/images/editorial/bedspreads.png",
+  "About Us": "assets/images/editorial/about-us.png"
 };
 
 const mobileCategoryHeroImages = {
@@ -85,7 +88,8 @@ const mobileCategoryHeroImages = {
   Pillows: "assets/images/editorial/mobile/pillows.png",
   "Summer Essentials": "assets/images/editorial/mobile/summer-essentials.png",
   "Home Fragrance": "assets/images/editorial/mobile/home-fragrance.png",
-  Bedspreads: "assets/images/editorial/mobile/bedspreads.png"
+  Bedspreads: "assets/images/editorial/mobile/bedspreads.png",
+  "About Us": "assets/images/editorial/about-us.png"
 };
 
 const categoryOrder = [
@@ -102,7 +106,7 @@ const categoryOrder = [
   "Bedspreads"
 ];
 
-const beddingCategories = ["Pillowcases", "Fitted Sheets", "Flat Sheets", "Duvet Covers", "Comforters", "Pillows", "Mattress Toppers"];
+const beddingCategories = ["Pillowcases", "Fitted Sheets", "Flat Sheets", "Duvet Covers", "Bedspreads", "Pillows", "Comforters", "Mattress Toppers"];
 
 const categorySlugs = {
   "Fitted Sheets": "fitted-sheets",
@@ -115,7 +119,8 @@ const categorySlugs = {
   "Pillows": "pillows",
   "Summer Essentials": "summer-essentials",
   "Home Fragrance": "home-fragrance",
-  "Bedspreads": "bedspreads"
+  "Bedspreads": "bedspreads",
+  "About Us": "about"
 };
 
 const categorySlugToName = Object.fromEntries(Object.entries(categorySlugs).map(([name, slug]) => [slug, name]));
@@ -131,7 +136,8 @@ const categoryArabicNames = {
   "Pillows": "مخدات",
   "Summer Essentials": "أساسيات الصيف",
   "Home Fragrance": "معطرات المنزل",
-  "Bedspreads": "مفارش سرير"
+  "Bedspreads": "مفارش سرير",
+  "About Us": "من نحن"
 };
 
 const productArabicNames = {
@@ -350,6 +356,7 @@ function currentDescription(product, selections) {
 }
 
 function categoryHref(group) {
+  if (group === "About Us") return "about/index.html";
   return `categories/${categorySlugs[group]}/index.html`;
 }
 
@@ -366,7 +373,7 @@ function homeCategoryTemplate(group, imageSet = categoryHeroImages) {
 }
 
 function homeGroups() {
-  const sharedOrder = ["Towels", "Summer Essentials", "Fitted Sheets", "Flat Sheets", "Pillowcases", "Pillows", "Comforters", "Mattress Toppers", "Bedspreads", "Duvet Covers", "Home Fragrance"];
+  const sharedOrder = ["Towels", "Summer Essentials", "Fitted Sheets", "Flat Sheets", "Pillowcases", "Pillows", "Comforters", "Mattress Toppers", "Bedspreads", "Duvet Covers", "Home Fragrance", "About Us"];
   const desktopOrder = sharedOrder;
   const mobileOrder = sharedOrder;
   return { desktopOrder, mobileOrder };
@@ -774,15 +781,40 @@ function basketTotal() {
   return state.basket.reduce((sum, item) => sum + item.price * item.qty, 0);
 }
 
+function shippingFee(subtotalValue = basketTotal()) {
+  return subtotalValue > 0 && subtotalValue < SHIPPING_THRESHOLD ? SHIPPING_FEE : 0;
+}
+
+function grandTotal() {
+  const subtotalValue = basketTotal();
+  return subtotalValue + shippingFee(subtotalValue);
+}
+
+function shippingLabel(subtotalValue = basketTotal()) {
+  return shippingFee(subtotalValue) ? formatPrice(SHIPPING_FEE) : t("FREE", "مجاني");
+}
+
+function renderTotalRows(container, subtotalValue = basketTotal()) {
+  if (!container) return;
+  const fee = shippingFee(subtotalValue);
+  container.innerHTML = `
+    <div class="total-row"><span>${t("Subtotal", "الإجمالي الفرعي")}</span><strong>${formatPrice(subtotalValue)}</strong></div>
+    <div class="total-row"><span>${t("Shipping", "الشحن")}</span><strong>${fee ? formatPrice(fee) : t("FREE", "مجاني")}</strong></div>
+    <div class="total-row grand"><span>${t("Grand Total", "الإجمالي")}</span><strong>${formatPrice(subtotalValue + fee)}</strong></div>
+  `;
+}
+
 function renderBasket() {
   const count = state.basket.reduce((sum, item) => sum + item.qty, 0);
   basketCount.textContent = count;
+  basketCount.classList.toggle("hidden", count === 0);
   document.querySelectorAll("[data-menu-basket-count]").forEach(el => {
     el.textContent = count;
+    el.classList.toggle("hidden", count === 0);
   });
   if (!state.basket.length) {
     basketItems.innerHTML = `<p class="spec">Your Basket Is Empty.</p>`;
-    subtotal.textContent = formatPrice(0);
+    renderTotalRows(subtotal, 0);
     renderOrderReview();
     return;
   }
@@ -811,7 +843,7 @@ function renderBasket() {
       `).join("")}
     </section>
   `).join("");
-  subtotal.textContent = formatPrice(total);
+  renderTotalRows(subtotal, total);
   renderOrderReview();
   basketItems.querySelectorAll("[data-line-down]").forEach(button => button.addEventListener("click", () => {
     const item = state.basket[Number(button.dataset.lineDown)];
@@ -950,7 +982,7 @@ function renderOrderReview() {
   if (!reviewItems || !reviewSubtotal) return;
   if (!state.basket.length) {
     reviewItems.innerHTML = `<p class="spec">Your Basket Is Empty.</p>`;
-    reviewSubtotal.textContent = formatPrice(0);
+    renderTotalRows(reviewSubtotal, 0);
     if (!pendingConfirmationNumber) orderConfirmation?.classList.add("hidden");
     return;
   }
@@ -961,7 +993,7 @@ function renderOrderReview() {
       ${state.basket.filter(item => (item.category || "Products") === group).map(reviewLineHtml).join("")}
     </section>
   `).join("") + reviewRecommendationsHtml();
-  reviewSubtotal.textContent = formatPrice(basketTotal());
+  renderTotalRows(reviewSubtotal, basketTotal());
   activateReviewRecommendations();
 }
 
@@ -1018,7 +1050,9 @@ function orderLine(item, index) {
 
 function buildWhatsAppMessage() {
   const customer = customerDetails();
-  const total = basketTotal();
+  const subtotalValue = basketTotal();
+  const fee = shippingFee(subtotalValue);
+  const total = subtotalValue + fee;
   const confirmation = pendingConfirmationNumber || orderNumber();
   return [
     "🛒 Home of Linen - New Order",
@@ -1037,6 +1071,8 @@ function buildWhatsAppMessage() {
     "",
     state.basket.map(orderLine).join("\n\n"),
     "",
+    `Subtotal: ${plainPrice(subtotalValue)}`,
+    `Shipping: ${fee ? plainPrice(fee) : "FREE"}`,
     `Grand Total: ${plainPrice(total)}`,
     "",
     "Thank you for choosing Home of Linen. We will confirm your order details shortly."
@@ -1046,6 +1082,9 @@ function buildWhatsAppMessage() {
 function buildCustomerEmailText() {
   const customer = customerDetails();
   const confirmation = pendingConfirmationNumber || orderNumber();
+  const subtotalValue = basketTotal();
+  const fee = shippingFee(subtotalValue);
+  const total = subtotalValue + fee;
   return {
     to: customer.email,
     subject: `Home of Linen order confirmation ${confirmation}`,
@@ -1060,7 +1099,9 @@ function buildCustomerEmailText() {
       "",
       state.basket.map(orderLine).join("\n\n"),
       "",
-      `Grand Total: ${plainPrice(basketTotal())}`,
+      `Subtotal: ${plainPrice(subtotalValue)}`,
+      `Shipping: ${fee ? plainPrice(fee) : "FREE"}`,
+      `Grand Total: ${plainPrice(total)}`,
       "",
       "We have received your order details and will confirm availability and delivery shortly.",
       "",
@@ -1078,7 +1119,9 @@ function saveOrderRecord() {
     createdAt: new Date().toISOString(),
     customer: customerDetails(),
     items: state.basket,
-    total: basketTotal(),
+    subtotal: basketTotal(),
+    shipping: shippingFee(),
+    total: grandTotal(),
     email: buildCustomerEmailText()
   });
   localStorage.setItem("holOrders", JSON.stringify(records.slice(0, 20)));
@@ -1138,7 +1181,7 @@ function confirmWhatsAppOrder() {
   const whatsappUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${message}`;
   orderConfirmation.innerHTML = `
     <strong>${t("Thank you for your order.", "شكراً لطلبك من Home of Linen.")}</strong>
-    <span>${t(`Your confirmation number is ${pendingConfirmationNumber}. Confirmed on ${pendingConfirmedAt}. Your order total is ${plainPrice(basketTotal())}. WhatsApp will open now with your order ready to send. We will use your email to send order updates once email confirmations are connected.`, `رقم تأكيد طلبك هو ${pendingConfirmationNumber}. تم تأكيد الطلب في ${pendingConfirmedAt}. إجمالي الطلب ${plainPrice(basketTotal())}. سيتم فتح واتساب الآن برسالة الطلب الجاهزة للإرسال، وسنستخدم البريد الإلكتروني لإرسال تحديثات الطلب عند تفعيل تأكيدات البريد.`)}</span>
+    <span>${t(`Your confirmation number is ${pendingConfirmationNumber}. Confirmed on ${pendingConfirmedAt}. Your order total is ${plainPrice(grandTotal())}. WhatsApp will open now with your order ready to send. We will use your email to send order updates once email confirmations are connected.`, `رقم تأكيد طلبك هو ${pendingConfirmationNumber}. تم تأكيد الطلب في ${pendingConfirmedAt}. إجمالي الطلب ${plainPrice(grandTotal())}. سيتم فتح واتساب الآن برسالة الطلب الجاهزة للإرسال، وسنستخدم البريد الإلكتروني لإرسال تحديثات الطلب عند تفعيل تأكيدات البريد.`)}</span>
   `;
   orderConfirmation.classList.remove("hidden");
   window.open(whatsappUrl, "_blank", "noopener");
@@ -1183,19 +1226,21 @@ if (navPanel && !navPanel.querySelector(".mobile-menu-header")) {
   };
   const brandHref = document.querySelector(".brand")?.getAttribute("href") || "index.html";
   const beddingHref = hrefForCategory("bedding") || hrefForCategory("fitted-sheets")?.replace("fitted-sheets", "bedding") || brandHref;
+  const aboutHref = brandHref.replace(/index\.html$/, "about/index.html") || "about/index.html";
   const mobileMenuItems = [
     { label: t("Bedding", "المفروشات"), href: beddingHref },
     { label: t("Towels", "الفوط"), href: hrefForCategory("towels") },
     { label: t("Summer Essentials", "أساسيات الصيف"), href: hrefForCategory("summer-essentials") },
     { label: t("Pillow Case Sets", "أكياس مخدات"), href: hrefForCategory("pillowcases") },
     { label: t("Fitted Sheet Sets", "ملايات بأستك"), href: hrefForCategory("fitted-sheets") },
-    { label: t("Flat Sheets", "ملايات سادة"), href: hrefForCategory("flat-sheets") },
+    { label: t("Flat Sheet Sets", "ملايات سادة"), href: hrefForCategory("flat-sheets") },
     { label: t("Duvet Cover Sets", "أغطية لحاف"), href: hrefForCategory("duvet-covers") },
     { label: t("Bedspreads", "مفارش سرير"), href: hrefForCategory("bedspreads") },
     { label: t("Pillows", "مخدات"), href: hrefForCategory("pillows") },
     { label: t("Comforters", "لحاف مبطن"), href: hrefForCategory("comforters") },
     { label: t("Mattress Toppers", "مراتب توبر"), href: hrefForCategory("mattress-toppers") },
-    { label: t("Home Fragrances", "معطرات المنزل"), href: hrefForCategory("home-fragrance") }
+    { label: t("Home Fragrances", "معطرات المنزل"), href: hrefForCategory("home-fragrance") },
+    { label: t("About Us", "من نحن"), href: aboutHref }
   ].filter(item => item.href);
   navPanel.insertAdjacentHTML("afterbegin", `
     <div class="mobile-menu-header" aria-hidden="false">
@@ -1203,7 +1248,7 @@ if (navPanel && !navPanel.querySelector(".mobile-menu-header")) {
       <img class="mobile-menu-logo" src="${logoSrc}" alt="${t("Home of Linen logo", "شعار هوم أوف لينن")}">
       <button class="mobile-menu-basket" type="button" aria-label="${t("Open basket", "افتح السلة")}">
         <span class="mobile-menu-basket-text">${t("Basket", "السلة")}</span>
-        <span class="mobile-menu-basket-count" data-menu-basket-count>${basketCount?.textContent || "0"}</span>
+        <span class="mobile-menu-basket-count hidden" data-menu-basket-count>${basketCount?.textContent || "0"}</span>
       </button>
     </div>
     <div class="mobile-menu-links">
