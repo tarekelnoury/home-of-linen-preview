@@ -1131,6 +1131,8 @@ select {
     gap: 0;
     width: min(90vw, 390px);
     max-width: none;
+    height: 100vh;
+    height: 100dvh;
     min-height: 100vh;
     margin: 0;
     padding: 0 22px 34px;
@@ -1139,6 +1141,8 @@ select {
     background: var(--paper);
     box-shadow: 22px 0 40px rgba(47, 42, 37, .16);
     transition: transform .28s ease;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
   .nav.open .nav-panel {
     transform: translateX(0);

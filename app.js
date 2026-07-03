@@ -1146,6 +1146,17 @@ document.querySelector("#openBasket").addEventListener("click", () => {
 const menuToggle = document.querySelector("#menuToggle");
 const siteNav = document.querySelector("#siteNav");
 const navPanel = siteNav?.querySelector(".nav-panel");
+const navOriginalParent = siteNav?.parentNode;
+const navOriginalNext = siteNav?.nextSibling;
+const mobileMenuQuery = window.matchMedia("(max-width: 760px)");
+function placeMenuForViewport() {
+  if (!siteNav || !navOriginalParent) return;
+  if (mobileMenuQuery.matches && siteNav.parentNode !== document.body) {
+    document.body.appendChild(siteNav);
+  } else if (!mobileMenuQuery.matches && siteNav.parentNode !== navOriginalParent) {
+    navOriginalParent.insertBefore(siteNav, navOriginalNext);
+  }
+}
 if (navPanel && !navPanel.querySelector(".mobile-menu-header")) {
   const logoSrc = document.querySelector(".brand img")?.getAttribute("src") || "assets/brand/home-of-linen-logo.png";
   navPanel.insertAdjacentHTML("afterbegin", `
@@ -1164,7 +1175,13 @@ function closeMenu() {
   menuToggle?.setAttribute("aria-expanded", "false");
   document.body.classList.remove("menu-open");
 }
+placeMenuForViewport();
+mobileMenuQuery.addEventListener?.("change", () => {
+  closeMenu();
+  placeMenuForViewport();
+});
 menuToggle?.addEventListener("click", () => {
+  placeMenuForViewport();
   const isOpen = siteNav.classList.toggle("open");
   menuToggle.setAttribute("aria-expanded", String(isOpen));
   document.body.classList.toggle("menu-open", isOpen);
