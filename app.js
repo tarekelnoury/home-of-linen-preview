@@ -763,6 +763,9 @@ function basketTotal() {
 function renderBasket() {
   const count = state.basket.reduce((sum, item) => sum + item.qty, 0);
   basketCount.textContent = count;
+  document.querySelectorAll("[data-menu-basket-count]").forEach(el => {
+    el.textContent = count;
+  });
   if (!state.basket.length) {
     basketItems.innerHTML = `<p class="spec">Your Basket Is Empty.</p>`;
     subtotal.textContent = formatPrice(0);
@@ -1142,6 +1145,20 @@ document.querySelector("#openBasket").addEventListener("click", () => {
 });
 const menuToggle = document.querySelector("#menuToggle");
 const siteNav = document.querySelector("#siteNav");
+const navPanel = siteNav?.querySelector(".nav-panel");
+if (navPanel && !navPanel.querySelector(".mobile-menu-header")) {
+  const logoSrc = document.querySelector(".brand img")?.getAttribute("src") || "assets/brand/home-of-linen-logo.png";
+  navPanel.insertAdjacentHTML("afterbegin", `
+    <div class="mobile-menu-header" aria-hidden="false">
+      <button class="mobile-menu-close" type="button" aria-label="${t("Close menu", "إغلاق القائمة")}">×</button>
+      <img class="mobile-menu-logo" src="${logoSrc}" alt="${t("Home of Linen logo", "شعار هوم أوف لينن")}">
+      <button class="mobile-menu-basket" type="button" aria-label="${t("Open basket", "افتح السلة")}">
+        <span class="mobile-menu-basket-text">${t("Basket", "السلة")}</span>
+        <span class="mobile-menu-basket-count" data-menu-basket-count>${basketCount?.textContent || "0"}</span>
+      </button>
+    </div>
+  `);
+}
 function closeMenu() {
   siteNav?.classList.remove("open");
   menuToggle?.setAttribute("aria-expanded", "false");
@@ -1151,6 +1168,15 @@ menuToggle?.addEventListener("click", () => {
   const isOpen = siteNav.classList.toggle("open");
   menuToggle.setAttribute("aria-expanded", String(isOpen));
   document.body.classList.toggle("menu-open", isOpen);
+});
+siteNav?.querySelector(".mobile-menu-close")?.addEventListener("click", closeMenu);
+siteNav?.querySelector(".mobile-menu-basket")?.addEventListener("click", () => {
+  closeMenu();
+  basketDrawer.classList.add("open");
+  basketDrawer.setAttribute("aria-hidden", "false");
+});
+siteNav?.addEventListener("click", event => {
+  if (event.target === siteNav) closeMenu();
 });
 document.querySelectorAll(".nav a, .hero-hotspot").forEach(link => {
   link.addEventListener("click", event => {

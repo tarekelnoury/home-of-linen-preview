@@ -71,6 +71,10 @@ button, select, input, textarea { font: inherit; }
   align-items: center;
 }
 
+.mobile-menu-header {
+  display: none;
+}
+
 .nav a {
   color: var(--muted);
   text-decoration: none;
@@ -1102,52 +1106,132 @@ select {
   .nav {
     position: fixed;
     inset: 0;
-    z-index: 60;
-    display: grid;
-    place-items: stretch;
-    padding: 92px 18px 28px;
-    background: rgba(251, 247, 239, .99);
+    z-index: 120;
+    display: block;
+    padding: 0;
+    background: rgba(47, 42, 37, .34);
     opacity: 0;
     pointer-events: none;
-    transform: translateY(-8px);
-    transition: opacity .2s ease, transform .2s ease;
+    transform: none;
+    transition: opacity .22s ease;
     overflow-y: auto;
   }
   .nav.open {
     opacity: 1;
     pointer-events: auto;
-    transform: translateY(0);
   }
   .nav-panel {
-    position: static;
-    transform: none;
+    position: relative;
+    transform: translateX(-105%);
     opacity: 1;
     pointer-events: auto;
     display: grid;
     grid-template-columns: 1fr;
     align-content: start;
     gap: 0;
-    width: 100%;
+    width: min(90vw, 390px);
     max-width: none;
-    min-height: calc(100vh - 120px);
+    min-height: 100vh;
     margin: 0;
-    padding: 10px 0 28px;
+    padding: 0 22px 34px;
     border: 0;
     border-radius: 0;
+    background: var(--paper);
+    box-shadow: 22px 0 40px rgba(47, 42, 37, .16);
+    transition: transform .28s ease;
+  }
+  .nav.open .nav-panel {
+    transform: translateX(0);
+  }
+  .mobile-menu-header {
+    display: grid;
+    grid-template-columns: 48px 1fr 48px;
+    align-items: center;
+    gap: 12px;
+    min-height: 112px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 12px;
+  }
+  .mobile-menu-close,
+  .mobile-menu-basket {
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba(47, 42, 37, .38);
+    border-radius: 0;
     background: transparent;
-    box-shadow: none;
+    color: var(--ink);
+    display: grid;
+    place-items: center;
+  }
+  .mobile-menu-close {
+    font-size: 2rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .mobile-menu-logo {
+    justify-self: center;
+    max-width: 180px;
+    width: 70%;
+    height: auto;
+    display: block;
+  }
+  .mobile-menu-basket {
+    position: relative;
+    justify-self: end;
+  }
+  .mobile-menu-basket::before {
+    content: "";
+    width: 23px;
+    height: 23px;
+    background: currentColor;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='black' d='M7 7V6a5 5 0 0 1 10 0v1h2.1c.5 0 .9.4.9.9l1 11.2A2.7 2.7 0 0 1 18.3 22H5.7A2.7 2.7 0 0 1 3 19.1L4 7.9c0-.5.4-.9.9-.9H7Zm2 0h6V6a3 3 0 0 0-6 0v1Zm-2 3a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm10 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2Z'/%3E%3C/svg%3E") center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='black' d='M7 7V6a5 5 0 0 1 10 0v1h2.1c.5 0 .9.4.9.9l1 11.2A2.7 2.7 0 0 1 18.3 22H5.7A2.7 2.7 0 0 1 3 19.1L4 7.9c0-.5.4-.9.9-.9H7Zm2 0h6V6a3 3 0 0 0-6 0v1Zm-2 3a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm10 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2Z'/%3E%3C/svg%3E") center / contain no-repeat;
+  }
+  .mobile-menu-basket-count {
+    position: absolute;
+    top: -9px;
+    right: -9px;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: var(--gold);
+    color: var(--paper);
+    display: grid;
+    place-items: center;
+    font-size: .72rem;
+    line-height: 1;
+  }
+  .mobile-menu-basket-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
   }
   .nav a {
-    min-height: 56px;
+    min-height: 68px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     border-bottom: 1px solid var(--line);
-    font-size: .9rem;
-    letter-spacing: .12em;
-    padding: 0 4px;
+    color: var(--ink);
+    font-size: clamp(1.25rem, 5vw, 1.65rem);
+    font-weight: 600;
+    letter-spacing: 0;
+    text-transform: none;
+    padding: 0;
+    line-height: 1.2;
+  }
+  .nav a::after {
+    content: "›";
+    font-size: 2.2rem;
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1;
   }
   .nav a:last-child {
-    border-bottom: 0;
+    border-bottom: 1px solid var(--line);
   }
   .hero {
     height: clamp(360px, 82vw, 520px);
