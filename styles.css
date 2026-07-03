@@ -522,6 +522,16 @@ button, select, input, textarea { font: inherit; }
   background: transparent;
 }
 
+.card[data-product="bedspread"] .image-wrap {
+  background: transparent;
+}
+
+.card[data-product="bedspread"] .image-wrap img {
+  object-fit: cover;
+  object-position: center;
+  background: transparent;
+}
+
 .image-wrap.image-fading img {
   opacity: .55;
   transform: scale(.998);
@@ -1255,6 +1265,9 @@ select {
     color: var(--ink);
     line-height: 1;
   }
+  .nav .nav-panel > a {
+    display: none;
+  }
   .nav a:last-child {
     border-bottom: 1px solid var(--line);
   }
@@ -1382,6 +1395,14 @@ select {
   .card-summer-essentials .image-wrap.has-gallery img,
   .category-summer-essentials .image-wrap.has-gallery img {
     object-fit: cover;
+    background: transparent;
+  }
+  .card[data-product="bedspread"] .image-wrap.has-gallery {
+    background: transparent;
+  }
+  .card[data-product="bedspread"] .image-wrap.has-gallery img {
+    object-fit: cover;
+    object-position: center;
     background: transparent;
   }
   .image-wrap:has(.gallery-toggle) {

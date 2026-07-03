@@ -74,6 +74,20 @@ const categoryHeroImages = {
   Bedspreads: "assets/images/editorial/bedspreads.png"
 };
 
+const mobileCategoryHeroImages = {
+  "Fitted Sheets": "assets/images/editorial/mobile/fitted-sheets.png",
+  "Flat Sheets": "assets/images/editorial/mobile/flat-sheets.png",
+  Pillowcases: "assets/images/editorial/mobile/pillowcases.png",
+  "Duvet Covers": "assets/images/editorial/mobile/duvet-covers.png",
+  Towels: "assets/images/editorial/mobile/towels.png",
+  Comforters: "assets/images/editorial/mobile/comforters.png",
+  "Mattress Toppers": "assets/images/editorial/mobile/mattress-toppers.png",
+  Pillows: "assets/images/editorial/mobile/pillows.png",
+  "Summer Essentials": "assets/images/editorial/mobile/summer-essentials.png",
+  "Home Fragrance": "assets/images/editorial/mobile/home-fragrance.png",
+  Bedspreads: "assets/images/editorial/mobile/bedspreads.png"
+};
+
 const categoryOrder = [
   "Fitted Sheets",
   "Flat Sheets",
@@ -339,9 +353,9 @@ function categoryHref(group) {
   return `categories/${categorySlugs[group]}/index.html`;
 }
 
-function homeCategoryTemplate(group) {
+function homeCategoryTemplate(group, imageSet = categoryHeroImages) {
   const label = categoryLabel(group);
-  const image = categoryHeroImages[group];
+  const image = imageSet[group] || categoryHeroImages[group];
   return `
     <section class="home-collection home-collection-${sectionId(group)}" id="${sectionId(group)}">
       <a class="home-collection-image" href="${categoryHref(group)}" aria-label="${t(`Discover ${label}`, `اكتشف ${label}`)}">
@@ -352,7 +366,7 @@ function homeCategoryTemplate(group) {
 }
 
 function homeGroups() {
-  const sharedOrder = ["Towels", "Summer Essentials", "Fitted Sheets", "Flat Sheets", "Bedspreads", "Duvet Covers", "Pillowcases", "Pillows", "Comforters", "Mattress Toppers", "Home Fragrance"];
+  const sharedOrder = ["Towels", "Summer Essentials", "Fitted Sheets", "Flat Sheets", "Pillowcases", "Pillows", "Comforters", "Mattress Toppers", "Bedspreads", "Duvet Covers", "Home Fragrance"];
   const desktopOrder = sharedOrder;
   const mobileOrder = sharedOrder;
   return { desktopOrder, mobileOrder };
@@ -368,7 +382,7 @@ function renderCatalog() {
     const { desktopOrder, mobileOrder } = homeGroups();
     catalog.innerHTML = `
       <div class="home-category-stack home-category-stack-desktop">${desktopOrder.map(homeCategoryTemplate).join("")}</div>
-      <div class="home-category-stack home-category-stack-mobile">${mobileOrder.map(homeCategoryTemplate).join("")}</div>
+      <div class="home-category-stack home-category-stack-mobile">${mobileOrder.map(group => homeCategoryTemplate(group, mobileCategoryHeroImages)).join("")}</div>
     `;
     return;
   }
@@ -1168,19 +1182,20 @@ if (navPanel && !navPanel.querySelector(".mobile-menu-header")) {
     return matchedLink?.getAttribute("href");
   };
   const brandHref = document.querySelector(".brand")?.getAttribute("href") || "index.html";
+  const beddingHref = hrefForCategory("bedding") || hrefForCategory("fitted-sheets")?.replace("fitted-sheets", "bedding") || brandHref;
   const mobileMenuItems = [
-    { label: t("Bedding", "المفروشات"), href: brandHref },
+    { label: t("Bedding", "المفروشات"), href: beddingHref },
     { label: t("Towels", "الفوط"), href: hrefForCategory("towels") },
     { label: t("Summer Essentials", "أساسيات الصيف"), href: hrefForCategory("summer-essentials") },
+    { label: t("Pillow Case Sets", "أكياس مخدات"), href: hrefForCategory("pillowcases") },
     { label: t("Fitted Sheet Sets", "ملايات بأستك"), href: hrefForCategory("fitted-sheets") },
     { label: t("Flat Sheets", "ملايات سادة"), href: hrefForCategory("flat-sheets") },
-    { label: t("Pillowcase Sets", "أكياس مخدات"), href: hrefForCategory("pillowcases") },
+    { label: t("Duvet Cover Sets", "أغطية لحاف"), href: hrefForCategory("duvet-covers") },
+    { label: t("Bedspreads", "مفارش سرير"), href: hrefForCategory("bedspreads") },
     { label: t("Pillows", "مخدات"), href: hrefForCategory("pillows") },
     { label: t("Comforters", "لحاف مبطن"), href: hrefForCategory("comforters") },
     { label: t("Mattress Toppers", "مراتب توبر"), href: hrefForCategory("mattress-toppers") },
-    { label: t("Bedspreads", "مفارش سرير"), href: hrefForCategory("bedspreads") },
-    { label: t("Duvet Covers", "أغطية لحاف"), href: hrefForCategory("duvet-covers") },
-    { label: t("Home Fragrance", "معطرات المنزل"), href: hrefForCategory("home-fragrance") }
+    { label: t("Home Fragrances", "معطرات المنزل"), href: hrefForCategory("home-fragrance") }
   ].filter(item => item.href);
   navPanel.insertAdjacentHTML("afterbegin", `
     <div class="mobile-menu-header" aria-hidden="false">
