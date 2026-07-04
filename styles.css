@@ -1066,41 +1066,56 @@ select {
 
 .about-story {
   display: grid;
-  grid-template-columns: minmax(0, .9fr) minmax(320px, 1.1fr);
-  gap: clamp(28px, 5vw, 72px);
+  grid-template-columns: minmax(0, .86fr) minmax(420px, 1.14fr);
+  gap: clamp(34px, 6vw, 92px);
   align-items: center;
-  padding: clamp(42px, 8vw, 96px) clamp(18px, 5vw, 72px);
+  max-width: 1500px;
+  min-height: calc(100vh - 118px);
+  margin: 0 auto;
+  padding: clamp(58px, 8vw, 112px) clamp(22px, 6vw, 92px);
+}
+
+.about-story-page {
+  background:
+    radial-gradient(circle at 12% 14%, rgba(191, 164, 124, .15), transparent 32%),
+    linear-gradient(135deg, rgba(255, 253, 248, .96), rgba(246, 239, 228, .78));
 }
 
 .about-story-copy {
   max-width: 680px;
+  padding: clamp(10px, 2vw, 24px) 0;
 }
 
 .about-story-copy h1 {
-  margin: 0 0 24px;
+  margin: 0 0 clamp(24px, 3vw, 36px);
   font-family: var(--brand-serif);
-  font-size: clamp(3.4rem, 8vw, 7rem);
-  line-height: .9;
+  font-size: clamp(3.4rem, 6.4vw, 6.1rem);
+  line-height: .92;
   font-weight: 400;
+  letter-spacing: -.045em;
 }
 
 .about-story-copy p:not(.eyebrow) {
   color: var(--muted);
-  font-size: clamp(1rem, 1.5vw, 1.2rem);
-  line-height: 1.75;
+  font-size: clamp(1.04rem, 1.35vw, 1.22rem);
+  line-height: 1.82;
+  margin: 0 0 20px;
 }
 
 .about-story-image {
   margin: 0;
+  align-self: stretch;
 }
 
 .about-story-image img {
   width: 100%;
+  height: 100%;
   display: block;
-  aspect-ratio: 16 / 9;
+  min-height: clamp(520px, 58vw, 760px);
+  aspect-ratio: 4 / 5;
   object-fit: cover;
-  border-radius: 30px;
-  box-shadow: var(--shadow);
+  border-radius: 34px;
+  box-shadow: 0 28px 80px rgba(47, 42, 37, .13);
 }
 
 .toast {
@@ -1402,13 +1417,26 @@ select {
   }
   .about-story {
     grid-template-columns: 1fr;
-    padding: 36px 18px 48px;
-    gap: 24px;
+    min-height: 0;
+    padding: 42px 18px 54px;
+    gap: 30px;
+  }
+  .about-story-copy {
+    padding: 0;
   }
   .about-story-copy h1 {
-    font-size: clamp(3rem, 15vw, 4.6rem);
+    font-size: clamp(3rem, 12vw, 4.2rem);
+    margin-bottom: 24px;
+  }
+  .about-story-copy p:not(.eyebrow) {
+    font-size: 1rem;
+    line-height: 1.72;
+    margin-bottom: 18px;
   }
   .about-story-image img {
+    min-height: 0;
+    height: auto;
+    aspect-ratio: 4 / 5;
     border-radius: 22px;
   }
   .order-review {

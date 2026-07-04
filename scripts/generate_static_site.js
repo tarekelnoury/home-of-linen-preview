@@ -464,16 +464,15 @@ function aboutPage(locale) {
   const description = locale === "ar"
     ? "تعرف على قصة Home of Linen وخبرة Nourytex في تصنيع المنسوجات المصرية منذ عام 1988."
     : "Discover the Home of Linen story, backed by Nourytex and more than 30 years of Egyptian textile expertise.";
-  const body = `<section class="about-story">
+  const body = `<section class="about-story about-story-page">
     <div class="about-story-copy">
-      <p class="eyebrow">Home Of Linen</p>
       <h1>Our Story</h1>
       <p>Every Home of Linen product begins with over 30 years of Egyptian textile expertise.</p>
       <p>Founded by Nourytex, a trusted manufacturer established in 1988, our heritage is built on crafting premium home textiles for many of Egypt’s leading brands.</p>
       <p>Today, we’re proud to bring that same quality directly from our factory to your home—offering beautifully crafted bedding, towels, and home essentials made from the finest Egyptian cotton, designed for everyday comfort and made to last.</p>
     </div>
     <figure class="about-story-image">
-      <img src="${assetRef(locale, pathname, "assets/images/editorial/about-us.png")}" alt="Premium Egyptian cotton textiles folded in a calm Home of Linen setting" loading="lazy">
+      <img src="${assetRef(locale, pathname, "assets/images/editorial/about-story-image.png")}" alt="Layered Egyptian cotton bedding and textured home textiles in a warm Home of Linen bedroom" loading="lazy">
     </figure>
   </section>`;
   const schema = [breadcrumbSchema([
