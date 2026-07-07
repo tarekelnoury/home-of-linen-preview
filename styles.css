@@ -89,6 +89,8 @@ button, select, input, textarea { font: inherit; }
 
 .nav-dropdown {
   position: relative;
+  padding: 8px 0 12px;
+  margin: -8px 0 -12px;
 }
 
 .nav-dropdown-button {
@@ -114,11 +116,11 @@ button, select, input, textarea { font: inherit; }
 
 .nav-dropdown-menu {
   position: absolute;
-  top: calc(100% + 10px);
+  top: 100%;
   left: 50%;
   transform: translate(-50%, 8px);
   min-width: 210px;
-  padding: 10px;
+  padding: 14px 10px 10px;
   border: 1px solid var(--line);
   border-radius: 18px;
   background: rgba(255, 253, 248, .98);
@@ -127,6 +129,7 @@ button, select, input, textarea { font: inherit; }
   visibility: hidden;
   pointer-events: none;
   transition: .18s ease;
+  z-index: 50;
 }
 
 .nav-dropdown:hover .nav-dropdown-menu,
