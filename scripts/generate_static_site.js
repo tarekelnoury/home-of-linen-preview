@@ -33,6 +33,15 @@ const categorySlugs = {
   Bedspreads: "bedspreads"
 };
 
+const policyNavItems = [
+  { label: "Terms & Conditions", arLabel: "الشروط والأحكام", pathname: "/policies/terms-and-conditions/" },
+  { label: "Refund Policy", arLabel: "سياسة الاسترجاع", pathname: "/policies/refund-policy/" },
+  { label: "Privacy Policy", arLabel: "سياسة الخصوصية", pathname: "/policies/privacy-policy/" },
+  { label: "Shipping Policy", arLabel: "سياسة الشحن", pathname: "/policies/shipping-policy/" },
+  { label: "Contact", arLabel: "تواصل معنا", pathname: "/contact/" },
+  { label: "About Us", arLabel: "من نحن", pathname: "/about/" }
+];
+
 const beddingCategories = ["Pillowcases", "Fitted Sheets", "Flat Sheets", "Duvet Covers", "Bedspreads", "Pillows", "Comforters", "Mattress Toppers"];
 
 const categoryArabic = {
@@ -195,10 +204,13 @@ function assetRef(locale, pathname, assetPath) {
 }
 
 function nav(locale, pathname) {
-  const items = Object.entries(categorySlugs).map(([label, slug]) =>
+  const categoryItems = Object.entries(categorySlugs).map(([label, slug]) =>
     `<a href="${hrefTo(locale, pathname, locale, `/categories/${slug}/`)}">${esc(categoryName(label, locale))}</a>`
   ).join("");
-  return items;
+  const policyItems = policyNavItems.map(item =>
+    `<a href="${hrefTo(locale, pathname, locale, item.pathname)}">${esc(locale === "ar" ? item.arLabel : item.label)}</a>`
+  ).join("");
+  return `${categoryItems}${policyItems}`;
 }
 
 function organizationSchema() {
@@ -426,6 +438,128 @@ const guides = [
   ["bed-sheet-size-guide-egypt", "Bed & Sheet Size Guide in Egypt", "دليل مقاسات السرير والملايات في مصر", "Use this Egypt-focused bed size guide to choose fitted sheets, flat sheets, duvet covers and toppers.", "استخدم دليل مقاسات السرير في مصر لاختيار الملايات والأغطية والتوبر بالمقاس الصحيح."]
 ];
 
+const businessInfo = {
+  name: "Home of Linen (Nourytex)",
+  website: "https://homeoflineneg.com",
+  email: "sales@homeoflineneg.com",
+  phone: "02 21828477",
+  internationalPhone: "+20 2 21828477",
+  address: "9 Tawakol Street, Industrial Area, Gesr El Suess, Cairo, Egypt",
+  arAddress: "9 شارع التوكل، المنطقة الصناعية، جسر السويس، القاهرة، مصر",
+  commercialRegistration: "252129",
+  taxRegistration: "100-034-497",
+  supportHours: "Sunday – Thursday, 9:00 AM – 5:00 PM (Egypt Time)"
+};
+
+const policyPages = [
+  {
+    slug: "terms-and-conditions",
+    title: "Terms & Conditions | Home of Linen",
+    arTitle: "الشروط والأحكام | Home of Linen",
+    description: "Read Home of Linen terms and conditions before shopping. Learn about orders, pricing, payments, product information and Egyptian law.",
+    arDescription: "اقرأ الشروط والأحكام الخاصة بـ Home of Linen قبل التسوق، بما في ذلك الطلبات والأسعار والدفع ومعلومات المنتجات.",
+    h1: "Terms & Conditions",
+    arH1: "الشروط والأحكام",
+    sections: [
+      ["Overview", ["Welcome to Home of Linen. By accessing our website or placing an order, you agree to these Terms & Conditions. If you do not agree with these terms, please do not use our website."]],
+      ["Orders", ["All orders are subject to product availability and order confirmation. We reserve the right to refuse, limit, or cancel any order due to stock availability, pricing errors, payment verification issues, or suspected fraudulent activity. If your order is cancelled after payment has been received, a full refund will be issued."]],
+      ["Product Information", ["We make every effort to display our products as accurately as possible. Colours may vary slightly depending on your device or monitor. Minor variations in colour, weave, stitching, texture, or dimensions are natural characteristics of textile manufacturing and do not constitute defects."]],
+      ["Pricing", ["All prices are displayed in Egyptian Pounds (EGP) and include applicable taxes unless otherwise stated. Prices and promotions may change without prior notice. Should an obvious pricing error occur, we reserve the right to cancel the order and issue a full refund."]],
+      ["Payment", ["Payment is accepted using the methods displayed during checkout. For Cash on Delivery orders, payment is due in full upon delivery."]],
+      ["Intellectual Property", ["All content on this website — including product photography, graphics, logos, illustrations, text, branding, and designs — is the exclusive property of Home of Linen. No content may be copied, reproduced, distributed, or used without our prior written permission."]],
+      ["Limitation of Liability", ["To the fullest extent permitted by law, Home of Linen shall not be liable for any indirect, incidental, or consequential damages arising from the use of our website or products. Our maximum liability shall not exceed the amount paid for the product giving rise to the claim. Nothing in these Terms limits your rights under applicable Egyptian consumer protection laws."]],
+      ["Governing Law", ["These Terms are governed by the laws of the Arab Republic of Egypt. We may update these Terms periodically. Any changes become effective immediately upon publication on this page."]]
+    ],
+    arSections: [
+      ["نظرة عامة", ["مرحباً بك في Home of Linen. باستخدامك للموقع أو إتمام أي طلب، فإنك توافق على هذه الشروط والأحكام. إذا كنت لا توافق عليها، يرجى عدم استخدام الموقع."]],
+      ["الطلبات", ["تخضع جميع الطلبات لتوافر المنتجات وتأكيد الطلب. نحتفظ بحق رفض أو تحديد أو إلغاء أي طلب بسبب عدم توافر المخزون، أو أخطاء التسعير، أو مشكلات التحقق من الدفع، أو الاشتباه في نشاط غير صحيح. إذا تم إلغاء الطلب بعد استلام الدفع، سيتم رد المبلغ بالكامل."]],
+      ["معلومات المنتجات", ["نحرص على عرض المنتجات بأكبر قدر ممكن من الدقة. قد تختلف الألوان قليلاً حسب شاشة الجهاز. الاختلافات البسيطة في اللون أو النسيج أو الخياطة أو الملمس أو المقاسات هي خصائص طبيعية في صناعة المنسوجات ولا تعتبر عيوباً."]],
+      ["الأسعار", ["جميع الأسعار معروضة بالجنيه المصري وتشمل الضرائب المطبقة ما لم يُذكر خلاف ذلك. قد تتغير الأسعار والعروض دون إشعار مسبق. في حال وجود خطأ واضح في السعر، نحتفظ بحق إلغاء الطلب ورد المبلغ بالكامل."]],
+      ["الدفع", ["يتم قبول وسائل الدفع المتاحة أثناء إتمام الطلب. في طلبات الدفع عند الاستلام، يكون الدفع مستحقاً بالكامل عند التوصيل."]],
+      ["الملكية الفكرية", ["جميع محتويات الموقع، بما في ذلك الصور والرسومات والشعارات والنصوص والعلامة التجارية والتصميمات، مملوكة حصرياً لـ Home of Linen. لا يجوز نسخ أو إعادة إنتاج أو توزيع أو استخدام أي محتوى دون موافقة كتابية مسبقة."]],
+      ["حدود المسؤولية", ["إلى أقصى حد يسمح به القانون، لا تتحمل Home of Linen مسؤولية أي أضرار غير مباشرة أو عرضية أو تبعية ناتجة عن استخدام الموقع أو المنتجات. لا تتجاوز مسؤوليتنا القصوى قيمة المنتج محل المطالبة، ولا يحد ذلك من حقوقك بموجب قوانين حماية المستهلك المصرية."]],
+      ["القانون الحاكم", ["تخضع هذه الشروط لقوانين جمهورية مصر العربية. قد نقوم بتحديث هذه الشروط من وقت لآخر، وتصبح أي تغييرات سارية فور نشرها على هذه الصفحة."]]
+    ]
+  },
+  {
+    slug: "refund-policy",
+    title: "Refund Policy | Home of Linen Egypt",
+    arTitle: "سياسة الاسترجاع | Home of Linen",
+    description: "Review Home of Linen return, exchange and refund rules. Returns are accepted within 14 days when products are unused and eligible.",
+    arDescription: "تعرف على سياسة الاسترجاع والاستبدال ورد المبالغ من Home of Linen خلال 14 يوماً للمنتجات المؤهلة وغير المستخدمة.",
+    h1: "Refund Policy",
+    arH1: "سياسة الاسترجاع",
+    sections: [
+      ["Returns", ["We accept returns within 14 days of delivery. To be eligible for a return, your item must be unused, unwashed, in its original condition, returned in its original packaging with all tags and accessories attached, and show no signs of use, damage, alteration, or laundering.", "To initiate a return, please contact us at sales@homeoflineneg.com with your order number, the reason for your return, and photos of the item if it is damaged or incorrect."]],
+      ["Non-Returnable Items", ["For hygiene reasons, we cannot accept returns of used or washed bedding, towels, pillows, or comforters; items removed from sealed packaging where applicable; or final sale and clearance items, unless the product is defective or delivered incorrectly."]],
+      ["Damaged or Incorrect Orders", ["Please inspect your order upon delivery. If you receive an incorrect, damaged, or defective item, contact us within 48 hours of delivery with your order number, clear photographs showing the issue, and a brief description. After review, we will arrange a replacement or issue a full refund, including applicable shipping costs if the error was ours."]],
+      ["Refunds", ["Once your returned item has been received and inspected, we will notify you of the outcome. Approved refunds will be processed using your original payment method within 7–14 business days, depending on your payment provider.", "For Cash on Delivery (COD) orders, refunds will be issued via bank transfer, Instapay, or another mutually agreed payment method. Original shipping charges are non-refundable unless the return is due to a defective product or an error on our part."]],
+      ["Exchanges", ["We are happy to exchange eligible products for a different size or colour, subject to stock availability. Please contact us within 14 days of delivery and our team will assist you."]]
+    ],
+    arSections: [
+      ["الاسترجاع", ["نقبل طلبات الاسترجاع خلال 14 يوماً من تاريخ التوصيل. يجب أن يكون المنتج غير مستخدم، غير مغسول، بحالته الأصلية، داخل العبوة الأصلية مع جميع الملصقات والإكسسوارات، ولا يظهر عليه أي استخدام أو تلف أو تعديل أو غسيل.", "لبدء طلب الاسترجاع، يرجى التواصل معنا عبر sales@homeoflineneg.com مع رقم الطلب وسبب الاسترجاع وصور المنتج إذا كان تالفاً أو غير صحيح."]],
+      ["المنتجات غير القابلة للاسترجاع", ["لأسباب تتعلق بالنظافة، لا يمكن قبول استرجاع المفروشات أو الفوط أو المخدات أو اللحاف المستخدم أو المغسول، أو المنتجات التي تمت إزالتها من العبوات المغلقة حيثما ينطبق، أو منتجات التخفيضات النهائية، إلا إذا كان المنتج معيباً أو تم توصيله بالخطأ."]],
+      ["الطلبات التالفة أو غير الصحيحة", ["يرجى فحص الطلب عند الاستلام. إذا وصلك منتج غير صحيح أو تالف أو معيب، يرجى التواصل معنا خلال 48 ساعة من التوصيل مع رقم الطلب وصور واضحة للمشكلة ووصف مختصر. بعد المراجعة، سنقوم بترتيب الاستبدال أو رد كامل للمبلغ بما في ذلك رسوم الشحن المطبقة إذا كان الخطأ من طرفنا."]],
+      ["رد المبالغ", ["بعد استلام المنتج المرتجع وفحصه، سنبلغك بنتيجة الطلب. يتم رد المبالغ المقبولة عبر وسيلة الدفع الأصلية خلال 7 إلى 14 يوم عمل حسب مزود الدفع.", "بالنسبة لطلبات الدفع عند الاستلام، يتم رد المبلغ عبر التحويل البنكي أو Instapay أو أي وسيلة متفق عليها. رسوم الشحن الأصلية غير قابلة للرد إلا إذا كان الاسترجاع بسبب عيب في المنتج أو خطأ من طرفنا."]],
+      ["الاستبدال", ["يسعدنا استبدال المنتجات المؤهلة بمقاس أو لون مختلف حسب توافر المخزون. يرجى التواصل معنا خلال 14 يوماً من التوصيل وسيساعدك فريقنا."]]
+    ]
+  },
+  {
+    slug: "privacy-policy",
+    title: "Privacy Policy | Home of Linen Egypt",
+    arTitle: "سياسة الخصوصية | Home of Linen",
+    description: "Learn how Home of Linen collects, uses and protects customer information for orders, delivery, support and website improvements.",
+    arDescription: "تعرف على كيفية جمع Home of Linen لبيانات العملاء واستخدامها وحمايتها لأغراض الطلبات والتوصيل وخدمة العملاء.",
+    h1: "Privacy Policy",
+    arH1: "سياسة الخصوصية",
+    sections: [
+      ["Information We Collect", ["We may collect information you provide when placing an order or contacting us, including your name, phone number, email address, delivery address, order details, payment method, and customer service messages. We may also collect technical information such as device type, browser, pages viewed, and cookies to improve website performance."]],
+      ["How We Use Your Information", ["We use your information to process and deliver orders, confirm order details through WhatsApp or email, provide customer support, manage returns and exchanges, prevent fraud, improve our website, and send marketing messages only where permitted or when you have opted in."]],
+      ["Sharing Information", ["We may share necessary order information with delivery couriers, payment providers, website hosting providers, Shopify or ecommerce service providers, analytics tools, and professional advisers where required. We do not sell your personal information."]],
+      ["Cookies", ["Our website may use cookies and similar technologies to remember basket activity, improve performance, understand customer journeys, and support analytics. You can control cookies through your browser settings."]],
+      ["Data Retention and Security", ["We keep customer information only for as long as reasonably necessary for order fulfilment, customer service, accounting, legal, and business purposes. We apply reasonable safeguards to protect your information, but no online system can be guaranteed completely secure."]],
+      ["Your Choices", ["You may contact us to request access, correction, or deletion of your personal information, subject to legal and business record requirements. To contact us, email sales@homeoflineneg.com."]],
+      ["Updates", ["We may update this Privacy Policy from time to time. Updates become effective when published on this page."]]
+    ],
+    arSections: [
+      ["البيانات التي نجمعها", ["قد نجمع البيانات التي تقدمها عند إتمام الطلب أو التواصل معنا، مثل الاسم ورقم الهاتف والبريد الإلكتروني وعنوان التوصيل وتفاصيل الطلب ووسيلة الدفع ورسائل خدمة العملاء. قد نجمع أيضاً معلومات تقنية مثل نوع الجهاز والمتصفح والصفحات التي تمت زيارتها وملفات تعريف الارتباط لتحسين أداء الموقع."]],
+      ["كيفية استخدام البيانات", ["نستخدم بياناتك لمعالجة الطلبات وتوصيلها، وتأكيد تفاصيل الطلب عبر واتساب أو البريد الإلكتروني، وتقديم خدمة العملاء، وإدارة الاسترجاع والاستبدال، ومنع الاحتيال، وتحسين الموقع، وإرسال رسائل تسويقية فقط عند السماح بذلك أو موافقتك."]],
+      ["مشاركة البيانات", ["قد نشارك بيانات الطلب الضرورية مع شركات التوصيل ومزودي الدفع والاستضافة ومزودي خدمات التجارة الإلكترونية مثل Shopify وأدوات التحليل والمستشارين المهنيين عند الحاجة. لا نقوم ببيع بياناتك الشخصية."]],
+      ["ملفات تعريف الارتباط", ["قد يستخدم الموقع ملفات تعريف الارتباط وتقنيات مشابهة لحفظ السلة وتحسين الأداء وفهم رحلة العميل ودعم التحليلات. يمكنك التحكم في ملفات تعريف الارتباط من إعدادات المتصفح."]],
+      ["الاحتفاظ بالبيانات والأمان", ["نحتفظ ببيانات العملاء فقط للمدة اللازمة لتنفيذ الطلبات وخدمة العملاء والمحاسبة والمتطلبات القانونية وأغراض العمل. نطبق إجراءات حماية معقولة، لكن لا يمكن ضمان أمان أي نظام إلكتروني بالكامل."]],
+      ["اختياراتك", ["يمكنك التواصل معنا لطلب الوصول إلى بياناتك أو تصحيحها أو حذفها، مع مراعاة المتطلبات القانونية وسجلات الأعمال. للتواصل: sales@homeoflineneg.com."]],
+      ["التحديثات", ["قد نقوم بتحديث سياسة الخصوصية من وقت لآخر، وتصبح التحديثات سارية عند نشرها على هذه الصفحة."]]
+    ]
+  },
+  {
+    slug: "shipping-policy",
+    title: "Shipping Policy | Home of Linen Egypt",
+    arTitle: "سياسة الشحن | Home of Linen",
+    description: "See Home of Linen delivery times, shipping fees, tracking and inspection guidance for orders delivered across Egypt.",
+    arDescription: "تعرف على مواعيد التوصيل ورسوم الشحن وتتبع الطلبات وفحصها من Home of Linen داخل مصر.",
+    h1: "Shipping Policy",
+    arH1: "سياسة الشحن",
+    sections: [
+      ["Delivery Area", ["We currently deliver throughout Egypt."]],
+      ["Order Processing", ["Orders are typically processed within 1–2 business days after confirmation. Processing times may be longer during public holidays, promotional campaigns, or peak shopping periods."]],
+      ["Estimated Delivery Times", ["Greater Cairo: 1–3 business days. Alexandria & Delta: 2–4 business days. Upper Egypt & other governorates: 3–6 business days. Delivery times are estimates and may vary depending on courier operations or unforeseen circumstances."]],
+      ["Shipping Fees", ["Shipping is calculated during checkout. Orders below 6,000 EGP have a 70 EGP shipping fee. Orders of 6,000 EGP or more receive free shipping unless otherwise stated. Any free shipping promotions will be clearly displayed on our website."]],
+      ["Order Tracking", ["Once your order has been dispatched, you may receive tracking details via SMS, email, or WhatsApp where available."]],
+      ["Delivery Attempts", ["Please ensure your delivery address and phone number are correct. Our courier may contact you before delivery. If delivery cannot be completed due to incorrect information or repeated unsuccessful delivery attempts, additional shipping charges may apply."]],
+      ["Delivery Inspection", ["Please inspect your order immediately upon delivery. If there are any issues, notify us within 48 hours so we can resolve them promptly."]]
+    ],
+    arSections: [
+      ["نطاق التوصيل", ["نقوم حالياً بالتوصيل داخل جميع محافظات مصر."]],
+      ["تجهيز الطلب", ["عادةً يتم تجهيز الطلب خلال 1 إلى 2 يوم عمل بعد التأكيد. قد تستغرق عملية التجهيز وقتاً أطول خلال العطلات الرسمية أو الحملات الترويجية أو فترات الضغط."]],
+      ["مواعيد التوصيل المتوقعة", ["القاهرة الكبرى: من 1 إلى 3 أيام عمل. الإسكندرية والدلتا: من 2 إلى 4 أيام عمل. الصعيد وباقي المحافظات: من 3 إلى 6 أيام عمل. هذه المواعيد تقديرية وقد تختلف حسب شركة الشحن أو الظروف غير المتوقعة."]],
+      ["رسوم الشحن", ["يتم احتساب الشحن عند إتمام الطلب. الطلبات الأقل من 6,000 جنيه مصري يضاف إليها 70 جنيه مصري رسوم شحن. الطلبات بقيمة 6,000 جنيه مصري أو أكثر تحصل على شحن مجاني ما لم يُذكر خلاف ذلك. سيتم عرض أي عروض شحن مجاني بوضوح على الموقع."]],
+      ["تتبع الطلب", ["بعد شحن الطلب، قد تصلك تفاصيل التتبع عبر الرسائل القصيرة أو البريد الإلكتروني أو واتساب حيثما يتوفر ذلك."]],
+      ["محاولات التوصيل", ["يرجى التأكد من صحة عنوان التوصيل ورقم الهاتف. قد يتواصل معك مندوب الشحن قبل التوصيل. إذا تعذر التوصيل بسبب بيانات غير صحيحة أو محاولات توصيل غير ناجحة متكررة، قد يتم تطبيق رسوم شحن إضافية."]],
+      ["فحص الطلب عند الاستلام", ["يرجى فحص الطلب فور الاستلام. إذا وجدت أي مشكلة، أبلغنا خلال 48 ساعة حتى نتمكن من حلها سريعاً."]]
+    ]
+  }
+];
+
 function guideRelatedLinks(pathname, locale) {
   const related = {
     "egyptian-cotton-bedding-guide": ["Fitted Sheets", "Pillowcases", "Duvet Covers"],
@@ -456,6 +590,79 @@ function contentPage(locale, pathname, titleEn, titleAr, descEn, descAr, h1En, h
     mainEntityOfPage: locale === "ar" ? arUrl(pathname) : enUrl(pathname)
   }] : [];
   return { locale, pathname, html: layout({ locale, type, title, description, pathname, h1, body, config: { type }, schema }) };
+}
+
+function policyPage(page, locale) {
+  const pathname = `/policies/${page.slug}/`;
+  const title = locale === "ar" ? page.arTitle : page.title;
+  const description = locale === "ar" ? page.arDescription : page.description;
+  const h1 = locale === "ar" ? page.arH1 : page.h1;
+  const sections = locale === "ar" ? page.arSections : page.sections;
+  const body = `<section class="policy-page">
+    <p class="eyebrow">Home Of Linen</p>
+    <h1>${esc(h1)}</h1>
+    <div class="policy-card">
+      ${sections.map(([heading, paragraphs]) => `<section class="policy-section"><h2>${esc(heading)}</h2>${paragraphs.map(p => `<p>${esc(p)}</p>`).join("")}</section>`).join("")}
+    </div>
+  </section>`;
+  const schema = [breadcrumbSchema([
+    { name: "Home", url: locale === "ar" ? arUrl("/") : enUrl("/") },
+    { name: h1, url: locale === "ar" ? arUrl(pathname) : enUrl(pathname) }
+  ])];
+  return { locale, pathname, html: layout({ locale, type: "content", title, description, pathname, h1, body, config: { type: "content" }, schema }) };
+}
+
+function contactPage(locale) {
+  const pathname = "/contact/";
+  const title = locale === "ar" ? "تواصل معنا | Home of Linen" : "Contact Us | Home of Linen Egypt";
+  const description = locale === "ar"
+    ? "تواصل مع Home of Linen عبر البريد الإلكتروني أو الهاتف أو العنوان المسجل في القاهرة، مصر."
+    : "Contact Home of Linen in Egypt by email, phone, WhatsApp or registered address for order support and customer care.";
+  const h1 = locale === "ar" ? "تواصل معنا" : "Contact Us";
+  const rows = locale === "ar"
+    ? [
+      ["اسم النشاط", businessInfo.name],
+      ["الموقع الإلكتروني", businessInfo.website],
+      ["البريد الإلكتروني", businessInfo.email],
+      ["الهاتف داخل مصر", businessInfo.phone],
+      ["الهاتف الدولي", businessInfo.internationalPhone],
+      ["العنوان", businessInfo.arAddress],
+      ["رقم السجل التجاري", businessInfo.commercialRegistration],
+      ["رقم التسجيل الضريبي", businessInfo.taxRegistration],
+      ["ساعات الدعم", "الأحد – الخميس، 9:00 صباحاً – 5:00 مساءً بتوقيت مصر"]
+    ]
+    : [
+      ["Business Name", businessInfo.name],
+      ["Website", businessInfo.website],
+      ["Email", businessInfo.email],
+      ["Phone in Egypt", businessInfo.phone],
+      ["International Phone", businessInfo.internationalPhone],
+      ["Registered Address", businessInfo.address],
+      ["Commercial Registration No.", businessInfo.commercialRegistration],
+      ["Tax Registration No.", businessInfo.taxRegistration],
+      ["Customer Support Hours", businessInfo.supportHours]
+    ];
+  const body = `<section class="policy-page contact-page">
+    <p class="eyebrow">Home Of Linen</p>
+    <h1>${esc(h1)}</h1>
+    <div class="policy-card">
+      <section class="policy-section">
+        <h2>${esc(locale === "ar" ? "بيانات التواصل" : "Contact Information")}</h2>
+        <p>${esc(locale === "ar" ? "يسعدنا مساعدتك. للحصول على أسرع خدمة، يرجى ذكر رقم الطلب عند التواصل معنا." : "We are always happy to help. For the fastest assistance, please include your order number when contacting us.")}</p>
+        <dl class="contact-list">${rows.map(([label, value]) => `<div><dt>${esc(label)}</dt><dd>${esc(value)}</dd></div>`).join("")}</dl>
+      </section>
+      <section class="policy-section">
+        <h2>${esc(locale === "ar" ? "إشعار قانوني" : "Legal Notice")}</h2>
+        <p>${esc(locale === "ar" ? "هذا الموقع مملوك ويتم تشغيله بواسطة Home of Linen. جميع المحتويات المتاحة على هذا الموقع، بما في ذلك الشعارات والصور والنصوص والتصميمات، محمية بموجب قوانين الملكية الفكرية المعمول بها." : "This website is owned and operated by Home of Linen. All content available on this website — including logos, product photography, graphics, text, illustrations, branding, product descriptions, and website design — is protected by applicable intellectual property laws.")}</p>
+        <p>${esc(locale === "ar" ? "تحتفظ Home of Linen بحق تحديث المنتجات والأسعار ومحتوى الموقع والسياسات في أي وقت دون إشعار مسبق." : "Home of Linen reserves the right to update products, pricing, website content, and policies at any time without prior notice.")}</p>
+      </section>
+    </div>
+  </section>`;
+  const schema = [breadcrumbSchema([
+    { name: "Home", url: locale === "ar" ? arUrl("/") : enUrl("/") },
+    { name: h1, url: locale === "ar" ? arUrl(pathname) : enUrl(pathname) }
+  ])];
+  return { locale, pathname, html: layout({ locale, type: "content", title, description, pathname, h1, body, config: { type: "content" }, schema }) };
 }
 
 function aboutPage(locale) {
@@ -529,6 +736,12 @@ function generate() {
   });
   pages.push(aboutPage("en"));
   pages.push(aboutPage("ar"));
+  policyPages.forEach(page => {
+    pages.push(policyPage(page, "en"));
+    pages.push(policyPage(page, "ar"));
+  });
+  pages.push(contactPage("en"));
+  pages.push(contactPage("ar"));
   pages.push(contentPage("en", "/guides/", "Bedding Guides | Home of Linen Egypt", "دليل المفروشات | Home of Linen", "Read Home of Linen guides for Egyptian cotton bedding, thread count, percale, sateen, care and bed sizes in Egypt.", "اقرأ دليل Home of Linen عن القطن المصري وعدد الخيوط والبركال والساتين والعناية والمقاسات في مصر.", "Egyptian Cotton Bedding Guides", "دليل مفروشات القطن المصري", { en: guides.map(g => `${g[1]} — ${g[3]}`), ar: guides.map(g => `${g[2]} — ${g[4]}`) }));
   pages.push(contentPage("ar", "/guides/", "Bedding Guides | Home of Linen Egypt", "دليل المفروشات | Home of Linen", "Read Home of Linen guides for Egyptian cotton bedding, thread count, percale, sateen, care and bed sizes in Egypt.", "اقرأ دليل Home of Linen عن القطن المصري وعدد الخيوط والبركال والساتين والعناية والمقاسات في مصر.", "Egyptian Cotton Bedding Guides", "دليل مفروشات القطن المصري", { en: [], ar: guides.map(g => `${g[2]} — ${g[4]}`) }));
   guides.forEach(([slug, enTitle, arTitle, enDesc, arDesc]) => {

@@ -1227,6 +1227,14 @@ if (navPanel && !navPanel.querySelector(".mobile-menu-header")) {
   const brandHref = document.querySelector(".brand")?.getAttribute("href") || "index.html";
   const beddingHref = hrefForCategory("bedding") || hrefForCategory("fitted-sheets")?.replace("fitted-sheets", "bedding") || brandHref;
   const aboutHref = brandHref.replace(/index\.html$/, "about/index.html") || "about/index.html";
+  const hrefForPath = pathFragment => {
+    const normalizedFragment = pathFragment.replace(/^\//, "");
+    const matchedLink = existingLinks.find(link => {
+      const href = link.getAttribute("href") || "";
+      return href.includes(pathFragment) || href.includes(normalizedFragment);
+    });
+    return matchedLink?.getAttribute("href");
+  };
   const mobileMenuItems = [
     { label: t("Bedding", "المفروشات"), href: beddingHref },
     { label: t("Towels", "الفوط"), href: hrefForCategory("towels") },
@@ -1240,7 +1248,12 @@ if (navPanel && !navPanel.querySelector(".mobile-menu-header")) {
     { label: t("Comforters", "لحاف مبطن"), href: hrefForCategory("comforters") },
     { label: t("Mattress Toppers", "مراتب توبر"), href: hrefForCategory("mattress-toppers") },
     { label: t("Home Fragrances", "معطرات المنزل"), href: hrefForCategory("home-fragrance") },
-    { label: t("About Us", "من نحن"), href: aboutHref }
+    { label: t("About Us", "من نحن"), href: aboutHref },
+    { label: t("Terms & Conditions", "الشروط والأحكام"), href: hrefForPath("/policies/terms-and-conditions/") },
+    { label: t("Refund Policy", "سياسة الاسترجاع"), href: hrefForPath("/policies/refund-policy/") },
+    { label: t("Privacy Policy", "سياسة الخصوصية"), href: hrefForPath("/policies/privacy-policy/") },
+    { label: t("Shipping Policy", "سياسة الشحن"), href: hrefForPath("/policies/shipping-policy/") },
+    { label: t("Contact", "تواصل معنا"), href: hrefForPath("/contact/") }
   ].filter(item => item.href);
   navPanel.insertAdjacentHTML("afterbegin", `
     <div class="mobile-menu-header" aria-hidden="false">
