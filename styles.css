@@ -87,6 +87,70 @@ button, select, input, textarea { font: inherit; }
   align-items: center;
 }
 
+.nav-dropdown {
+  position: relative;
+}
+
+.nav-dropdown-button {
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.76rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.nav-dropdown-button::after {
+  content: "⌄";
+  font-size: .85em;
+  line-height: 1;
+}
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translate(-50%, 8px);
+  min-width: 210px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 253, 248, .98);
+  box-shadow: 0 18px 42px rgba(47, 42, 37, .12);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: .18s ease;
+}
+
+.nav-dropdown:hover .nav-dropdown-menu,
+.nav-dropdown:focus-within .nav-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
+}
+
+.nav-dropdown-menu a {
+  justify-content: flex-start;
+  min-height: 38px;
+  padding: 0 10px;
+  border-radius: 12px;
+  letter-spacing: .06em;
+  white-space: nowrap;
+}
+
+.nav-dropdown-menu a:hover {
+  background: rgba(191, 164, 124, .12);
+  color: var(--ink);
+}
+
 .menu-button {
   display: none;
   width: 46px;
@@ -1404,6 +1468,9 @@ select {
   .nav-panel > a {
     display: none;
   }
+  .nav-dropdown {
+    display: none;
+  }
   .nav a,
   .mobile-menu-links a {
     min-height: 68px;
@@ -1431,6 +1498,42 @@ select {
   }
   .nav a:last-child {
     border-bottom: 1px solid var(--line);
+  }
+  .mobile-menu-group {
+    border-bottom: 1px solid var(--line);
+  }
+  .mobile-menu-group summary {
+    min-height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--ink);
+    font-size: clamp(1.25rem, 5vw, 1.65rem);
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+  }
+  .mobile-menu-group summary::-webkit-details-marker {
+    display: none;
+  }
+  .mobile-menu-group summary::after {
+    content: "›";
+    font-size: 2.2rem;
+    font-weight: 400;
+    transition: transform .18s ease;
+  }
+  .mobile-menu-group[open] summary::after {
+    transform: rotate(90deg);
+  }
+  .mobile-menu-group a {
+    min-height: 48px;
+    padding-left: 18px;
+    color: var(--muted);
+    font-size: clamp(1rem, 4vw, 1.18rem);
+    font-weight: 500;
+  }
+  .mobile-menu-group a::after {
+    font-size: 1.5rem;
   }
   .policy-page {
     padding: 38px 16px 58px;

@@ -33,13 +33,33 @@ const categorySlugs = {
   Bedspreads: "bedspreads"
 };
 
-const policyNavItems = [
-  { label: "Terms & Conditions", arLabel: "الشروط والأحكام", pathname: "/policies/terms-and-conditions/" },
-  { label: "Refund Policy", arLabel: "سياسة الاسترجاع", pathname: "/policies/refund-policy/" },
-  { label: "Privacy Policy", arLabel: "سياسة الخصوصية", pathname: "/policies/privacy-policy/" },
-  { label: "Shipping Policy", arLabel: "سياسة الشحن", pathname: "/policies/shipping-policy/" },
-  { label: "Contact", arLabel: "تواصل معنا", pathname: "/contact/" },
-  { label: "About Us", arLabel: "من نحن", pathname: "/about/" }
+const infoNavGroups = [
+  {
+    label: "Customer Care",
+    arLabel: "خدمة العملاء",
+    items: [
+      { label: "Contact", arLabel: "تواصل معنا", pathname: "/contact/" },
+      { label: "Shipping Policy", arLabel: "سياسة الشحن", pathname: "/policies/shipping-policy/" },
+      { label: "Refund Policy", arLabel: "سياسة الاسترجاع", pathname: "/policies/refund-policy/" },
+      { label: "FAQs", arLabel: "الأسئلة الشائعة", pathname: "/faqs/" }
+    ]
+  },
+  {
+    label: "About",
+    arLabel: "عن العلامة",
+    items: [
+      { label: "About Us", arLabel: "من نحن", pathname: "/about/" },
+      { label: "Our Story", arLabel: "قصتنا", pathname: "/our-story/" }
+    ]
+  },
+  {
+    label: "Legal",
+    arLabel: "القانونية",
+    items: [
+      { label: "Privacy Policy", arLabel: "سياسة الخصوصية", pathname: "/policies/privacy-policy/" },
+      { label: "Terms & Conditions", arLabel: "الشروط والأحكام", pathname: "/policies/terms-and-conditions/" }
+    ]
+  }
 ];
 
 const beddingCategories = ["Pillowcases", "Fitted Sheets", "Flat Sheets", "Duvet Covers", "Bedspreads", "Pillows", "Comforters", "Mattress Toppers"];
@@ -207,10 +227,15 @@ function nav(locale, pathname) {
   const categoryItems = Object.entries(categorySlugs).map(([label, slug]) =>
     `<a href="${hrefTo(locale, pathname, locale, `/categories/${slug}/`)}">${esc(categoryName(label, locale))}</a>`
   ).join("");
-  const policyItems = policyNavItems.map(item =>
-    `<a href="${hrefTo(locale, pathname, locale, item.pathname)}">${esc(locale === "ar" ? item.arLabel : item.label)}</a>`
+  const infoGroups = infoNavGroups.map(group =>
+    `<div class="nav-dropdown">
+      <button class="nav-dropdown-button" type="button" aria-haspopup="true" aria-expanded="false">${esc(locale === "ar" ? group.arLabel : group.label)}</button>
+      <div class="nav-dropdown-menu">
+        ${group.items.map(item => `<a href="${hrefTo(locale, pathname, locale, item.pathname)}">${esc(locale === "ar" ? item.arLabel : item.label)}</a>`).join("")}
+      </div>
+    </div>`
   ).join("");
-  return `${categoryItems}${policyItems}`;
+  return `${categoryItems}${infoGroups}`;
 }
 
 function organizationSchema() {
@@ -665,6 +690,69 @@ function contactPage(locale) {
   return { locale, pathname, html: layout({ locale, type: "content", title, description, pathname, h1, body, config: { type: "content" }, schema }) };
 }
 
+function faqsPage(locale) {
+  const pathname = "/faqs/";
+  const title = locale === "ar" ? "الأسئلة الشائعة | Home of Linen" : "FAQs | Home of Linen Egypt";
+  const description = locale === "ar"
+    ? "إجابات سريعة عن الشحن والاسترجاع والدفع والطلبات من Home of Linen داخل مصر."
+    : "Find quick answers about Home of Linen shipping, returns, exchanges, payments and order support in Egypt.";
+  const h1 = locale === "ar" ? "الأسئلة الشائعة" : "FAQs";
+  const sections = locale === "ar"
+    ? [
+      ["أين تقومون بالتوصيل؟", ["نقوم حالياً بالتوصيل داخل جميع محافظات مصر."]],
+      ["ما مدة التوصيل؟", ["القاهرة الكبرى من 1 إلى 3 أيام عمل، الإسكندرية والدلتا من 2 إلى 4 أيام عمل، والصعيد وباقي المحافظات من 3 إلى 6 أيام عمل."]],
+      ["ما تكلفة الشحن؟", ["الطلبات الأقل من 6,000 جنيه مصري يضاف إليها 70 جنيه شحن. الطلبات بقيمة 6,000 جنيه أو أكثر تحصل على شحن مجاني ما لم يُذكر خلاف ذلك."]],
+      ["هل يمكن الاسترجاع أو الاستبدال؟", ["نقبل الاسترجاع أو الاستبدال خلال 14 يوماً من التوصيل للمنتجات المؤهلة، بشرط أن تكون غير مستخدمة وغير مغسولة وبحالتها الأصلية."]],
+      ["ماذا أفعل إذا وصلني منتج تالف أو غير صحيح؟", ["يرجى التواصل معنا خلال 48 ساعة من التوصيل مع رقم الطلب وصور واضحة للمشكلة حتى نتمكن من المساعدة."]],
+      ["كيف أتواصل معكم؟", [`يمكنك مراسلتنا عبر ${businessInfo.email} أو الاتصال على ${businessInfo.phone}.`]]
+    ]
+    : [
+      ["Where do you deliver?", ["We currently deliver throughout Egypt."]],
+      ["How long does delivery take?", ["Greater Cairo usually takes 1–3 business days, Alexandria and Delta take 2–4 business days, and Upper Egypt or other governorates take 3–6 business days."]],
+      ["How much is shipping?", ["Orders below 6,000 EGP have a 70 EGP shipping fee. Orders of 6,000 EGP or more receive free shipping unless otherwise stated."]],
+      ["Can I return or exchange an item?", ["Eligible products can be returned or exchanged within 14 days of delivery, provided they are unused, unwashed, in original condition, and returned in their original packaging."]],
+      ["What if my order arrives damaged or incorrect?", ["Please contact us within 48 hours of delivery with your order number and clear photos of the issue so we can help promptly."]],
+      ["How can I contact Home of Linen?", [`You can email us at ${businessInfo.email} or call us in Egypt on ${businessInfo.phone}.`]]
+    ];
+  const body = `<section class="policy-page">
+    <p class="eyebrow">Home Of Linen</p>
+    <h1>${esc(h1)}</h1>
+    <div class="policy-card">
+      ${sections.map(([heading, paragraphs]) => `<section class="policy-section"><h2>${esc(heading)}</h2>${paragraphs.map(p => `<p>${esc(p)}</p>`).join("")}</section>`).join("")}
+    </div>
+  </section>`;
+  const schema = [breadcrumbSchema([
+    { name: "Home", url: locale === "ar" ? arUrl("/") : enUrl("/") },
+    { name: h1, url: locale === "ar" ? arUrl(pathname) : enUrl(pathname) }
+  ])];
+  return { locale, pathname, html: layout({ locale, type: "content", title, description, pathname, h1, body, config: { type: "content" }, schema }) };
+}
+
+function ourStoryPage(locale) {
+  const pathname = "/our-story/";
+  const title = locale === "ar" ? "قصتنا | Home of Linen" : "Our Story | Home of Linen Egypt";
+  const description = locale === "ar"
+    ? "تعرف على قصة Home of Linen وخبرة Nourytex في تصنيع المنسوجات المصرية منذ عام 1988."
+    : "Discover the Home of Linen story, backed by Nourytex and more than 30 years of Egyptian textile expertise.";
+  const h1 = locale === "ar" ? "قصتنا" : "Our Story";
+  const body = `<section class="about-story about-story-page">
+    <div class="about-story-copy">
+      <h1>${esc(h1)}</h1>
+      <p>Every Home of Linen product begins with over 30 years of Egyptian textile expertise.</p>
+      <p>Founded by Nourytex, a trusted manufacturer established in 1988, our heritage is built on crafting premium home textiles for many of Egypt’s leading brands.</p>
+      <p>Today, we’re proud to bring that same quality directly from our factory to your home—offering beautifully crafted bedding, towels, and home essentials made from the finest Egyptian cotton, designed for everyday comfort and made to last.</p>
+    </div>
+    <figure class="about-story-image">
+      <img src="${assetRef(locale, pathname, "assets/images/editorial/about-story-image.png")}" alt="Layered Egyptian cotton bedding and textured home textiles in a warm Home of Linen bedroom" loading="lazy">
+    </figure>
+  </section>`;
+  const schema = [breadcrumbSchema([
+    { name: "Home", url: locale === "ar" ? arUrl("/") : enUrl("/") },
+    { name: h1, url: locale === "ar" ? arUrl(pathname) : enUrl(pathname) }
+  ])];
+  return { locale, pathname, html: layout({ locale, type: "content", title, description, pathname, h1, body, config: { type: "content" }, schema }) };
+}
+
 function aboutPage(locale) {
   const pathname = "/about/";
   const title = locale === "ar" ? "من نحن | Home of Linen" : "About Us | Home of Linen Egypt";
@@ -736,6 +824,10 @@ function generate() {
   });
   pages.push(aboutPage("en"));
   pages.push(aboutPage("ar"));
+  pages.push(ourStoryPage("en"));
+  pages.push(ourStoryPage("ar"));
+  pages.push(faqsPage("en"));
+  pages.push(faqsPage("ar"));
   policyPages.forEach(page => {
     pages.push(policyPage(page, "en"));
     pages.push(policyPage(page, "ar"));

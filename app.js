@@ -1216,7 +1216,7 @@ function placeMenuForViewport() {
 }
 if (navPanel && !navPanel.querySelector(".mobile-menu-header")) {
   const logoSrc = document.querySelector(".brand img")?.getAttribute("src") || "assets/brand/home-of-linen-logo.png";
-  const existingLinks = Array.from(navPanel.querySelectorAll(":scope > a"));
+  const existingLinks = Array.from(navPanel.querySelectorAll("a"));
   const hrefForCategory = slug => {
     const matchedLink = existingLinks.find(link => {
       const href = link.getAttribute("href") || "";
@@ -1247,14 +1247,33 @@ if (navPanel && !navPanel.querySelector(".mobile-menu-header")) {
     { label: t("Pillows", "مخدات"), href: hrefForCategory("pillows") },
     { label: t("Comforters", "لحاف مبطن"), href: hrefForCategory("comforters") },
     { label: t("Mattress Toppers", "مراتب توبر"), href: hrefForCategory("mattress-toppers") },
-    { label: t("Home Fragrances", "معطرات المنزل"), href: hrefForCategory("home-fragrance") },
-    { label: t("About Us", "من نحن"), href: aboutHref },
-    { label: t("Terms & Conditions", "الشروط والأحكام"), href: hrefForPath("/policies/terms-and-conditions/") },
-    { label: t("Refund Policy", "سياسة الاسترجاع"), href: hrefForPath("/policies/refund-policy/") },
-    { label: t("Privacy Policy", "سياسة الخصوصية"), href: hrefForPath("/policies/privacy-policy/") },
-    { label: t("Shipping Policy", "سياسة الشحن"), href: hrefForPath("/policies/shipping-policy/") },
-    { label: t("Contact", "تواصل معنا"), href: hrefForPath("/contact/") }
+    { label: t("Home Fragrances", "معطرات المنزل"), href: hrefForCategory("home-fragrance") }
   ].filter(item => item.href);
+  const mobileInfoGroups = [
+    {
+      label: t("Customer Care", "خدمة العملاء"),
+      items: [
+        { label: t("Contact", "تواصل معنا"), href: hrefForPath("/contact/") },
+        { label: t("Shipping Policy", "سياسة الشحن"), href: hrefForPath("/policies/shipping-policy/") },
+        { label: t("Refund Policy", "سياسة الاسترجاع"), href: hrefForPath("/policies/refund-policy/") },
+        { label: t("FAQs", "الأسئلة الشائعة"), href: hrefForPath("/faqs/") }
+      ].filter(item => item.href)
+    },
+    {
+      label: t("About", "عن العلامة"),
+      items: [
+        { label: t("About Us", "من نحن"), href: aboutHref },
+        { label: t("Our Story", "قصتنا"), href: hrefForPath("/our-story/") }
+      ].filter(item => item.href)
+    },
+    {
+      label: t("Legal", "القانونية"),
+      items: [
+        { label: t("Privacy Policy", "سياسة الخصوصية"), href: hrefForPath("/policies/privacy-policy/") },
+        { label: t("Terms & Conditions", "الشروط والأحكام"), href: hrefForPath("/policies/terms-and-conditions/") }
+      ].filter(item => item.href)
+    }
+  ].filter(group => group.items.length);
   navPanel.insertAdjacentHTML("afterbegin", `
     <div class="mobile-menu-header" aria-hidden="false">
       <button class="mobile-menu-close" type="button" aria-label="${t("Close menu", "إغلاق القائمة")}">×</button>
@@ -1266,6 +1285,7 @@ if (navPanel && !navPanel.querySelector(".mobile-menu-header")) {
     </div>
     <div class="mobile-menu-links">
       ${mobileMenuItems.map(item => `<a href="${item.href}">${item.label}</a>`).join("")}
+      ${mobileInfoGroups.map(group => `<details class="mobile-menu-group"><summary>${group.label}</summary>${group.items.map(item => `<a href="${item.href}">${item.label}</a>`).join("")}</details>`).join("")}
     </div>
   `);
 }
