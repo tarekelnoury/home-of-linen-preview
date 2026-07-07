@@ -23,6 +23,7 @@ const customerFields = document.querySelector("#customerFields");
 const WHATSAPP_PHONE = "201004333340";
 const SHIPPING_THRESHOLD = 6000;
 const SHIPPING_FEE = 70;
+const INSTAPAY_LINK = "https://ipn.eg/S/homeoflineneg/instapay/7M4jsU";
 let pendingConfirmationNumber = "";
 let pendingConfirmedAt = "";
 let currentReviewRecommendations = [];
@@ -289,14 +290,15 @@ function stockMessage(product, selections) {
 function productDescriptor(product, selections) {
   if (product.fabricBased) {
     const size = product.sizes[selections.sizeIndex].label;
-    const bundleLabel = product.setToggle && selections.bundleType === "single" ? "Single Item" : product.setToggle ? "Set With 2 Pillowcases" : "";
+    const productType = product.setToggle ? (selections.bundleType === "single" ? "Single" : "Set") : "";
     return {
       fabric: fabrics[selections.fabric].label,
       option: selections.optionName,
       color: selections.optionName,
       size,
-      bundle: bundleLabel,
-      variant: [bundleLabel, fabrics[selections.fabric].label, size].filter(Boolean).join(" · ")
+      bundle: productType,
+      productType,
+      variant: [fabrics[selections.fabric].label, size].filter(Boolean).join(" · ")
     };
   }
   if (product.matrix) {
@@ -828,7 +830,7 @@ function renderBasket() {
           <img src="${item.image}" alt="" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'basket-thumb-fallback'}))">
           <div>
             <h4>${item.name}</h4>
-            <p>${[item.fabric, item.option, item.variant].filter(Boolean).join(" · ")}</p>
+            <p>${itemDetails(item).join(" · ")}</p>
             <div class="line-actions">
               <div class="qty">
                 <button type="button" data-line-down="${index}" aria-label="Decrease ${item.name}">−</button>
@@ -866,7 +868,7 @@ function reviewLineHtml(item) {
       <img src="${item.image}" alt="" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'basket-thumb-fallback'}))">
       <div>
         <h4>${item.name}</h4>
-        <p>${[item.category, item.color || item.option, item.size || item.variant].filter(Boolean).join(" · ")}</p>
+        <p>${itemDetails(item, true).join(" · ")}</p>
         <div class="review-line-meta">
           <span>Qty ${item.qty}</span>
           <span>${formatPrice(item.price)} Each</span>
@@ -953,7 +955,7 @@ function reviewRecommendationsHtml() {
             <img src="${item.image}" alt="" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'basket-thumb-fallback'}))">
             <div>
               <h4>${item.name}</h4>
-              <p>${[item.color || item.option, item.size || item.variant].filter(Boolean).join(" · ")}</p>
+              <p>${itemDetails(item).join(" · ")}</p>
               <strong>${formatPrice(item.price)}</strong>
               <button type="button" data-review-recommendation="${index}">Add To Basket</button>
             </div>
@@ -997,6 +999,16 @@ function renderOrderReview() {
   activateReviewRecommendations();
 }
 
+function itemDetails(item, includeCategory = false) {
+  return [
+    includeCategory ? item.category : "",
+    item.productType || "",
+    item.fabric || "",
+    item.color || item.option || "",
+    item.size || item.variant || ""
+  ].filter(Boolean);
+}
+
 function customerDetails() {
   return {
     name: customerName.value.trim(),
@@ -1008,6 +1020,29 @@ function customerDetails() {
 
 function saveCustomerDetails() {
   localStorage.setItem("holCustomer", JSON.stringify(customerDetails()));
+}
+
+function selectedPaymentMethod() {
+  const selected = document.querySelector('input[name="paymentMethod"]:checked')?.value || "cash";
+  if (selected === "instapay") {
+    return { value: "instapay", label: "InstaPay" };
+  }
+  return { value: "cash", label: "Cash on Delivery" };
+}
+
+function paymentMessageLines(total) {
+  const method = selectedPaymentMethod();
+  if (method.value === "instapay") {
+    return [
+      "Payment Method: InstaPay",
+      "Payment Status: Pending",
+      `Amount to Pay: EGP ${total.toLocaleString("en-EG")}`,
+      "Pay securely using InstaPay:",
+      INSTAPAY_LINK,
+      "After completing the payment, please reply to this WhatsApp chat with your payment screenshot so we can confirm and process your order."
+    ];
+  }
+  return ["Payment Method: Cash on Delivery"];
 }
 
 function validateCustomer(customer) {
@@ -1040,12 +1075,13 @@ function orderLine(item, index) {
   return [
     `${index + 1}. ${item.name}`,
     `Category: ${category}`,
+    item.productType ? `Product Type: ${item.productType}` : "",
     `Color: ${color}`,
     `Size: ${item.size || item.variant}`,
     `Quantity: ${item.qty}`,
     `Unit Price: ${plainPrice(item.price)}`,
     `Line Total: ${plainPrice(item.price * item.qty)}`
-  ].join("\n");
+  ].filter(Boolean).join("\n");
 }
 
 function buildWhatsAppMessage() {
@@ -1075,6 +1111,8 @@ function buildWhatsAppMessage() {
     `Shipping: ${fee ? plainPrice(fee) : "FREE"}`,
     `Grand Total: ${plainPrice(total)}`,
     "",
+    ...paymentMessageLines(total),
+    "",
     "Thank you for choosing Home of Linen. We will confirm your order details shortly."
   ].join("\n");
 }
@@ -1103,6 +1141,8 @@ function buildCustomerEmailText() {
       `Shipping: ${fee ? plainPrice(fee) : "FREE"}`,
       `Grand Total: ${plainPrice(total)}`,
       "",
+      ...paymentMessageLines(total),
+      "",
       "We have received your order details and will confirm availability and delivery shortly.",
       "",
       "Warmly,",
@@ -1122,6 +1162,7 @@ function saveOrderRecord() {
     subtotal: basketTotal(),
     shipping: shippingFee(),
     total: grandTotal(),
+    paymentMethod: selectedPaymentMethod(),
     email: buildCustomerEmailText()
   });
   localStorage.setItem("holOrders", JSON.stringify(records.slice(0, 20)));

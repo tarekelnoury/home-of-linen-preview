@@ -72,6 +72,19 @@
               <label>البريد الإلكتروني<input id="customerEmail" type="email" autocomplete="email" placeholder="البريد الإلكتروني" /></label>
               <label>عنوان التوصيل<textarea id="customerAddress" rows="4" autocomplete="street-address" placeholder="العمارة، الشارع، المنطقة، المدينة"></textarea></label>
             </div>
+            <div class="payment-method-section" id="paymentMethodSection" aria-label="طريقة الدفع">
+              <h4>طريقة الدفع</h4>
+              <div class="payment-method-options">
+                <label class="payment-option">
+                  <input type="radio" name="paymentMethod" value="cash" checked />
+                  <span>الدفع عند الاستلام</span>
+                </label>
+                <label class="payment-option">
+                  <input type="radio" name="paymentMethod" value="instapay" />
+                  <span>InstaPay</span>
+                </label>
+              </div>
+            </div>
             <button id="confirmOrder" class="checkout" type="button">تأكيد الطلب والمتابعة إلى واتساب</button>
             <div class="order-confirmation hidden" id="orderConfirmation" role="status" aria-live="polite"></div>
           </div>

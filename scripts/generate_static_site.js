@@ -331,6 +331,19 @@ function layout({ locale = "en", type = "content", title, description, pathname,
               <label>${locale === "ar" ? "البريد الإلكتروني" : "Email Address"}<input id="customerEmail" type="email" autocomplete="email" placeholder="${locale === "ar" ? "البريد الإلكتروني" : "Email address"}" /></label>
               <label>${locale === "ar" ? "عنوان التوصيل" : "Delivery Address"}<textarea id="customerAddress" rows="4" autocomplete="street-address" placeholder="${locale === "ar" ? "العمارة، الشارع، المنطقة، المدينة" : "Building, street, area, city"}"></textarea></label>
             </div>
+            <div class="payment-method-section" id="paymentMethodSection" aria-label="${locale === "ar" ? "طريقة الدفع" : "Payment method"}">
+              <h4>${locale === "ar" ? "طريقة الدفع" : "Payment Method"}</h4>
+              <div class="payment-method-options">
+                <label class="payment-option">
+                  <input type="radio" name="paymentMethod" value="cash" checked />
+                  <span>${locale === "ar" ? "الدفع عند الاستلام" : "Cash on Delivery"}</span>
+                </label>
+                <label class="payment-option">
+                  <input type="radio" name="paymentMethod" value="instapay" />
+                  <span>InstaPay</span>
+                </label>
+              </div>
+            </div>
             <button id="confirmOrder" class="checkout" type="button">${locale === "ar" ? "تأكيد الطلب والمتابعة إلى واتساب" : "Confirm Order & Continue To WhatsApp"}</button>
             <div class="order-confirmation hidden" id="orderConfirmation" role="status" aria-live="polite"></div>
           </div>

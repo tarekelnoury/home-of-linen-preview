@@ -72,6 +72,19 @@
               <label>Email Address<input id="customerEmail" type="email" autocomplete="email" placeholder="Email address" /></label>
               <label>Delivery Address<textarea id="customerAddress" rows="4" autocomplete="street-address" placeholder="Building, street, area, city"></textarea></label>
             </div>
+            <div class="payment-method-section" id="paymentMethodSection" aria-label="Payment method">
+              <h4>Payment Method</h4>
+              <div class="payment-method-options">
+                <label class="payment-option">
+                  <input type="radio" name="paymentMethod" value="cash" checked />
+                  <span>Cash on Delivery</span>
+                </label>
+                <label class="payment-option">
+                  <input type="radio" name="paymentMethod" value="instapay" />
+                  <span>InstaPay</span>
+                </label>
+              </div>
+            </div>
             <button id="confirmOrder" class="checkout" type="button">Confirm Order & Continue To WhatsApp</button>
             <div class="order-confirmation hidden" id="orderConfirmation" role="status" aria-live="polite"></div>
           </div>

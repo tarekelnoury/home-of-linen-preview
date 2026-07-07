@@ -287,6 +287,47 @@ button, select, input, textarea { font: inherit; }
   margin-bottom: 14px;
 }
 
+.payment-method-section {
+  margin: 18px 0;
+}
+
+.payment-method-section h4 {
+  margin: 0 0 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.payment-method-options {
+  display: grid;
+  gap: 10px;
+}
+
+.payment-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .36);
+  padding: 12px 14px;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.payment-option input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--ink);
+}
+
+.payment-option:has(input:checked) {
+  border-color: rgba(168, 132, 76, .62);
+  box-shadow: 0 0 0 1px rgba(168, 132, 76, .16);
+}
+
 .text-button {
   border: 0;
   background: transparent;
