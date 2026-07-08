@@ -806,6 +806,19 @@ function renderTotalRows(container, subtotalValue = basketTotal()) {
   `;
 }
 
+function itemTitle(item) {
+  if (item.productType === "Single" || item.productType === "Single Item") {
+    const singleTitles = {
+      "Fitted Sheet Set": "Fitted Sheet",
+      "Flat Sheet Set": "Flat Sheet",
+      "Duvet Cover Set": "Duvet Cover",
+      "Pillowcase Set": "Pillowcase"
+    };
+    return singleTitles[item.name] || (item.name || "").replace(/\s+Set$/i, "") || item.name;
+  }
+  return item.name;
+}
+
 function renderBasket() {
   const count = state.basket.reduce((sum, item) => sum + item.qty, 0);
   basketCount.textContent = count;
@@ -829,13 +842,13 @@ function renderBasket() {
         <div class="basket-line">
           <img src="${item.image}" alt="" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'basket-thumb-fallback'}))">
           <div>
-            <h4>${item.name}</h4>
+            <h4>${itemTitle(item)}</h4>
             <p>${itemDetails(item).join(" · ")}</p>
             <div class="line-actions">
               <div class="qty">
-                <button type="button" data-line-down="${index}" aria-label="Decrease ${item.name}">−</button>
+                <button type="button" data-line-down="${index}" aria-label="Decrease ${itemTitle(item)}">−</button>
                 <span>${item.qty}</span>
-                <button type="button" data-line-up="${index}" aria-label="Increase ${item.name}">+</button>
+                <button type="button" data-line-up="${index}" aria-label="Increase ${itemTitle(item)}">+</button>
               </div>
               <strong>${formatPrice(item.price * item.qty)}</strong>
             </div>
@@ -867,7 +880,7 @@ function reviewLineHtml(item) {
     <div class="review-line">
       <img src="${item.image}" alt="" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'basket-thumb-fallback'}))">
       <div>
-        <h4>${item.name}</h4>
+        <h4>${itemTitle(item)}</h4>
         <p>${itemDetails(item, true).join(" · ")}</p>
         <div class="review-line-meta">
           <span>Qty ${item.qty}</span>
@@ -954,7 +967,7 @@ function reviewRecommendationsHtml() {
           <article>
             <img src="${item.image}" alt="" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'basket-thumb-fallback'}))">
             <div>
-              <h4>${item.name}</h4>
+              <h4>${itemTitle(item)}</h4>
               <p>${itemDetails(item).join(" · ")}</p>
               <strong>${formatPrice(item.price)}</strong>
               <button type="button" data-review-recommendation="${index}">Add To Basket</button>
@@ -975,7 +988,7 @@ function activateReviewRecommendations() {
       if (existing) existing.qty += 1;
       else state.basket.push({ ...item });
       saveBasket();
-      showToast(`${item.name} added to basket`);
+      showToast(`${itemTitle(item)} added to basket`);
     });
   });
 }
@@ -1073,7 +1086,7 @@ function orderLine(item, index) {
   const category = item.category || product?.category || "";
   const color = item.color || item.option || "White";
   return [
-    `${index + 1}. ${item.name}`,
+    `${index + 1}. ${itemTitle(item)}`,
     `Category: ${category}`,
     item.productType ? `Product Type: ${item.productType}` : "",
     `Color: ${color}`,
